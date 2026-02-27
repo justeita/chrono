@@ -3443,8 +3443,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
   @override
   TextStyle get hourMinuteTextStyle {
     return WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
-      // TODO(tahatesser): Update this when https://github.com/flutter/flutter/issues/131247 is fixed.
-      // This is using the correct text style from Material 3 spec.
+      // Uses displayMedium per Material 3 spec.
       // https://m3.material.io/components/time-pickers/specs#fd0b6939-edab-4058-82e1-93d163945215
       return _textTheme.displayMedium!
           .copyWith(color: _hourMinuteTextColor.resolve(states));
@@ -3486,10 +3485,8 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
       ),
       hintStyle: hourMinuteTextStyle.copyWith(
           color: _colors.onSurface.withValues(alpha: 0.36)),
-      // Prevent the error text from appearing.
-      // TODO(rami-a): Remove this workaround once
-      // https://github.com/flutter/flutter/issues/54104
-      // is fixed.
+      // Prevent the error text from appearing (workaround for
+      // https://github.com/flutter/flutter/issues/54104).
       errorStyle: const TextStyle(fontSize: 0, height: 0),
     );
   }

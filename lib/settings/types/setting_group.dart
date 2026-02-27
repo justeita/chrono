@@ -42,7 +42,7 @@ class SettingGroup extends SettingItem {
     this._settingItems, {
     int? version,
     IconData? icon,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> summarySettings = const [],
     String Function(BuildContext) getDescription = defaultDescription,
     bool? showExpandedView,
@@ -197,19 +197,6 @@ class SettingGroup extends SettingItem {
     try {
       if (value == null) return;
       if (_version != null && value["version"] != _version) {
-        //TODO: Add migration code
-
-        //In case of name change:
-        //value["New Name"] = value["Old Name"];
-        //OR
-        //value["Group 1"]["New Name"] = value["Group 1"]["Old Name"];
-        //value.remove("Old Name");
-
-        //Incase of addition
-        //value["New Setting"] = defaultValue;
-
-        //Incase of removal
-        //value.remove("Old Setting");
         try {
           if (name == "AlarmSettings") {
             // if (value["version"] == 4) {

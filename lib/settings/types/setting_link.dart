@@ -14,7 +14,7 @@ class SettingPageLink extends SettingItem {
     String Function(BuildContext) getDescription = defaultDescription,
     this.icon,
     List<String> searchTags = const [],
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
   }) : super(name, getLocalizedName, getDescription, searchTags,
             enableConditions);
 

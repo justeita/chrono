@@ -28,7 +28,7 @@ abstract class Setting<T> extends SettingItem {
     String Function(BuildContext) description,
     T defaultValue,
     this.onChange,
-    List<EnableConditionParameter> enableConditions,
+    List<EnableCondition> enableConditions,
     List<String> searchTags,
     this.isVisual, {
     T Function(T)? valueCopyGetter,
@@ -90,7 +90,7 @@ class CustomizableListSetting<T extends CustomizableListItem>
     String Function(BuildContext) getDescription = defaultDescription,
     void Function(BuildContext, List<T>)? onChange,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(
           name,
@@ -168,7 +168,7 @@ class ListSetting<T extends ListItem> extends Setting<List<T>> {
     String Function(BuildContext) getDescription = defaultDescription,
     void Function(BuildContext, List<T>)? onChange,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(
           name,
@@ -237,7 +237,7 @@ class CustomSetting<T extends JsonSerializable> extends Setting<T> {
     void Function(BuildContext, T)? onChange,
     this.copyValue,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual) {
@@ -289,7 +289,7 @@ class SwitchSetting extends Setting<bool> {
     void Function(BuildContext, bool)? onChange,
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual);
@@ -317,7 +317,7 @@ class NumberSetting extends Setting<double> {
     void Function(BuildContext, double)? onChange,
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual);
@@ -348,7 +348,7 @@ class ColorSetting extends Setting<Color> {
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
     this.enableOpacity = false,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual);
@@ -388,7 +388,7 @@ class StringSetting extends Setting<String> {
     void Function(BuildContext, String)? onChange,
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual);
@@ -427,7 +427,7 @@ class SliderSetting extends Setting<double> {
     this.maxIsInfinity = false,
     this.snapLength,
     this.unit = "",
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual);
@@ -489,7 +489,7 @@ class SelectSetting<T> extends Setting<int> {
     int defaultValue = 0,
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
     this.actions = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
@@ -530,7 +530,7 @@ class DynamicSelectSetting<T extends ListItem> extends Setting<int> {
     String Function(BuildContext) getDescription = defaultDescription,
     int defaultValue = -1,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
     this.actions = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
@@ -632,7 +632,7 @@ class MultiSelectSetting<T> extends Setting<List<int>> {
     List<int> defaultValue = const [0],
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
     this.actions = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
@@ -691,7 +691,7 @@ class DynamicMultiSelectSetting<T extends ListItem> extends Setting<List<int>> {
     String Function(BuildContext) getDescription = defaultDescription,
     List<int> defaultValue = const [-1],
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
     this.actions = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
@@ -855,7 +855,7 @@ class ToggleSetting<T> extends Setting<List<bool>> {
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
     this.getOffset,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(
           name,
@@ -923,7 +923,7 @@ class DateTimeSetting extends Setting<List<DateTime>> {
     void Function(BuildContext, List<DateTime>)? onChange,
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(
           name,
@@ -984,7 +984,7 @@ class DurationSetting extends Setting<TimeDuration> {
     void Function(BuildContext, TimeDuration)? onChange,
     String Function(BuildContext) getDescription = defaultDescription,
     bool isVisual = true,
-    List<EnableConditionParameter> enableConditions = const [],
+    List<EnableCondition> enableConditions = const [],
     List<String> searchTags = const [],
   }) : super(name, getLocalizedName, getDescription, defaultValue, onChange,
             enableConditions, searchTags, isVisual);

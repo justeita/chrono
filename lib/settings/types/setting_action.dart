@@ -12,15 +12,20 @@ class SettingAction extends SettingItem {
     this.action, {
     String Function(BuildContext) getDescription = defaultDescription,
     List<String> searchTags = const [],
-    List<EnableConditionParameter> enableConditions = const [],
-  }) : super(name, getLocalizedName, getDescription, searchTags, enableConditions);
+    List<EnableCondition> enableConditions = const [],
+  }) : super(name, getLocalizedName, getDescription, searchTags,
+            enableConditions);
 
   @override
   SettingAction copy() {
-    return SettingAction(name, getLocalizedName, action,
-        getDescription: getDescription,
-        searchTags: searchTags,
-        enableConditions: enableConditions,);
+    return SettingAction(
+      name,
+      getLocalizedName,
+      action,
+      getDescription: getDescription,
+      searchTags: searchTags,
+      enableConditions: enableConditions,
+    );
   }
 
   @override

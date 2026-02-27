@@ -296,6 +296,12 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut);
         }
+        if (!widget.is24HourMode) {
+          apController.animateTo(
+              (currentSelectedAPIndex - 1) * _getItemHeight()!,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut);
+        }
         // });
       }
       Future.delayed(const Duration(milliseconds: 320), () {
@@ -307,7 +313,6 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
       });
     });
 
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
 

@@ -12,9 +12,9 @@ abstract class SettingItem {
   final List<void Function(dynamic)> _settingListeners;
   List<void Function(dynamic)> get settingListeners => _settingListeners;
   List<String> searchTags = [];
-  List<EnableConditionParameter> enableConditions;
+  List<EnableCondition> enableConditions;
   // Settings which influence whether this setting is enabled
-  List<EnableConditionEvaluator> enableSettings;
+  List<ConditionEvaluator> enableSettings;
 
   String displayName(BuildContext context) => getLocalizedName(context);
 

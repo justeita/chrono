@@ -2,22 +2,20 @@ import 'package:clock_app/settings/types/setting.dart';
 import 'package:clock_app/settings/types/setting_group.dart';
 import 'package:clock_app/settings/types/setting_item.dart';
 
-// TODO: OMG ALL THESE NAMES ARE SO BAD, PLEASE THINK OF NEW ONES :(
-
 // Allows us to check conditions for enabling settings
-abstract class EnableConditionParameter {
+abstract class EnableCondition {
   void setupEnableSettings(SettingGroup group, SettingItem item);
   void setupChangesEnableCondition(SettingGroup group, SettingItem item);
-  EnableConditionEvaluator getEvaluator(SettingGroup group);
+  ConditionEvaluator getEvaluator(SettingGroup group);
 }
 
-class GeneralCondition extends EnableConditionParameter {
+class GeneralCondition extends EnableCondition {
   bool Function() condition;
 
   GeneralCondition(this.condition);
 
   @override
-  EnableConditionEvaluator getEvaluator(SettingGroup group) {
+  ConditionEvaluator getEvaluator(SettingGroup group) {
     return GeneralConditionEvaluator(condition);
   }
 
@@ -30,14 +28,14 @@ class GeneralCondition extends EnableConditionParameter {
   void setupChangesEnableCondition(SettingGroup group, SettingItem item) {}
 }
 
-class ValueCondition extends EnableConditionParameter {
+class ValueCondition extends EnableCondition {
   List<String> settingPath;
   bool Function(dynamic settingValue) condition;
 
   ValueCondition(this.settingPath, this.condition);
 
   @override
-  EnableConditionEvaluator getEvaluator(SettingGroup group) {
+  ConditionEvaluator getEvaluator(SettingGroup group) {
     Setting setting = group.getSettingFromPath(settingPath);
     return ValueConditionEvaluator(setting, condition);
   }
@@ -56,14 +54,14 @@ class ValueCondition extends EnableConditionParameter {
   }
 }
 
-class CompoundCondition extends EnableConditionParameter {
-  EnableConditionParameter parameter1;
-  EnableConditionParameter parameter2;
+class CompoundCondition extends EnableCondition {
+  EnableCondition parameter1;
+  EnableCondition parameter2;
   bool Function(bool parameter1Result, bool parameter2Result) condition;
   CompoundCondition(this.parameter1, this.parameter2, this.condition);
 
   @override
-  EnableConditionEvaluator getEvaluator(SettingGroup group) {
+  ConditionEvaluator getEvaluator(SettingGroup group) {
     return CompoundConditionEvaluator(parameter1.getEvaluator(group),
         parameter2.getEvaluator(group), condition);
   }
@@ -82,11 +80,11 @@ class CompoundCondition extends EnableConditionParameter {
   }
 }
 
-abstract class EnableConditionEvaluator {
+abstract class ConditionEvaluator {
   bool evaluate();
 }
 
-class ValueConditionEvaluator extends EnableConditionEvaluator {
+class ValueConditionEvaluator extends ConditionEvaluator {
   Setting setting;
   bool Function(dynamic settingValue) condition;
 
@@ -98,7 +96,7 @@ class ValueConditionEvaluator extends EnableConditionEvaluator {
   }
 }
 
-class GeneralConditionEvaluator extends EnableConditionEvaluator {
+class GeneralConditionEvaluator extends ConditionEvaluator {
   bool Function() condition;
   GeneralConditionEvaluator(this.condition);
 
@@ -108,9 +106,9 @@ class GeneralConditionEvaluator extends EnableConditionEvaluator {
   }
 }
 
-class CompoundConditionEvaluator extends EnableConditionEvaluator {
-  EnableConditionEvaluator condition1;
-  EnableConditionEvaluator condition2;
+class CompoundConditionEvaluator extends ConditionEvaluator {
+  ConditionEvaluator condition1;
+  ConditionEvaluator condition2;
   bool Function(bool parameter1Result, bool parameter2Result) condition;
   CompoundConditionEvaluator(this.condition1, this.condition2, this.condition);
 
