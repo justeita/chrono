@@ -41,7 +41,7 @@ class _SettingPageLinkCardState<T> extends State<SettingPageLinkCard> {
               if (widget.setting.icon != null)
                 Icon(
                   widget.setting.icon,
-                  color: colorScheme.onBackground,
+                  color: colorScheme.onSurface,
                 ),
               if (widget.setting.icon != null) const SizedBox(width: 16),
               Expanded(
@@ -64,7 +64,7 @@ class _SettingPageLinkCardState<T> extends State<SettingPageLinkCard> {
               ),
               Icon(
                 Icons.chevron_right_rounded,
-                color: colorScheme.onBackground.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ],
           ),

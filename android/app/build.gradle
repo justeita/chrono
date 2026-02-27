@@ -32,11 +32,10 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    // namespace "com.vicolo.chrono"
+    namespace "com.vicolo.chrono"
 
-    compileSdkVersion 34
+    compileSdk 36
     ndkVersion flutter.ndkVersion
-    
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,13 +46,42 @@ android {
         jvmTarget = '1.8'
     }
 
+    // Split APKs by ABI for smaller download size
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi-v7a", "arm64-v8a", "x86_64"
+            universalApk true
+        }
+    }
+
+    buildFeatures {
+        buildConfig false
+        aidl false
+        renderScript false
+        shaders false
+    }
+
+    packagingOptions {
+        // Remove unnecessary metadata files
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/*.kotlin_module'
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
         applicationId "com.vicolo.chrono"
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()  
         versionName flutterVersionName
@@ -74,6 +102,18 @@ android {
 
             minifyEnabled true
             shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Optimize native libs
+            ndk {
+                debugSymbolLevel 'NONE'
+            }
+        }
+        debug {
+            // Disable unused features in debug for faster builds
+            shrinkResources false
+            minifyEnabled false
+            crunchPngs false
         }
     }
 

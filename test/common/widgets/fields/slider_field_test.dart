@@ -1,7 +1,7 @@
 import 'package:clock_app/common/widgets/fields/slider_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 const name = 'Test Slider';
 const unit = 'unit';

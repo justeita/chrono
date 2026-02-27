@@ -200,7 +200,7 @@ class AnimatedReorderableListView<E extends Object> extends StatelessWidget {
   final bool Function(E a, E b)? isSameItem;
 
   const AnimatedReorderableListView({
-    Key? key,
+    super.key,
     required this.items,
     required this.itemBuilder,
     required this.onReorder,
@@ -229,7 +229,7 @@ class AnimatedReorderableListView<E extends Object> extends StatelessWidget {
     this.useDefaultDragListeners = true,
     this.shrinkWrap = false,
     this.isSameItem,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

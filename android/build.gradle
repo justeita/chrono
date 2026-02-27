@@ -9,12 +9,24 @@ allprojects {
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
+
+    // Fix for AGP 8+ requiring namespace in library modules
+    project.plugins.withId("com.android.library") {
+        def manifestFile = project.file("src/main/AndroidManifest.xml")
+        if (manifestFile.exists()) {
+            def manifest = new XmlParser().parse(manifestFile)
+            def pkg = manifest.@package
+            if (pkg != null && !pkg.toString().isEmpty()) {
+                project.android.namespace = pkg
+            }
+        }
+    }
 }
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
-ext.kotlin_version = "1.8.0"
+ext.kotlin_version = "1.9.22"
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir

@@ -1,7 +1,7 @@
 import 'package:clock_app/common/types/list_item.dart';
 import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class CustomizeState {
   bool isSaved = false;
@@ -50,7 +50,7 @@ class _CustomizeScreenState<Item extends CustomizableListItem>
           child: Text(
             AppLocalizations.of(context)!.cancelButton,
             style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.6),
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ),
@@ -66,11 +66,14 @@ class _CustomizeScreenState<Item extends CustomizableListItem>
           ),
         )
       ]),
-      body: WillPopScope(
-        onWillPop: () async {
-          if (_isSaved) return true;
-          if (_item.hasSameSettingsAs(widget.item) && !widget.isNewItem) {
-            return true;
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
+          if (_isSaved ||
+              (_item.hasSameSettingsAs(widget.item) && !widget.isNewItem)) {
+            Navigator.pop(context);
+            return;
           }
           bool? shouldPop = await showDialog<bool>(
             context: context,
@@ -97,7 +100,9 @@ class _CustomizeScreenState<Item extends CustomizableListItem>
               );
             },
           );
-          return shouldPop ?? false;
+          if (shouldPop ?? false) {
+            if (context.mounted) Navigator.pop(context);
+          }
         },
         child: widget.builder(context, _item),
       ),

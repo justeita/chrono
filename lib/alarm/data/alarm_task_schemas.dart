@@ -5,7 +5,7 @@ import 'package:clock_app/alarm/widgets/tasks/retype_task.dart';
 import 'package:clock_app/alarm/widgets/tasks/sequence_task.dart';
 import 'package:clock_app/settings/types/setting.dart';
 import 'package:clock_app/settings/types/setting_group.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 Map<AlarmTaskType, AlarmTaskSchema> alarmTaskSchemasMap = {
   AlarmTaskType.math: AlarmTaskSchema(

@@ -1,7 +1,7 @@
 import 'package:clock_app/common/types/json.dart';
 import 'package:clock_app/common/types/list_item.dart';
 import 'package:clock_app/common/utils/id.dart';
-import 'package:clock_app/developer/logic/logger.dart';
+// import 'package:clock_app/developer/logic/logger.dart';
 import 'package:clock_app/timer/types/time_duration.dart';
 
 class TimerPreset extends ListItem {

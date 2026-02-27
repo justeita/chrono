@@ -3,7 +3,7 @@ import 'package:clock_app/settings/data/settings_schema.dart';
 import 'package:flutter/material.dart';
 
 MediaQuery getTimePickerBuilder(BuildContext context, Widget? child) {
-  bool shouldUse24h = MediaQuery.of(context).alwaysUse24HourFormat ||
+  bool shouldUse24h = MediaQuery.alwaysUse24HourFormatOf(context) ||
       appSettings.getSetting("Time Format").value == TimeFormat.h24;
 
   return MediaQuery(

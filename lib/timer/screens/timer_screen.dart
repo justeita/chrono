@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:clock_app/audio/logic/ringtones.dart';
@@ -27,7 +26,7 @@ import 'package:clock_app/common/widgets/fab.dart';
 import 'package:clock_app/common/widgets/list/persistent_list_view.dart';
 import 'package:clock_app/timer/types/timer.dart';
 import 'package:clock_app/timer/widgets/timer_card.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 // Future<bool> updateForegroundTask(List<ClockTimer> timers) async {
 //   final runningTimers = timers.where((timer) => !timer.isStopped).toList();
@@ -107,7 +106,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //     // _sendPort?.send('onNotificationPressed');
 //   }
 // }
-
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({super.key, this.actionController});
@@ -199,8 +197,8 @@ class _TimerScreenState extends State<TimerScreen> {
     _showFilters.removeListener(update);
     _showSort.removeListener(update);
     _showNotification.removeListener(update);
-
-    // ListenerManager.removeOnChangeListener("timers", onTimerUpdate);
+    ListenerManager.removeOnChangeListener("timers", onTimerUpdate);
+    timerNotificationInterval?.cancel();
     super.dispose();
   }
 
@@ -220,15 +218,6 @@ class _TimerScreenState extends State<TimerScreen> {
     // showProgressNotification();
   }
 
-  Future<void> _handleStartTimer(ClockTimer timer) async {
-    if (timer.isRunning) return;
-    await timer.start();
-    _listController.changeItems((timers) {});
-    _updateTimerNotification();
-
-    // showProgressNotification();
-  }
-
   Future<void> _handleStartMultipleTimers(List<ClockTimer> timers) async {
     for (var timer in timers) {
       if (timer.isRunning) return;
@@ -237,14 +226,6 @@ class _TimerScreenState extends State<TimerScreen> {
     _listController.changeItems((timers) {});
     _updateTimerNotification();
 
-    // showProgressNotification();
-  }
-
-  Future<void> _handlePauseTimer(ClockTimer timer) async {
-    if (timer.isPaused) return;
-    await timer.pause();
-    _listController.changeItems((timers) {});
-    _updateTimerNotification();
     // showProgressNotification();
   }
 
@@ -360,6 +341,7 @@ class _TimerScreenState extends State<TimerScreen> {
           action: (timers) async {
             List<int> randomIndices =
                 await getNRandomRingtoneIndices(timers.length);
+            if (!mounted) return;
             for (var timer in timers) {
               final setting = timer.settings.getSetting("Melody")
                   as DynamicSelectSetting<FileItem>;
@@ -388,6 +370,7 @@ class _TimerScreenState extends State<TimerScreen> {
                 onPressAddTime: () => _handleAddTimeToTimer(timer),
               ),
               onTapItem: (timer, index) async {
+                if (!mounted) return;
                 await Navigator.push(
                   context,
                   MaterialPageRoute(

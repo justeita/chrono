@@ -287,7 +287,7 @@ class LinearProgressBar extends ProgressIndicator {
   ///
   /// If [LinearProgressBar.backgroundColor] is null then the
   /// ambient [ProgressIndicatorThemeData.linearTrackColor] will be used.
-  /// If that is null, then the ambient theme's [ColorScheme.background]
+  /// If that is null, then the ambient theme's [ColorScheme.surface]
   /// will be used to draw the track.
   /// {@endtemplate}
   @override
@@ -405,7 +405,7 @@ class _LinearProgressIndicatorDefaultsM3 extends ProgressIndicatorThemeData {
   Color get color => _colors.primary;
 
   @override
-  Color get linearTrackColor => _colors.surfaceVariant;
+  Color get linearTrackColor => _colors.surfaceContainerHighest;
 
   @override
   double get linearMinHeight => 4.0;

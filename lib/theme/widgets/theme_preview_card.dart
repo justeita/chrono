@@ -1,7 +1,6 @@
-import 'package:clock_app/common/logic/card_decoration.dart';
 import 'package:clock_app/common/widgets/card_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class ThemePreviewCard extends StatelessWidget {
   const ThemePreviewCard({
@@ -17,7 +16,7 @@ class ThemePreviewCard extends StatelessWidget {
       key: const Key("Preview Card - Preview"),
       showShadow: false,
       showLightBorder: true,
-      color: colorScheme.background,
+      color: colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
@@ -30,7 +29,7 @@ class ThemePreviewCard extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context)!.previewLabel,
                   style: textTheme.headlineMedium?.copyWith(
-                    color: colorScheme.onBackground,
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ),

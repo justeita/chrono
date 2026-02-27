@@ -5,8 +5,6 @@ import 'package:clock_app/alarm/types/schedules/alarm_schedule.dart';
 import 'package:clock_app/common/types/json.dart';
 import 'package:clock_app/common/types/time.dart';
 import 'package:clock_app/common/types/weekday.dart';
-import 'package:clock_app/common/utils/json_serialize.dart';
-import 'package:clock_app/developer/logic/logger.dart';
 import 'package:clock_app/settings/types/setting.dart';
 import 'package:flutter/foundation.dart';
 

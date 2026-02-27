@@ -5,7 +5,7 @@ import 'package:clock_app/common/widgets/list/persistent_list_view.dart';
 import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:clock_app/settings/widgets/tag_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class ListFilterSettingsScreen extends StatefulWidget {
   const ListFilterSettingsScreen({
@@ -19,6 +19,31 @@ class ListFilterSettingsScreen extends StatefulWidget {
 
 class _ListFilterSettingsScreenState extends State<ListFilterSettingsScreen> {
   final _listController = PersistentListController<Tag>();
+
+  Future<Tag?> showTagEditor([Tag? initialTag]) async {
+    Tag newTag = Tag.from(initialTag ?? Tag("New Preset"));
+
+    String? tagName = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      enableDrag: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return InputBottomSheet(
+              title: AppLocalizations.of(context)!.editTagLabel,
+              description: "",
+              initialValue: newTag.name,
+              hintText: AppLocalizations.of(context)!.tagNamePlaceholder,
+              onChange: (value) {},
+            );
+          },
+        );
+      },
+    );
+    newTag.name = tagName ?? newTag.name;
+    return newTag;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -15,8 +15,8 @@ Future<void> onNotificationCreatedMethod(
 
   switch (receivedNotification.channelKey) {
     case alarmNotificationChannelKey:
-      Payload payload = receivedNotification.payload!;
-      int? scheduleId = int.tryParse(payload['scheduleId']);
+      Payload payload = receivedNotification.payload;
+      int? scheduleId = int.tryParse(payload!['scheduleId']);
       if (scheduleId == null) return;
       // AlarmNotificationManager.handleNotificationCreated(receivedNotification);
       break;
@@ -86,8 +86,8 @@ Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
 
       break;
     case timerNotificationChannelKey:
-      Payload payload = receivedAction.payload!;
-      int? scheduleId = int.tryParse(payload['scheduleId']);
+      Payload payload = receivedAction.payload;
+      int? scheduleId = int.tryParse(payload!['scheduleId']);
       if (scheduleId == null) return;
       switch (receivedAction.buttonKeyPressed) {
         case 'timer_toggle_state':

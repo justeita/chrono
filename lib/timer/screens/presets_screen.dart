@@ -5,7 +5,7 @@ import 'package:clock_app/timer/types/timer_preset.dart';
 import 'package:clock_app/timer/widgets/timer_preset_card.dart';
 import 'package:clock_app/timer/widgets/timer_preset_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class PresetsScreen extends StatefulWidget {
   const PresetsScreen({
@@ -27,7 +27,7 @@ class _PresetsScreenState extends State<PresetsScreen> {
           AppLocalizations.of(context)!.editPresetsTitle,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color:
-                    Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
         ),
       ),

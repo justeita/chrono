@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:clock_app/common/widgets/card_container.dart';
 import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 Future<dynamic> readDonors() async {
   final String response =
@@ -19,9 +18,6 @@ class DonorsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
-    final TextTheme textTheme = theme.textTheme;
     return Scaffold(
       appBar: AppTopBar(
         title: AppLocalizations.of(context)!.donorsSetting,
@@ -33,7 +29,7 @@ class DonorsScreen extends StatelessWidget {
               future: donors,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  final dynamic contributors = snapshot.data!;
+                  final dynamic contributors = snapshot.data;
                   return Column(
                     children: [
                       for (final contributor in contributors)
@@ -61,8 +57,9 @@ class DonorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextTheme textTheme = theme.textTheme;
+    // Deterministic color from name hash — stable across rebuilds
     final Color color =
-        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+        Color((contributor['name'].hashCode & 0xFFFFFF) | 0xFF000000);
     return CardContainer(
       // onTap: () async {
       //   if (contributor['profile_url'] != null) {

@@ -37,13 +37,13 @@ class _TimerNotificationScreenState extends State<TimerNotificationScreen> {
       );
 
   void _addTime() {
-    dismissAlarmNotification(widget.scheduleIds[0],
-        AlarmDismissType.snooze, ScheduledNotificationType.timer);
+    dismissAlarmNotification(widget.scheduleIds[0], AlarmDismissType.snooze,
+        ScheduledNotificationType.timer);
   }
 
   void _stop() {
-    dismissAlarmNotification(widget.scheduleIds[0],
-        AlarmDismissType.dismiss, ScheduledNotificationType.timer);
+    dismissAlarmNotification(widget.scheduleIds[0], AlarmDismissType.dismiss,
+        ScheduledNotificationType.timer);
   }
 
   @override
@@ -76,10 +76,10 @@ class _TimerNotificationScreenState extends State<TimerNotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
         Routes.pop(onlyUpdateRoute: true);
-        return true;
       },
       child: Scaffold(
         body: SizedBox(

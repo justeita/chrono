@@ -98,7 +98,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
 
     return Padding(
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Container(
         decoration: BoxDecoration(
           color: colorScheme.surface,
@@ -115,7 +115,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(64),
-                        color: colorScheme.onSurface.withOpacity(0.6)),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6)),
                   ),
                 ),
                 const SizedBox(height: 12.0),
@@ -127,7 +127,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                       Text(
                         widget.title,
                         style: textTheme.titleMedium?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.6)),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6)),
                       ),
                       const SizedBox(height: 4.0),
                       TableCalendar(
@@ -210,16 +210,16 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                           // headerMargin: EdgeInsets.symmetric(vertical: 8.0),
                           titleCentered: true,
                           titleTextStyle: textTheme.labelLarge?.copyWith(
-                                color: colorScheme.onSurface.withOpacity(0.8),
+                                color: colorScheme.onSurface.withValues(alpha: 0.8),
                               ) ??
                               const TextStyle(),
                           rightChevronIcon: Icon(
                             Icons.chevron_right_rounded,
-                            color: colorScheme.onSurface.withOpacity(0.6),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           leftChevronIcon: Icon(
                             Icons.chevron_left_rounded,
-                            color: colorScheme.onSurface.withOpacity(0.6),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
 
@@ -237,20 +237,20 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                                       margin: const EdgeInsets.all(4.0),
                                       decoration: BoxDecoration(
                                         color: colorScheme.primary
-                                            .withOpacity(0.2),
+                                            .withValues(alpha: 0.2),
                                         borderRadius: BorderRadius.circular(
                                             themeStyle?.borderRadius ?? 8),
                                       ),
                                     )
                                   : null,
                           disabledBuilder: dateLabelBuilder(
-                              colorScheme.onSurface.withOpacity(0.25)),
+                              colorScheme.onSurface.withValues(alpha: 0.25)),
                           holidayBuilder: dateLabelBuilder(
-                              colorScheme.onSurface.withOpacity(0.5)),
+                              colorScheme.onSurface.withValues(alpha: 0.5)),
                           defaultBuilder:
                               dateLabelBuilder(colorScheme.onSurface),
                           outsideBuilder: dateLabelBuilder(
-                              colorScheme.onSurface.withOpacity(0.5)),
+                              colorScheme.onSurface.withValues(alpha: 0.5)),
                           selectedBuilder: selectedDateLabelBuilder,
                           // rangeStartBuilder:
                           //     dateLabelBuilder(colorScheme.onSurface),
@@ -263,7 +263,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                                 width: 2,
                               ),
                               // color: colorScheme.onSurface
-                              //     .withOpacity(0.1),
+                              //     .withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(
                                   themeStyle?.borderRadius ?? 8),
                             ),
@@ -271,7 +271,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                               child: Text(
                                 day.day.toString(),
                                 style: textTheme.labelLarge?.copyWith(
-                                  color: colorScheme.onSurface.withOpacity(0.6),
+                                  color: colorScheme.onSurface.withValues(alpha: 0.6),
                                 ),
                               ),
                             ),
@@ -285,7 +285,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                                 style: textTheme.labelSmall?.copyWith(
                                   color: day.weekday == DateTime.sunday
                                       ? colorScheme.primary
-                                      : colorScheme.onSurface.withOpacity(0.6),
+                                      : colorScheme.onSurface.withValues(alpha: 0.6),
                                 ),
                               ),
                             );
@@ -303,7 +303,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                           child: Text(
                             'Clear',
                             style: textTheme.labelMedium?.copyWith(
-                              color: colorScheme.onSurface.withOpacity(0.5),
+                              color: colorScheme.onSurface.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -319,7 +319,7 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
                             style: textTheme.labelMedium?.copyWith(
                               color: _isSaveEnabled
                                   ? colorScheme.primary
-                                  : colorScheme.onSurface.withOpacity(0.2),
+                                  : colorScheme.onSurface.withValues(alpha: 0.2),
                             ),
                           ),
                         ),

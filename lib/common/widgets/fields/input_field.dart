@@ -76,7 +76,7 @@ class _InputFieldState<T> extends State<InputField> {
               ),
               Icon(Icons.keyboard_arrow_down_rounded,
                   color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6))
+                      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6))
             ],
           ),
         ),

@@ -36,7 +36,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
 
     return IntroductionScreen(
       key: introKey,
-      globalBackgroundColor: colorScheme.background,
+      globalBackgroundColor: colorScheme.surface,
       allowImplicitScrolling: true,
       autoScrollDuration: 3000,
       infiniteAutoScroll: true,
@@ -49,7 +49,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
             children: [
               Text("Important",
                   style: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onBackground,
+                    color: colorScheme.onSurface,
                   )),
               const SizedBox(height: 16),
               Text(

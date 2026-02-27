@@ -15,7 +15,7 @@ import 'package:clock_app/common/utils/weekday_utils.dart';
 import 'package:clock_app/settings/data/settings_schema.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 String getAlarmScheduleDescription(BuildContext context, Alarm alarm,
     String dateFormat, TimeFormat timeFormat) {
@@ -35,11 +35,11 @@ String getAlarmScheduleDescription(BuildContext context, Alarm alarm,
     return AppLocalizations.of(context)!.alarmDescriptionNotScheduled;
   }
   switch (alarm.scheduleType) {
-    case OnceAlarmSchedule:
+    case OnceAlarmSchedule _:
       return '${alarm.time.toHours() > DateTime.now().toHours() ? AppLocalizations.of(context)!.alarmDescriptionToday : AppLocalizations.of(context)!.alarmDescriptionTomorrow}$suffix';
-    case DailyAlarmSchedule:
+    case DailyAlarmSchedule _:
       return '${AppLocalizations.of(context)!.alarmDescriptionEveryDay}$suffix';
-    case WeeklyAlarmSchedule:
+    case WeeklyAlarmSchedule _:
       List<Weekday> alarmWeekdays = alarm.weekdays;
       if (alarmWeekdays.length == 7) {
         return '${AppLocalizations.of(context)!.alarmDescriptionEveryDay}$suffix';
@@ -63,11 +63,11 @@ String getAlarmScheduleDescription(BuildContext context, Alarm alarm,
           .map((weekday) => weekday.getDisplayName(context))
           .join(', ');
       return '${AppLocalizations.of(context)!.alarmDescriptionWeekly(weekdaysString)}$suffix';
-    case DatesAlarmSchedule:
+    case DatesAlarmSchedule _:
       List<DateTime> dates = alarm.dates;
       return '${AppLocalizations.of(context)!.alarmDescriptionDates(dates.length - 1, DateFormat(dateFormat).format(dates[0]))}$suffix';
     /*   return 'On ${DateFormat(dateFormat).format(dates[0])}${dates.length > 1 ? ' and ${dates.length - 1} other date${dates.length > 2 ? 's' : ''} ' : ''}$suffix'; */
-    case RangeAlarmSchedule:
+    case RangeAlarmSchedule _:
       DateTime rangeStart = alarm.startDate;
       DateTime rangeEnd = alarm.endDate;
       RangeInterval interval = alarm.interval;

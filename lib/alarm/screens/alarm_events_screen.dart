@@ -41,9 +41,6 @@ class _AlarmEventsScreenState extends State<AlarmEventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    TextTheme textTheme = theme.textTheme;
-
     return Scaffold(
       appBar: const AppTopBar(title: "Alarm Logs"),
       body: Stack(

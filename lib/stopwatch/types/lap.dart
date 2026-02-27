@@ -4,17 +4,11 @@ import 'package:clock_app/timer/types/time_duration.dart';
 
 class Lap extends ListItem {
   late int _number;
-  late TimeDuration _lapTime;
-  late TimeDuration _elapsedTime;
-  late bool _isActive;
+  late TimeDuration lapTime;
+  late TimeDuration elapsedTime;
+  late bool isActive;
 
   int get number => _number;
-  bool get isActive => _isActive;
-  set isActive(bool value) => _isActive = value;
-  set lapTime(TimeDuration value) => _lapTime = value;
-  set elapsedTime(TimeDuration value) => _elapsedTime = value;
-  TimeDuration get lapTime => _lapTime;
-  TimeDuration get elapsedTime => _elapsedTime;
   @override
   int get id => number;
   @override
@@ -22,26 +16,23 @@ class Lap extends ListItem {
 
   Lap(
       {required int number,
-      TimeDuration elapsedTime = const TimeDuration(),
-      TimeDuration lapTime = const TimeDuration(),
-      bool isActive = false})
-      : _lapTime = lapTime,
-        _number = number,
-        _elapsedTime = elapsedTime,
-        _isActive = isActive;
+      this.elapsedTime = const TimeDuration(),
+      this.lapTime = const TimeDuration(),
+      this.isActive = false})
+      : _number = number;
 
   Lap.fromJson(Json? json) {
     if (json == null) {
       _number = 0;
-      _lapTime = TimeDuration.zero;
-      _elapsedTime = TimeDuration.zero;
-      _isActive = false;
+      lapTime = TimeDuration.zero;
+      elapsedTime = TimeDuration.zero;
+      isActive = false;
       return;
     }
     _number = json['number'] ?? 0;
-    _lapTime = TimeDuration.fromJson(json['lapTime']);
-    _elapsedTime = TimeDuration.fromJson(json['elapsedTime']);
-    _isActive = json['isActive'] ?? false;
+    lapTime = TimeDuration.fromJson(json['lapTime']);
+    elapsedTime = TimeDuration.fromJson(json['elapsedTime']);
+    isActive = json['isActive'] ?? false;
   }
 
   @override
@@ -49,7 +40,7 @@ class Lap extends ListItem {
         'number': number,
         'lapTime': lapTime.toJson(),
         'elapsedTime': elapsedTime.toJson(),
-        'isActive': _isActive,
+        'isActive': isActive,
       };
 
   @override
@@ -58,14 +49,14 @@ class Lap extends ListItem {
         elapsedTime: elapsedTime,
         number: number,
         lapTime: lapTime,
-        isActive: _isActive);
+        isActive: isActive);
   }
 
   @override
   void copyFrom(other) {
     _number = other.number;
-    _lapTime = TimeDuration.from(other.lapTime);
-    _elapsedTime = TimeDuration.from(other.elapsedTime);
-    _isActive = other._isActive;
+    lapTime = TimeDuration.from(other.lapTime);
+    elapsedTime = TimeDuration.from(other.elapsedTime);
+    isActive = other.isActive;
   }
 }

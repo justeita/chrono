@@ -15,12 +15,13 @@ class DynamicToggleSettingCard<T extends ListItem> extends StatefulWidget {
   final bool showAsCard;
   final void Function(dynamic)? onChanged;
 
-
   @override
-  State<DynamicToggleSettingCard<T>> createState() => _DynamicToggleSettingCardState<T>();
+  State<DynamicToggleSettingCard<T>> createState() =>
+      _DynamicToggleSettingCardState<T>();
 }
 
-class _DynamicToggleSettingCardState<T extends ListItem> extends State<DynamicToggleSettingCard<T>> {
+class _DynamicToggleSettingCardState<T extends ListItem>
+    extends State<DynamicToggleSettingCard<T>> {
   final offset = 1;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _DynamicToggleSettingCardState<T extends ListItem> extends State<DynamicTo
         setState(() {
           widget.setting.toggle(context, value);
         });
-        print(widget.setting.value);
+        debugPrint(widget.setting.value.toString());
         widget.onChanged?.call(widget.setting.value);
       },
       // padding: widget.showAsCard ? 16 : 0,
@@ -45,4 +46,3 @@ class _DynamicToggleSettingCardState<T extends ListItem> extends State<DynamicTo
     return widget.showAsCard ? CardContainer(child: toggleCard) : toggleCard;
   }
 }
-

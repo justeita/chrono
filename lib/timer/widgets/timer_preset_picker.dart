@@ -4,7 +4,6 @@ import 'package:clock_app/settings/data/settings_schema.dart';
 import 'package:clock_app/timer/logic/get_duration_picker.dart';
 import 'package:clock_app/timer/types/time_duration.dart';
 import 'package:clock_app/timer/types/timer_preset.dart';
-import 'package:clock_app/timer/widgets/dial_duration_picker.dart';
 import 'package:flutter/material.dart';
 
 Future<TimerPreset?> showTimerPresetPicker(BuildContext context,
@@ -28,9 +27,6 @@ Future<TimerPreset?> showTimerPresetPicker(BuildContext context,
             onSave: () => Navigator.of(context).pop(timerPreset),
             child: Builder(
               builder: (context) {
-                // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                var width = MediaQuery.of(context).size.width;
-
                 DurationPickerType type = appSettings
                     .getGroup("General")
                     .getGroup("Display")

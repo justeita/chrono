@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:clock_app/common/widgets/list/animated_reorderable_list/component/sliver_grid_with_fixed_cross_axis_count.dart';
 import 'package:clock_app/common/widgets/list/animated_reorderable_list/component/sliver_grid_with_main_axis_extent.dart';
-import 'package:clock_app/developer/logic/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class MotionBuilder<E> extends StatefulWidget {
   final bool useDefaultDragListeners;
 
   const MotionBuilder(
-      {Key? key,
+      {super.key,
       required this.itemBuilder,
       required this.insertAnimationBuilder,
       required this.removeAnimationBuilder,
@@ -49,8 +48,7 @@ class MotionBuilder<E> extends StatefulWidget {
       required this.buildDefaultDragHandles,
       required this.useDefaultDragListeners,
       this.longPressDraggable = false})
-      : assert(initialCount >= 0),
-        super(key: key);
+      : assert(initialCount >= 0);
 
   @override
   State<MotionBuilder> createState() => MotionBuilderState();

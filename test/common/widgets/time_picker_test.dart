@@ -2,21 +2,20 @@ import 'package:clock_app/common/types/picker_result.dart';
 import 'package:clock_app/common/widgets/time_picker.dart';
 import 'package:flutter/material.dart' hide TimePickerDialog;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 TimeOfDay selectedTime = const TimeOfDay(hour: 12, minute: 30);
 
 void main() {
-  final TestWidgetsFlutterBinding binding =
-      TestWidgetsFlutterBinding.ensureInitialized();
+  TestWidgetsFlutterBinding.ensureInitialized();
   group("showTimePickerDialog", () {
     setUp(() {
       selectedTime = const TimeOfDay(hour: 12, minute: 30);
     });
     group('opens correctly', () {
       testWidgets('in landscape mode', (WidgetTester tester) async {
-        binding.window.physicalSizeTestValue = const Size(1920, 1080);
-        binding.window.devicePixelRatioTestValue = 1.0;
+        tester.view.physicalSize = const Size(1920, 1080);
+        tester.view.devicePixelRatio = 1.0;
         await _renderWidget(tester);
         await tester.tap(find.text('Open Time Picker'));
         await tester.pumpAndSettle();
@@ -27,8 +26,8 @@ void main() {
         //     TimeOfDay(hour: 12, minute: 0).replacing(hour: DateTime.now().hour));
       });
       testWidgets('in portrait mode', (WidgetTester tester) async {
-        binding.window.physicalSizeTestValue = const Size(1080, 1920);
-        binding.window.devicePixelRatioTestValue = 1.0;
+        tester.view.physicalSize = const Size(1080, 1920);
+        tester.view.devicePixelRatio = 1.0;
         await _renderWidget(tester);
         await tester.tap(find.text('Open Time Picker'));
         await tester.pumpAndSettle();

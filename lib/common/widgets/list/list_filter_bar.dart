@@ -1,11 +1,10 @@
 import 'package:clock_app/common/logic/get_list_filter_chips.dart';
-import 'package:clock_app/common/types/json.dart';
 import 'package:clock_app/common/types/list_filter.dart';
 import 'package:clock_app/common/types/list_item.dart';
 import 'package:clock_app/common/widgets/list/list_filter_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class ListFilterBar<Item extends ListItem> extends StatelessWidget {
   const ListFilterBar(
@@ -42,7 +41,6 @@ class ListFilterBar<Item extends ListItem> extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     ColorScheme colorScheme = theme.colorScheme;
-    TextTheme textTheme = theme.textTheme;
 
     List<Widget> getFilterChips() {
       List<Widget> widgets = [];

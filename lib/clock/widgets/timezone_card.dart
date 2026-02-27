@@ -3,9 +3,8 @@ import 'package:clock_app/common/utils/popup_action.dart';
 import 'package:clock_app/common/widgets/card_edit_menu.dart';
 import 'package:clock_app/common/widgets/clock/digital_clock.dart';
 import 'package:flutter/material.dart';
-import 'package:timer_builder/timer_builder.dart';
 import 'package:timezone/timezone.dart' as timezone;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class TimeZoneCard extends StatelessWidget {
   TimeZoneCard({
@@ -29,23 +28,13 @@ class TimeZoneCard extends StatelessWidget {
   }
 
   String _getOffsetDescription(BuildContext context) {
-    DateTime currentTime = DateTime.now();
-    DateTime cityTime = timezone.TZDateTime.now(_timezoneLocation);
-
     String hourDifference = _formatTimeOffset(_offset.abs());
     String relativeLabel = _offset < 0 ? 'behind' : 'ahead';
     String differentOffsetLabel = AppLocalizations.of(context)!
         .relativeTime(hourDifference, relativeLabel);
-    // '$hourDifference$hourLabel $relativeLabel';
     String offsetLabel = _offset != 0
         ? differentOffsetLabel
         : AppLocalizations.of(context)!.sameTime;
-
-    String differentDayLabel = currentTime.day < cityTime.day
-        ? ' (next day)'
-        : currentTime.day > cityTime.day
-            ? ' (previous day)'
-            : '';
 
     return offsetLabel;
   }
@@ -72,7 +61,7 @@ class TimeZoneCard extends StatelessWidget {
                 Text(
                   city.name,
                   style: textTheme.displaySmall
-                      ?.copyWith(color: colorScheme.onSurface.withOpacity(0.8)),
+                      ?.copyWith(color: colorScheme.onSurface.withValues(alpha: 0.8)),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
@@ -88,19 +77,14 @@ class TimeZoneCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              TimerBuilder.periodic(
-                const Duration(seconds: 1),
-                builder: (context) {
-                  return Text(
-                    _getOffsetDescription(context),
-                    style: textTheme.bodyMedium?.copyWith(
-                        height: 0.5,
-                        color: colorScheme.onSurface.withOpacity(0.8)),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                  );
-                },
+              Text(
+                _getOffsetDescription(context),
+                style: textTheme.bodyMedium?.copyWith(
+                    height: 0.5,
+                    color: colorScheme.onSurface.withValues(alpha: 0.8)),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
               ),
               CardEditMenu(actions: [
                 getDeletePopupAction(context, onDelete),

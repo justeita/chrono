@@ -23,7 +23,7 @@ class ActionBottomSheet extends StatelessWidget {
         : BorderRadius.circular(8.0);
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.sizeOf(context).height * 0.7,
       child: Container(
         decoration: BoxDecoration(
           color: colorScheme.surface,
@@ -38,7 +38,7 @@ class ActionBottomSheet extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(64),
-                    color: colorScheme.onSurface.withOpacity(0.6)),
+                    color: colorScheme.onSurface.withValues(alpha: 0.6)),
               ),
             ),
             const SizedBox(height: 12.0),
@@ -50,14 +50,14 @@ class ActionBottomSheet extends StatelessWidget {
                   Text(
                     title,
                     style: textTheme.titleMedium?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.6)),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6)),
                   ),
                   if (description != null) const SizedBox(height: 8.0),
                   if (description != null)
                     Text(
                       description!,
                       style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurface.withOpacity(0.6)),
+                          color: colorScheme.onSurface.withValues(alpha: 0.6)),
                     ),
                 ],
               ),
@@ -80,8 +80,11 @@ class ActionBottomSheet extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(actions[index].icon,
-                                  color: actions[index].color?.withOpacity(0.6) ?? colorScheme.onSurface.withOpacity(0.6)),
-                                                                
+                                  color: actions[index]
+                                          .color
+                                          ?.withValues(alpha: 0.6) ??
+                                      colorScheme.onSurface
+                                          .withValues(alpha: 0.6)),
                               const SizedBox(
                                 width: 16,
                               ),
@@ -92,10 +95,9 @@ class ActionBottomSheet extends StatelessWidget {
                                   children: [
                                     Text(
                                       actions[index].name,
-                                      style: textTheme
-                                          .headlineMedium
-                                          ?.copyWith(
-                                              color: actions[index].color ?? colorScheme.onSurface),
+                                      style: textTheme.headlineMedium?.copyWith(
+                                          color: actions[index].color ??
+                                              colorScheme.onSurface),
                                     ),
                                     // if (choice.description.isNotEmpty) ...[
                                     //   const SizedBox(height: 4.0),

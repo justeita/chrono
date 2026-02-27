@@ -141,7 +141,7 @@ class AnimatedListView<E extends Object> extends StatelessWidget {
   final bool Function(E a, E b)? isSameItem;
 
   const AnimatedListView({
-    Key? key,
+    super.key,
     required this.items,
     required this.itemBuilder,
     this.enterTransition,
@@ -163,7 +163,7 @@ class AnimatedListView<E extends Object> extends StatelessWidget {
     this.removeItemBuilder,
     this.shrinkWrap = false,
     this.isSameItem,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

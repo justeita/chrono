@@ -53,7 +53,7 @@ class _SettingActionCardState<T> extends State<SettingActionCard> {
               ),
               Icon(
                 Icons.chevron_right_rounded,
-                color: colorScheme.onBackground.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ],
           ),

@@ -107,12 +107,12 @@ class _DatePickerFieldState<T> extends State<DatePickerField<T>> {
                   ),
                   const Spacer(),
                   Icon(Icons.access_time_rounded,
-                      color: colorScheme.onBackground.withOpacity(0.6))
+                      color: colorScheme.onSurface.withValues(alpha: 0.6))
                 ],
               ),
               const SizedBox(height: 4.0),
               SizedBox(
-                width: MediaQuery.of(context).size.width - 64,
+                width: MediaQuery.sizeOf(context).width - 64,
                 child: Wrap(
                   spacing: 6.0,
                   runSpacing: 6.0,

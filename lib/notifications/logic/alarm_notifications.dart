@@ -15,9 +15,10 @@ import 'package:clock_app/alarm/logic/schedule_alarm.dart';
 import 'package:clock_app/navigation/types/routes.dart';
 import 'package:clock_app/notifications/types/alarm_notification_arguments.dart';
 import 'package:clock_app/notifications/types/fullscreen_notification_data.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
-import 'package:move_to_background/move_to_background.dart';
+// import 'package:move_to_background/move_to_background.dart';
 import 'package:receive_intent/receive_intent.dart';
 
 FGBGType appVisibilityWhenAlarmNotificationCreated = FGBGType.foreground;
@@ -109,8 +110,7 @@ Future<void> closeAlarmNotification(ScheduledNotificationType type) async {
   if (intent?.action == "SELECT_NOTIFICATION") {
     logger.t(
         "[closeAlarmNotification] Moving app to background because it was launched from notification");
-    await MoveToBackground.moveTaskToBack();
-    // SystemNavigator.pop();
+    await SystemNavigator.pop();
   } else {
     // If notification was created while app was in background, move app back
     // to background when we close the notification
@@ -118,7 +118,7 @@ Future<void> closeAlarmNotification(ScheduledNotificationType type) async {
       logger.t(
           "[closeAlarmNotification] Moving app to background because notification moved it to foreground");
       appVisibilityWhenAlarmNotificationCreated = FGBGType.foreground;
-      await MoveToBackground.moveTaskToBack();
+      await SystemNavigator.pop();
     }
   }
   // If we were on the alarm screen, pop it off the stack. Sometimes the system
@@ -201,8 +201,8 @@ Future<void> handleAlarmNotificationDismiss(
     ReceivedAction action, AlarmDismissType dismissType) async {
   logger.t("[handleAlarmNotificationDismiss]");
 
-  Payload payload = action.payload!;
-  final type = ScheduledNotificationType.values.byName((payload['type'])!);
+  Payload payload = action.payload;
+  final type = ScheduledNotificationType.values.byName((payload!['type'])!);
   FullScreenNotificationData data = alarmNotificationData[type]!;
   bool tasksRequired = payload['tasksRequired'] == 'true';
   List<int> scheduleIds =
@@ -219,8 +219,8 @@ Future<void> handleAlarmNotificationDismiss(
 
 Future<void> handleAlarmNotificationAction(ReceivedAction action) async {
   logger.t("[handleAlarmNotificationAction]");
-  Payload payload = action.payload!;
-  final type = ScheduledNotificationType.values.byName((payload['type'])!);
+  Payload payload = action.payload;
+  final type = ScheduledNotificationType.values.byName((payload!['type'])!);
   FullScreenNotificationData data = alarmNotificationData[type]!;
 
   List<int> scheduleIds =

@@ -28,7 +28,7 @@ class Tag extends ListItem {
         'id': _id,
         'name': name,
         'description': description,
-        'color': color.value,
+        'color': color.toARGB32(),
       };
 
   @override

@@ -1,6 +1,6 @@
 import 'package:clock_app/common/types/list_filter.dart';
 import 'package:clock_app/timer/types/timer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 final List<ListSortOption<ClockTimer>> timerSortOptions = [
   ListSortOption((context) => AppLocalizations.of(context)!.remainingTimeDesc, sortRemainingTimeDescending),

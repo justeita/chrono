@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 
 SwitchThemeData getSwitchTheme(ColorSchemeData colorScheme) {
   return SwitchThemeData(
-    thumbColor: MaterialStateProperty.resolveWith((states) =>
-        states.contains(MaterialState.selected) ? colorScheme.card : Colors.white),
-    trackColor: MaterialStateProperty.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    thumbColor: WidgetStateProperty.resolveWith((states) =>
+        states.contains(WidgetState.selected) ? colorScheme.card : Colors.white),
+    trackColor: WidgetStateProperty.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? colorScheme.accent
-            : colorScheme.onBackground.withOpacity(0.3)),
-    overlayColor: MaterialStateProperty.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+            : colorScheme.onBackground.withValues(alpha: 0.3)),
+    overlayColor: WidgetStateProperty.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? colorScheme.accent
-            : colorScheme.onBackground.withOpacity(0.3)),
-    trackOutlineColor: MaterialStateProperty.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+            : colorScheme.onBackground.withValues(alpha: 0.3)),
+    trackOutlineColor: WidgetStateProperty.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? colorScheme.accent
             : Colors.transparent),
     splashRadius: 0,

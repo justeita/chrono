@@ -46,7 +46,9 @@ class ItemScrollPhysics extends ScrollPhysics {
     double item = _getItem(position);
     if (velocity < -tolerance.velocity) {
       item -= targetPixelsLimit;
-    } else if (velocity > tolerance.velocity) item += targetPixelsLimit;
+    } else if (velocity > tolerance.velocity) {
+      item += targetPixelsLimit;
+    }
     return _getPixels(position, item.roundToDouble());
   }
 
@@ -58,9 +60,8 @@ class ItemScrollPhysics extends ScrollPhysics {
 //    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
 //        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent))
 //      return super.createBallisticSimulation(position, velocity);
-    Tolerance tolerance = this.tolerance;
-    final double target =
-        _getTargetPixels(position as ScrollPosition, tolerance, velocity);
+    Tolerance tolerance = toleranceFor(position as ScrollPosition);
+    final double target = _getTargetPixels(position, tolerance, velocity);
     if (target != position.pixels) {
       return ScrollSpringSimulation(spring, position.pixels, target, velocity,
           tolerance: tolerance);
@@ -311,9 +312,16 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   }
 
   @override
+  void dispose() {
+    hourController.dispose();
+    minuteController.dispose();
+    secondController.dispose();
+    apController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-
     List<Widget> contents = [
       SizedBox(
         width: _getItemWidth(),
@@ -478,7 +486,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
         isScrolling
             ? Positioned.fill(
                 child: Container(
-                color: Colors.black.withOpacity(0),
+                color: Colors.black.withValues(alpha: 0),
               ))
             : Container()
       ],

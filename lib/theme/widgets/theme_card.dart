@@ -69,7 +69,7 @@ class ThemeCard<Item extends ThemeItem> extends StatelessWidget {
                 icon: Icon(Icons.edit,
                     color: !themeItem.isDefault
                         ? colorScheme.primary
-                        : colorScheme.onSurface.withOpacity(0.5)),
+                        : colorScheme.onSurface.withValues(alpha: 0.5)),
               ),
               CardEditMenu(actions: [
                 getDuplicatePopupAction(context, onPressDuplicate),

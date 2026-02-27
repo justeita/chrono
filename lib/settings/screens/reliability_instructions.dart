@@ -49,7 +49,7 @@
 //       appBar: AppTopBar(
 //         title: Text(widget.vendor.name,
 //             style: textTheme.titleMedium?.copyWith(
-//               color: colorScheme.onBackground.withOpacity(0.6),
+//               color: colorScheme.onBackground.withValues(alpha: 0.6),
 //             )),
 //       ),
 //       body: FutureBuilder<String>(

@@ -186,7 +186,7 @@ class AnimatedReorderableGridView<E extends Object> extends StatelessWidget {
   final bool Function(E a, E b)? isSameItem;
 
   const AnimatedReorderableGridView(
-      {Key? key,
+      {super.key,
       required this.items,
       required this.itemBuilder,
       required this.sliverGridDelegate,
@@ -213,8 +213,7 @@ class AnimatedReorderableGridView<E extends Object> extends StatelessWidget {
       this.shrinkWrap = false,
       this.insertItemBuilder,
       this.removeItemBuilder,
-      this.isSameItem})
-      : super(key: key);
+      this.isSameItem});
 
   @override
   Widget build(BuildContext context) {

@@ -12,16 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
-    final TextTheme textTheme = theme.textTheme;
     return Scaffold(
       appBar: AppTopBar(
         title: AppLocalizations.of(context)!.aboutSettingGroup,
@@ -62,8 +59,8 @@ class AboutScreen extends StatelessWidget {
                     getDescription: (context) =>
                         AppLocalizations.of(context)!.translateDescription,
                     (context) => AppLocalizations.of(context)!.translateLink,
-                    (context) =>
-                        launchUrl(Uri.parse("https://hosted.weblate.org/projects/chrono"))),
+                    (context) => launchUrl(Uri.parse(
+                        "https://hosted.weblate.org/projects/chrono"))),
               ),
               SettingPageLinkCard(
                   setting: SettingPageLink(
@@ -135,7 +132,7 @@ class AboutInfo extends StatelessWidget {
                     Text(
                       packageInfo?.version ?? '1.0.0',
                       style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onBackground.withOpacity(0.6),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -165,7 +162,7 @@ class AboutInfo extends StatelessWidget {
                     Text(
                       packageInfo?.packageName ?? 'com.vicolo.chrono',
                       style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onBackground.withOpacity(0.6),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -200,7 +197,7 @@ class AboutInfo extends StatelessWidget {
                       Text(
                         'GNU GPL v3.0',
                         style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onBackground.withOpacity(0.6),
+                          color: colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                       ),
                     ],
@@ -248,7 +245,7 @@ class AboutInfo extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                           style: textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onBackground.withOpacity(0.6),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -276,7 +273,7 @@ class AboutInfo extends StatelessWidget {
                   Text(
                     AppLocalizations.of(context)!.viewOnGithubLabel,
                     style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onBackground,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                 ],

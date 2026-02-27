@@ -88,7 +88,7 @@ ColorPickerType findColorInSelector({
         if (lookInShades) {
           if (isShadeOfMain(swatch, color, include850)) return key;
         } else {
-          if (swatch.value == color.value) return key;
+          if (swatch.toARGB32() == color.toARGB32()) return key;
         }
       }
     }
@@ -125,7 +125,9 @@ bool isShadeOfMain(
   bool include850,
 ) {
   for (final Color shade in getMaterialColorShades(mainColor, include850)) {
-    if (shade == shadeColor || shade.value == shadeColor.value) return true;
+    if (shade == shadeColor || shade.toARGB32() == shadeColor.toARGB32()) {
+      return true;
+    }
   }
   return false;
 }
@@ -153,7 +155,7 @@ List<Color> getMaterialColorShades(ColorSwatch<Object> color, bool include850) {
 
 /// Return the M3 tonal palette for a passed in color as a list of Colors.
 List<Color> getTonalColors(Color color) {
-  final Cam16 camColor = Cam16.fromInt(color.value);
+  final Cam16 camColor = Cam16.fromInt(color.toARGB32());
   final FlexTonalPalette tonalColors =
       FlexTonalPalette.of(camColor.hue, math.max(48, camColor.chroma));
 

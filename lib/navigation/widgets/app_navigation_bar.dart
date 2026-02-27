@@ -42,7 +42,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
           currentIndex: widget.selectedTabIndex,
           selectedItemColor: Theme.of(context).colorScheme.primary,
           unselectedItemColor:
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
           showUnselectedLabels: false,
           selectedLabelStyle: Theme.of(context).textTheme.titleSmall,
           unselectedLabelStyle: Theme.of(context).textTheme.titleSmall,

@@ -9,7 +9,7 @@ InputDecorationTheme getInputTheme(
   return InputDecorationTheme(
     contentPadding: EdgeInsets.zero,
     filled: true,
-    fillColor: colorScheme.onCard.withOpacity(0.12),
+    fillColor: colorScheme.onCard.withValues(alpha: 0.12),
     enabledBorder: OutlineInputBorder(
       borderRadius: borderRadius,
       borderSide: const BorderSide(
@@ -29,7 +29,7 @@ InputDecorationTheme getInputTheme(
       borderSide: BorderSide(color: colorScheme.error, width: 2.0),
     ),
     hintStyle: textTheme.displaySmall
-        ?.copyWith(color: colorScheme.onCard.withOpacity(0.36)),
+        ?.copyWith(color: colorScheme.onCard.withValues(alpha: 0.36)),
     errorStyle: const TextStyle(fontSize: 0.0, height: 0.0),
     border: OutlineInputBorder(borderRadius: borderRadius),
   );

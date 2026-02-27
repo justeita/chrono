@@ -1,6 +1,5 @@
 // ignore_for_file: use_super_parameters
 
-import 'package:clock_app/common/widgets/card_container.dart';
 import 'package:clock_app/common/widgets/fields/toggle_field.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';

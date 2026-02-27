@@ -21,7 +21,7 @@ BoxDecoration getCardDecoration(BuildContext context,
             
           ) : showLightBorder
         ? Border.all(
-            color: colorScheme.outline.withOpacity(0.2),
+            color: colorScheme.outline.withValues(alpha: 0.2),
             width: 0.5,
             strokeAlign: BorderSide.strokeAlignInside,
           )
@@ -42,7 +42,7 @@ BoxDecoration getCardDecoration(BuildContext context,
       if (showShadow && (themeStyle?.shadowOpacity ?? 0) > 0)
         BoxShadow(
           blurStyle: blurStyle,
-          color: colorScheme.shadow.withOpacity(themeStyle?.shadowOpacity ?? 1),
+          color: colorScheme.shadow.withValues(alpha: themeStyle?.shadowOpacity ?? 1),
           blurRadius: themeStyle?.shadowBlurRadius ?? 5,
           spreadRadius: themeStyle?.shadowSpreadRadius ?? 0,
           offset: Offset(

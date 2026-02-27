@@ -1,6 +1,5 @@
 import 'package:clock_app/common/widgets/clock/digital_clock.dart';
 import 'package:flutter/material.dart';
-import 'package:timer_builder/timer_builder.dart';
 import 'package:timezone/timezone.dart' as timezone;
 
 class TimezoneCardContent extends StatelessWidget {
@@ -37,19 +36,14 @@ class TimezoneCardContent extends StatelessWidget {
                   softWrap: false,
                 ),
                 const SizedBox(height: 4),
-                TimerBuilder.periodic(
-                  const Duration(seconds: 1),
-                  builder: (context) {
-                    return Text(
-                      subtitle,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: textColor,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
-                    );
-                  },
+                Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: textColor,
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
                 ),
               ],
             ),

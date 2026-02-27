@@ -37,7 +37,7 @@ class _ColorBottomSheetState extends State<ColorBottomSheet> {
 
     return Padding(
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
@@ -54,7 +54,7 @@ class _ColorBottomSheetState extends State<ColorBottomSheet> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(64),
-                        color: colorScheme.onSurface.withOpacity(0.6)),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6)),
                   ),
                 ),
                 const SizedBox(height: 12.0),
@@ -66,7 +66,7 @@ class _ColorBottomSheetState extends State<ColorBottomSheet> {
                       Text(
                         widget.title,
                         style: textTheme.titleMedium?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.6)),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6)),
                       ),
                       if (widget.description != null)
                         const SizedBox(height: 8.0),
@@ -74,14 +74,14 @@ class _ColorBottomSheetState extends State<ColorBottomSheet> {
                         Text(
                           widget.description!,
                           style: textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onSurface.withOpacity(0.6)),
+                              color: colorScheme.onSurface.withValues(alpha: 0.6)),
                         ),
                     ],
                   ),
                 ),
                 // const SizedBox(height: 16.0),
                 ColorPicker(
-                    wheelDiameter: MediaQuery.of(context).size.width - (widget.enableOpacity ? 64 : 32),
+                    wheelDiameter: MediaQuery.sizeOf(context).width - (widget.enableOpacity ? 64 : 32),
                     color: _color,
                     onColorChanged: (Color color) => setState(() {
                           _color = color;
@@ -135,7 +135,7 @@ class _ColorBottomSheetState extends State<ColorBottomSheet> {
                         child: Text(
                           'Cancel',
                           style: textTheme.labelMedium?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.6),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ),

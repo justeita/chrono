@@ -70,12 +70,15 @@ class _SelectAudioOptionCardState extends State<SelectAudioOptionCard> {
                       // checkColor: Colors.white,
                       // fillColor: MaterialStateProperty.resolveWith(getColor),
                       value: widget.selectedIndices.contains(widget.index),
-                      onChanged: (bool? value) => widget.onSelect([widget.index]))
-                  : Radio(
-                      value: widget.index,
+                      onChanged: (bool? value) =>
+                          widget.onSelect([widget.index]))
+                  : RadioGroup<int>(
                       groupValue: widget.selectedIndices[0],
-                      onChanged: (dynamic value) =>
+                      onChanged: (int? value) =>
                           widget.onSelect([widget.index]),
+                      child: Radio<int>(
+                        value: widget.index,
+                      ),
                     ),
               Expanded(
                 flex: 100,
@@ -101,7 +104,7 @@ class _SelectAudioOptionCardState extends State<SelectAudioOptionCard> {
               const Spacer(),
               IconButton(
                   onPressed: () async {
-                    if(widget.choice.value.type != FileItemType.audio) return;
+                    if (widget.choice.value.type != FileItemType.audio) return;
                     if (RingtoneManager.lastPlayedRingtoneUri ==
                         widget.choice.value.uri) {
                       await RingtonePlayer.stop();

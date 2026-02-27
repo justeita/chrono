@@ -7,15 +7,15 @@ TimePickerThemeData timePickerTheme = TimePickerThemeData(
   dayPeriodShape: defaultShape,
   // dialBackgroundColor: Colors.grey.shade200,
   helpTextStyle: textTheme.displaySmall?.copyWith(
-      // color: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+      // color: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.8),
       ),
   hourMinuteTextStyle: textTheme.displayMedium,
   dayPeriodTextStyle: textTheme.displaySmall,
-  // hourMinuteTextColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
-  // dialTextColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
-  // dayPeriodTextColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+  // hourMinuteTextColor: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.8),
+  // dialTextColor: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.8),
+  // dayPeriodTextColor: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.8),
   shape: defaultShape,
   dayPeriodBorderSide: BorderSide.none,
 
-  // entryModeIconColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+  // entryModeIconColor: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.8),
 );

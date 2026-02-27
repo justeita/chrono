@@ -1,14 +1,22 @@
 import 'package:clock_app/common/logic/card_decoration.dart';
-import 'package:clock_app/settings/data/settings_schema.dart';
 import 'package:clock_app/theme/types/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/common/utils/color.dart';
 import 'package:material_color_utilities/hct/hct.dart';
 import 'package:material_color_utilities/palettes/tonal_palette.dart';
 
+// Cache TonalPalette to avoid recomputing on every card build
+int _lastTonalPaletteValue = 0;
+TonalPalette? _cachedTonalPalette;
+
 TonalPalette toTonalPalette(int value) {
+  if (_cachedTonalPalette != null && _lastTonalPaletteValue == value) {
+    return _cachedTonalPalette!;
+  }
   final color = Hct.fromInt(value);
-  return TonalPalette.of(color.hue, color.chroma);
+  _cachedTonalPalette = TonalPalette.of(color.hue, color.chroma);
+  _lastTonalPaletteValue = value;
+  return _cachedTonalPalette!;
 }
 
 Color getCardColor(BuildContext context, [Color? color]) {
@@ -16,12 +24,12 @@ Color getCardColor(BuildContext context, [Color? color]) {
   ColorScheme colorScheme = theme.colorScheme;
   ThemeSettingExtension themeStyle = theme.extension<ThemeSettingExtension>()!;
 
-  TonalPalette tonalPalette = toTonalPalette(colorScheme.surface.value);
+  TonalPalette tonalPalette = toTonalPalette(colorScheme.surface.toARGB32());
 
   return color ??
       (themeStyle.useMaterialYou
-          ? Color(tonalPalette
-              .get(Theme.of(context).brightness == Brightness.light ? 96 : 15))
+          ? Color(
+              tonalPalette.get(theme.brightness == Brightness.light ? 96 : 15))
           : colorScheme.surface);
 }
 
@@ -56,8 +64,6 @@ class CardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color cardColor = getCardColor(context, color);
-    ThemeData theme = Theme.of(context);
-    ColorScheme colorScheme = theme.colorScheme;
     return Container(
       // duration: const Duration(milliseconds: 100),
       alignment: alignment,
@@ -91,6 +97,6 @@ class CardContainer extends StatelessWidget {
 Color darken(Color c, [int percent = 10]) {
   assert(1 <= percent && percent <= 100);
   var f = 1 - percent / 100;
-  return Color.fromARGB(c.alpha, (c.red * f).round(), (c.green * f).round(),
-      (c.blue * f).round());
+  return Color.fromARGB((c.a * 255).round(), (c.r * 255 * f).round(),
+      (c.g * 255 * f).round(), (c.b * 255 * f).round());
 }

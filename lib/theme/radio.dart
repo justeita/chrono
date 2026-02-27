@@ -3,6 +3,6 @@ import 'package:flutter/material.dart';
 
 RadioThemeData getRadioTheme(ColorSchemeData colorScheme) {
   return RadioThemeData(
-    fillColor: MaterialStateProperty.all(colorScheme.accent),
+    fillColor: WidgetStateProperty.all(colorScheme.accent),
   );
 }

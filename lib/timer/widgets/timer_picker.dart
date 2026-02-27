@@ -11,7 +11,7 @@ import 'package:clock_app/timer/types/time_duration.dart';
 import 'package:clock_app/timer/types/timer.dart';
 import 'package:clock_app/timer/types/timer_preset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 Future<PickerResult<ClockTimer>?> showTimerPicker(
   BuildContext context, {
@@ -47,7 +47,7 @@ Future<PickerResult<ClockTimer>?> showTimerPicker(
               ),
               child: Builder(
                 builder: (context) {
-                  var width = MediaQuery.of(context).size.width;
+                  var width = MediaQuery.sizeOf(context).width;
 
                   DurationPickerType type = appSettings
                       .getGroup("General")
@@ -249,7 +249,7 @@ class PresetChip extends StatelessWidget {
           // elevationMultiplier: 0,
           color: isSelected
               ? colorScheme.primary
-              : colorScheme.onBackground.withOpacity(0.1),
+              : colorScheme.onSurface.withValues(alpha: 0.1),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -265,7 +265,7 @@ class PresetChip extends StatelessWidget {
                   style: textTheme.labelSmall?.copyWith(
                     color: isSelected
                         ? colorScheme.onPrimary
-                        : colorScheme.onBackground,
+                        : colorScheme.onSurface,
                   ),
                 )
               ],

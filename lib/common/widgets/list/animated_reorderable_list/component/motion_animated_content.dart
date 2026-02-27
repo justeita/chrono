@@ -9,14 +9,14 @@ class MotionAnimatedContent extends StatefulWidget {
   final bool isGrid;
 
   const MotionAnimatedContent({
-    Key? key,
+    super.key,
     required this.index,
     required this.motionData,
     required this.child,
     this.updateMotionData,
     required this.capturedThemes,
     required this.isGrid,
-  }) : super(key: key);
+  });
 
   @override
   State<MotionAnimatedContent> createState() => MotionAnimatedContentState();

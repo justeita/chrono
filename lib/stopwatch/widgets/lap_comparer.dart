@@ -28,7 +28,7 @@ class LapComparer extends StatelessWidget {
           value: _stopwatch.currentLapTime.inMilliseconds /
               (comparisonLap?.lapTime.inMilliseconds ?? double.infinity),
           backgroundColor:
-              Theme.of(context).colorScheme.onBackground.withOpacity(0.25),
+              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.25),
           color: color,
         ),
         Padding(

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:clock_app/common/types/list_controller.dart';
 import 'package:clock_app/common/utils/list_storage.dart';
-import 'package:clock_app/common/widgets/card_container.dart';
 import 'package:clock_app/common/widgets/list/custom_list_view.dart';
 import 'package:clock_app/common/widgets/fab.dart';
 import 'package:clock_app/notifications/data/notification_channel.dart';
@@ -16,7 +15,7 @@ import 'package:clock_app/stopwatch/types/stopwatch.dart';
 import 'package:clock_app/stopwatch/widgets/lap_card.dart';
 import 'package:clock_app/stopwatch/widgets/stopwatch_ticker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class StopwatchScreen extends StatefulWidget {
   const StopwatchScreen({super.key});
@@ -76,9 +75,8 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   @override
   void dispose() {
-    // updateNotificationInterval?.cancel();
-    // updateNotificationInterval = null;
-
+    ListenerManager.removeOnChangeListener('stopwatch', _handleStopwatchChange);
+    stopwatchNotificationInterval?.cancel();
     super.dispose();
   }
 

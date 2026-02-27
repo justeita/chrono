@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 String getTimeFormatString(BuildContext context, TimeFormat timeFormat,
     {bool showMeridiem = true, String separator = "default"}) {
   if (timeFormat == TimeFormat.device) {
-    if (MediaQuery.of(context).alwaysUse24HourFormat) {
+    if (MediaQuery.alwaysUse24HourFormatOf(context)) {
       timeFormat = TimeFormat.h24;
     } else {
       timeFormat = TimeFormat.h12;

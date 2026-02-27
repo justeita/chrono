@@ -1,7 +1,7 @@
+import 'package:clock_app/common/logic/clock_time_notifier.dart';
 import 'package:clock_app/common/widgets/clock/digital_clock_display.dart';
 import 'package:clock_app/navigation/types/alignment.dart';
 import 'package:flutter/material.dart';
-import 'package:timer_builder/timer_builder.dart';
 import 'package:timezone/timezone.dart' as timezone;
 
 enum ClockType {
@@ -9,7 +9,7 @@ enum ClockType {
   analog,
 }
 
-class DigitalClock extends StatelessWidget {
+class DigitalClock extends StatefulWidget {
   const DigitalClock({
     super.key,
     this.scale = 1,
@@ -28,23 +28,44 @@ class DigitalClock extends StatelessWidget {
   final timezone.Location? timezoneLocation;
 
   @override
+  State<DigitalClock> createState() => _DigitalClockState();
+}
+
+class _DigitalClockState extends State<DigitalClock> {
+  final ClockTimeNotifier _clockNotifier = ClockTimeNotifier.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _clockNotifier.startListening();
+  }
+
+  @override
+  void dispose() {
+    _clockNotifier.stopListening();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TimerBuilder.periodic(const Duration(seconds: 1),
-        builder: (context) {
-      DateTime dateTime;
-      if (timezoneLocation != null) {
-        dateTime = timezone.TZDateTime.now(timezoneLocation!);
-      } else {
-        dateTime = DateTime.now();
-      }
-      return DigitalClockDisplay(
-        scale: scale,
-        shouldShowDate: shouldShowDate,
-        color: color,
-        shouldShowSeconds: shouldShowSeconds,
-        dateTime: dateTime,
-        horizontalAlignment: horizontalAlignment,
-      );
-    });
+    return ValueListenableBuilder<DateTime>(
+      valueListenable: _clockNotifier,
+      builder: (context, now, _) {
+        DateTime dateTime;
+        if (widget.timezoneLocation != null) {
+          dateTime = timezone.TZDateTime.now(widget.timezoneLocation!);
+        } else {
+          dateTime = now;
+        }
+        return DigitalClockDisplay(
+          scale: widget.scale,
+          shouldShowDate: widget.shouldShowDate,
+          color: widget.color,
+          shouldShowSeconds: widget.shouldShowSeconds,
+          dateTime: dateTime,
+          horizontalAlignment: widget.horizontalAlignment,
+        );
+      },
+    );
   }
 }

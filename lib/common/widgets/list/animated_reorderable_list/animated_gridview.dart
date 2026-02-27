@@ -147,7 +147,7 @@ class AnimatedGridView<E extends Object> extends StatelessWidget {
   final bool Function(E a, E b)? isSameItem;
 
   const AnimatedGridView(
-      {Key? key,
+      {super.key,
       required this.items,
       required this.itemBuilder,
       required this.sliverGridDelegate,
@@ -169,8 +169,7 @@ class AnimatedGridView<E extends Object> extends StatelessWidget {
       this.insertItemBuilder,
       this.removeItemBuilder,
       this.shrinkWrap = false,
-      this.isSameItem})
-      : super(key: key);
+      this.isSameItem});
 
   @override
   Widget build(BuildContext context) {

@@ -54,7 +54,7 @@ class _ListSettingCardState extends State<ListSettingCard> {
               Icon(
                 Icons.chevron_right_rounded,
                 color:
-                    Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ],
           ),

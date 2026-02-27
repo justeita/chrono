@@ -34,21 +34,17 @@ class _TimerCardState extends State<TimerCard> {
   late ValueNotifier<double> valueNotifier;
   late ClockTimer _previousTimer;
 
-  late int remainingSeconds;
-
   Timer? periodicTimer;
 
   void updateTimer() {
-    setState(() {
-      periodicTimer?.cancel();
-      if (widget.timer.isRunning) {
-        periodicTimer =
-            Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-          valueNotifier.value = widget.timer.remainingSeconds.toDouble();
-        });
-      }
-      valueNotifier.value = widget.timer.remainingSeconds.toDouble();
-    });
+    periodicTimer?.cancel();
+    if (widget.timer.isRunning) {
+      periodicTimer =
+          Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+        valueNotifier.value = widget.timer.remainingSeconds.toDouble();
+      });
+    }
+    valueNotifier.value = widget.timer.remainingSeconds.toDouble();
   }
 
   @override
@@ -59,12 +55,6 @@ class _TimerCardState extends State<TimerCard> {
     //   showEditTip(context, () => mounted);
     // }
     valueNotifier = ValueNotifier(widget.timer.remainingSeconds.toDouble());
-    remainingSeconds = widget.timer.remainingSeconds;
-    valueNotifier.addListener(() {
-      setState(() {
-        remainingSeconds = valueNotifier.value.toInt();
-      });
-    });
     updateTimer();
     _previousTimer = ClockTimer.from(widget.timer);
   }
@@ -72,6 +62,7 @@ class _TimerCardState extends State<TimerCard> {
   @override
   void dispose() {
     periodicTimer?.cancel();
+    valueNotifier.dispose();
     super.dispose();
   }
 
@@ -108,7 +99,7 @@ class _TimerCardState extends State<TimerCard> {
                         )
                       : Icon(
                           Icons.play_arrow_rounded,
-                          color: colorScheme.onSurface.withOpacity(0.6),
+                          color: colorScheme.onSurface.withValues(alpha: 0.6),
                           size: 32,
                         ),
                 )),
@@ -121,17 +112,23 @@ class _TimerCardState extends State<TimerCard> {
                   Text(
                     widget.timer.label,
                     style: textTheme.displaySmall?.copyWith(
-                      color: colorScheme.onBackground.withOpacity(0.6),
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,
                   ),
-                  Text(
-                    TimeDuration.fromSeconds(remainingSeconds).toTimeString(),
-                    style: textTheme.displayMedium?.copyWith(
-                      fontSize: remainingSeconds > 3600 ? 28 : 40,
-                    ),
+                  ValueListenableBuilder<double>(
+                    valueListenable: valueNotifier,
+                    builder: (context, value, _) {
+                      final secs = value.toInt();
+                      return Text(
+                        TimeDuration.fromSeconds(secs).toTimeString(),
+                        style: textTheme.displayMedium?.copyWith(
+                          fontSize: secs > 3600 ? 28 : 40,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

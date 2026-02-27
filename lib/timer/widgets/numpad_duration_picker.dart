@@ -1,7 +1,6 @@
-import 'package:clock_app/theme/text.dart';
+// import 'package:clock_app/theme/text.dart';
 import 'package:clock_app/timer/types/time_duration.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class NumpadDurationPicker extends StatefulWidget {
   const NumpadDurationPicker(
@@ -70,7 +69,7 @@ class _NumpadDurationPickerState extends State<NumpadDurationPicker> {
     final labelUnitStyle =
         textTheme.headlineMedium?.copyWith(color: colorScheme.onSurface);
 
-    double originalWidth = MediaQuery.of(context).size.width;
+    double originalWidth = MediaQuery.sizeOf(context).width;
 
     final hours = widget.duration.hours.toString().padLeft(2, "0");
     final minutes = widget.duration.minutes.toString().padLeft(2, "0");
@@ -112,7 +111,7 @@ class _NumpadDurationPickerState extends State<NumpadDurationPicker> {
                 );
               } else if (index == 9) {
                 return TimerButton(
-                isHighlighted: true,
+                    isHighlighted: true,
                     label: "00",
                     onTap: () {
                       _addDigit("0", 2);
@@ -124,8 +123,8 @@ class _NumpadDurationPickerState extends State<NumpadDurationPicker> {
                 );
               } else {
                 return TimerButton(
-                isHighlighted: true,
-                icon: Icons.backspace_outlined,
+                  isHighlighted: true,
+                  icon: Icons.backspace_outlined,
                   onTap: _removeDigit,
                 );
               }
@@ -144,7 +143,11 @@ class TimerButton extends StatelessWidget {
   final bool isHighlighted;
 
   const TimerButton(
-      {super.key, this.label, required this.onTap, this.icon, this.isHighlighted = false});
+      {super.key,
+      this.label,
+      required this.onTap,
+      this.icon,
+      this.isHighlighted = false});
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +159,9 @@ class TimerButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(100),
       child: Container(
         decoration: BoxDecoration(
-          color: isHighlighted ? colorScheme.primary.withOpacity(0.2) : colorScheme.onBackground.withOpacity(0.1),
+          color: isHighlighted
+              ? colorScheme.primary.withValues(alpha: 0.2)
+              : colorScheme.onSurface.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Center(

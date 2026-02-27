@@ -135,7 +135,7 @@ abstract class MotionListBaseState<
 
   @nonVirtual
   @protected
-  bool get useDefaultDragListeners => widget.useDefaultDragListeners ?? true;
+  bool get useDefaultDragListeners => widget.useDefaultDragListeners;
 
   @nonVirtual
   @protected

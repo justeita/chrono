@@ -3,7 +3,7 @@ import 'package:clock_app/common/types/list_filter.dart';
 import 'package:clock_app/common/types/tag.dart';
 import 'package:clock_app/common/utils/date_time.dart';
 import 'package:clock_app/common/utils/list_storage.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 final List<ListFilterItem<Alarm>> alarmListFilters = [
   ListFilterSelect(

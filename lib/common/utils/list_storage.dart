@@ -14,25 +14,27 @@ import 'package:watcher/watcher.dart';
 final queue = Queue();
 final watcherSubscriptions = <String, StreamSubscription>{};
 
+// Cache for file paths to avoid repeated string concatenation
+final _pathCache = <String, String>{};
+
+String _getCachedPath(String key) {
+  return _pathCache.putIfAbsent(
+    key,
+    () => path.join(getAppDataDirectoryPathSync(), '$key.txt'),
+  );
+}
+
 void watchTextFile(String key, void Function(WatchEvent) callback) {
-  String appDataDirectory = getAppDataDirectoryPathSync();
-  // File file = File(path.join(appDataDirectory, '$key.txt'));
-  // file.watch().listen((event) {
-  //   if (event == FileSystemEvent.MODIFY) {
-  //     callback(file.readAsStringSync());
-  //   }
-  // });
-  var watcher = FileWatcher(path.join(appDataDirectory, '$key.txt'));
-  StreamSubscription subscription = watcher.events.listen(callback);
-  watcher.events.listen(callback);
-  if (watcherSubscriptions[key] != null) {
-    watcherSubscriptions[key]?.cancel();
-  }
-  watcherSubscriptions[key] = subscription;
+  // Cancel existing subscription before creating new one
+  watcherSubscriptions[key]?.cancel();
+
+  var watcher = FileWatcher(_getCachedPath(key));
+  watcherSubscriptions[key] = watcher.events.listen(callback);
 }
 
 void unwatchTextFile(String key) {
   watcherSubscriptions[key]?.cancel();
+  watcherSubscriptions.remove(key);
 }
 
 void watchList<T extends JsonSerializable>(
@@ -81,12 +83,12 @@ Future<void> initTextFile(String key, String value) async {
 
 Future<void> saveTextFile(String key, String content) async {
   await queue.add(() async {
-    String appDataDirectory = getAppDataDirectoryPathSync();
-    File file = File(path.join(appDataDirectory, '$key.txt'));
+    final filePath = _getCachedPath(key);
+    File file = File(filePath);
     if (!file.existsSync()) {
-      file.createSync();
+      file.createSync(recursive: true);
     }
-    await file.writeAsString(content, mode: FileMode.writeOnly);
+    await file.writeAsString(content, mode: FileMode.writeOnly, flush: true);
   });
 }
 
@@ -108,7 +110,7 @@ Future<String> saveRingtone(String id, Uint8List data) async {
 }
 
 String loadTextFileSync<T extends JsonSerializable>(String key) {
-  File file = File(path.join(getAppDataDirectoryPathSync(), '$key.txt'));
+  File file = File(_getCachedPath(key));
   try {
     return file.readAsStringSync();
   } catch (error) {
@@ -117,15 +119,13 @@ String loadTextFileSync<T extends JsonSerializable>(String key) {
 }
 
 bool textFileExistsSync(String key) {
-  File file = File(path.join(getAppDataDirectoryPathSync(), '$key.txt'));
+  File file = File(_getCachedPath(key));
   return file.existsSync();
 }
 
 Future<String> loadTextFile(String key) async {
   final String content = await queue.add(() async {
-    String appDataDirectory = getAppDataDirectoryPathSync();
-    File file = File(path.join(appDataDirectory, '$key.txt'));
-
+    File file = File(_getCachedPath(key));
     if (file.existsSync()) {
       return file.readAsString();
     } else {

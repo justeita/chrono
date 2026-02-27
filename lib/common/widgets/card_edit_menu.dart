@@ -61,7 +61,7 @@ class CardEditMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     ColorScheme colorScheme = theme.colorScheme;
-    Color itemColor = color ?? colorScheme.onBackground;
+    Color itemColor = color ?? colorScheme.onSurface;
     return Row(children: [
       Icon(icon, color: itemColor),
       const SizedBox(width: 8),

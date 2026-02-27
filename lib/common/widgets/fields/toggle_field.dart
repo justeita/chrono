@@ -39,7 +39,7 @@ class _ToggleFieldState<T> extends State<ToggleField<T>> {
     ColorScheme colorScheme = theme.colorScheme;
 
     double parentWidth =
-        MediaQuery.of(context).size.width - widget.options.length - 1;
+        MediaQuery.sizeOf(context).width - widget.options.length - 1;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
@@ -55,7 +55,7 @@ class _ToggleFieldState<T> extends State<ToggleField<T>> {
           ],
           ToggleButtons(
             // c
-            color: colorScheme.onBackground,
+            color: colorScheme.onSurface,
             fillColor: colorScheme.primary,
             selectedColor: colorScheme.onPrimary,
             // renderBorder: false,

@@ -11,7 +11,7 @@ import 'package:clock_app/common/widgets/clock/digital_clock_display.dart';
 import 'package:clock_app/settings/data/settings_schema.dart';
 import 'package:clock_app/settings/types/setting.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class AlarmCard extends StatefulWidget {
   const AlarmCard({
@@ -152,8 +152,8 @@ class _AlarmCardState extends State<AlarmCard> {
                       widget.alarm.label,
                       style: textTheme.bodyLarge?.copyWith(
                         color: widget.alarm.isEnabled
-                            ? colorScheme.onBackground.withOpacity(0.8)
-                            : colorScheme.onBackground.withOpacity(0.6),
+                            ? colorScheme.onSurface.withValues(alpha: 0.8)
+                            : colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -166,7 +166,7 @@ class _AlarmCardState extends State<AlarmCard> {
                           scale: 0.6,
                           color: widget.alarm.isEnabled
                               ? null
-                              : colorScheme.onBackground.withOpacity(0.6)),
+                              : colorScheme.onSurface.withValues(alpha: 0.6)),
                     ],
                   ),
                   Row(
@@ -175,7 +175,7 @@ class _AlarmCardState extends State<AlarmCard> {
                         timeOfDayIcon.icon,
                         color: widget.alarm.isEnabled
                             ? timeOfDayIcon.color
-                            : colorScheme.onBackground.withOpacity(0.6),
+                            : colorScheme.onSurface.withValues(alpha: 0.6),
                         size: 24,
                       ),
                       const SizedBox(width: 8),
@@ -186,8 +186,8 @@ class _AlarmCardState extends State<AlarmCard> {
                           maxLines: 2,
                           style: textTheme.bodyMedium?.copyWith(
                             color: widget.alarm.isEnabled
-                                ? colorScheme.onBackground.withOpacity(0.8)
-                                : colorScheme.onBackground.withOpacity(0.6),
+                                ? colorScheme.onSurface.withValues(alpha: 0.8)
+                                : colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ),

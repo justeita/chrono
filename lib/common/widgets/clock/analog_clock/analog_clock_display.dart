@@ -1,6 +1,6 @@
 library analog_clock;
 
-import 'dart:async';
+// import 'dart:async';
 import 'package:clock_app/common/types/clock_settings_types.dart';
 import 'package:flutter/material.dart';
 import 'analog_clock_painter.dart';

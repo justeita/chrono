@@ -8,6 +8,7 @@ import 'package:clock_app/common/widgets/card_container.dart';
 import 'package:clock_app/icons/flux_icons.dart';
 import 'package:clock_app/navigation/data/tabs.dart';
 import 'package:clock_app/navigation/types/quick_action_controller.dart';
+import 'package:clock_app/navigation/types/tab.dart' as app_tab;
 import 'package:clock_app/navigation/widgets/app_navigation_bar.dart';
 import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:clock_app/settings/data/general_settings_schema.dart';
@@ -32,13 +33,9 @@ void startCallback() {
 }
 
 class FirstTaskHandler extends TaskHandler {
-  SendPort? _sendPort;
-
   // Called when the task is started.
   @override
-  void onStart(DateTime timestamp, SendPort? sendPort) async {
-    _sendPort = sendPort;
-  }
+  void onStart(DateTime timestamp, SendPort? sendPort) async {}
 
   @override
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {}
@@ -71,6 +68,9 @@ class _NavScaffoldState extends State<NavScaffold> {
   late StreamSubscription _sub;
   late PageController _controller;
   QuickActionController quickActionController = QuickActionController();
+  // Cache tab data to avoid recreating on every rebuild
+  late List<app_tab.Tab> _tabs;
+  late List<Widget> _tabWidgets;
 
   void _onTabSelected(int index, [String? tabInitAction]) {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -99,6 +99,7 @@ class _NavScaffoldState extends State<NavScaffold> {
 
   _showNextScheduleSnackBar(Alarm alarm) {
     Future.delayed(Duration.zero).then((value) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       DateTime? nextScheduleDateTime = alarm.currentScheduleDateTime;
       if (nextScheduleDateTime == null) return;
@@ -123,6 +124,7 @@ class _NavScaffoldState extends State<NavScaffold> {
 
     _sub = intent_handler.ReceiveIntent.receivedIntentStream.listen(
         (intent_handler.Intent? receivedIntent) {
+      if (!mounted) return;
       if (receivedIntent != null) {
         handleIntent(
             receivedIntent, context, _showNextScheduleSnackBar, _onTabSelected);
@@ -173,6 +175,13 @@ class _NavScaffoldState extends State<NavScaffold> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _tabs = getTabs(context, quickActionController);
+    _tabWidgets = _tabs.map((tab) => tab.widget).toList();
+  }
+
+  @override
   void dispose() {
     swipeActionSetting.removeListener(update);
     showForegroundSetting.removeListener(_updateForegroundNotification);
@@ -183,19 +192,19 @@ class _NavScaffoldState extends State<NavScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
-    final tabs = getTabs(context, quickActionController);
+    Orientation orientation = MediaQuery.orientationOf(context);
+    final tabs = _tabs;
     ThemeData theme = Theme.of(context);
     TextTheme textTheme = theme.textTheme;
     ThemeSettingExtension themeSettings =
         theme.extension<ThemeSettingExtension>()!;
     ColorScheme colorScheme = theme.colorScheme;
 
-    TonalPalette tonalPalette = toTonalPalette(colorScheme.surface.value);
+    TonalPalette tonalPalette = toTonalPalette(colorScheme.surface.toARGB32());
 
     Color materialNavColor = themeSettings.useMaterialYou
-        ? Color(tonalPalette
-            .get(Theme.of(context).brightness == Brightness.light ? 96 : 15))
+        ? Color(
+            tonalPalette.get(theme.brightness == Brightness.light ? 96 : 15))
         : colorScheme.surface;
 
     return WithForegroundTask(
@@ -205,7 +214,7 @@ class _NavScaffoldState extends State<NavScaffold> {
                 titleWidget: Text(
                   tabs[_selectedTabIndex].title,
                   style: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onBackground.withOpacity(0.6),
+                    color: colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                 ),
                 systemNavBarColor:
@@ -222,7 +231,7 @@ class _NavScaffoldState extends State<NavScaffold> {
                     },
                     icon: const Icon(FluxIcons.settings,
                         semanticLabel: "Settings"),
-                    color: colorScheme.onBackground.withOpacity(0.8),
+                    color: colorScheme.onSurface.withValues(alpha: 0.8),
                   ),
                 ],
               )
@@ -263,7 +272,7 @@ class _NavScaffoldState extends State<NavScaffold> {
                   ],
                   leading: Text(tabs[_selectedTabIndex].title,
                       style: textTheme.headlineSmall?.copyWith(
-                        color: colorScheme.onBackground.withOpacity(0.6),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
                       )),
                   trailing: IconButton(
                     onPressed: () {
@@ -276,7 +285,7 @@ class _NavScaffoldState extends State<NavScaffold> {
                     },
                     icon: const Icon(FluxIcons.settings,
                         semanticLabel: "Settings"),
-                    color: colorScheme.onBackground.withOpacity(0.8),
+                    color: colorScheme.onSurface.withValues(alpha: 0.8),
                   ),
                   selectedIndex: _selectedTabIndex,
                   onDestinationSelected: _onTabSelected,
@@ -288,7 +297,7 @@ class _NavScaffoldState extends State<NavScaffold> {
                     physics: swipeActionSetting.value == SwipeAction.cardActions
                         ? const NeverScrollableScrollPhysics()
                         : null,
-                    children: tabs.map((tab) => tab.widget).toList()),
+                    children: _tabWidgets),
               ),
             ],
           ),

@@ -3,7 +3,7 @@ import 'package:clock_app/common/widgets/fields/select_field/option_cards/text_o
 import 'package:clock_app/common/widgets/fields/select_field/select_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 const title = 'Test';
 final choices = [
@@ -101,11 +101,17 @@ void main() {
                 matching: find.byType(SelectTextOptionCard));
             expect(valueFinder, findsNWidgets(choices.length));
             for (var i = 0; i < choices.length; i++) {
+              final radioGroupFinder = find.descendant(
+                  of: valueFinder.at(i),
+                  matching: find.byType(RadioGroup<int>));
+              expect(radioGroupFinder, findsOneWidget);
+              final radioGroup =
+                  tester.widget<RadioGroup<int>>(radioGroupFinder);
+              expect(radioGroup.groupValue, 1);
               final radioFinder = find.descendant(
                   of: valueFinder.at(i), matching: find.byType(Radio<int>));
               expect(radioFinder, findsOneWidget);
-              final radio = tester.widget<Radio>(radioFinder);
-              expect(radio.groupValue, 1);
+              final radio = tester.widget<Radio<int>>(radioFinder);
               expect(radio.value, i);
             }
           });

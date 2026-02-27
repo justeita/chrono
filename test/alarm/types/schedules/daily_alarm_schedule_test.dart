@@ -1,5 +1,4 @@
 import 'package:clock_app/alarm/types/schedules/daily_alarm_schedule.dart';
-import 'package:clock_app/common/types/json.dart';
 import 'package:clock_app/common/types/time.dart';
 import 'package:clock_app/common/utils/date_time.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -100,7 +99,7 @@ void main() {
 
     test('fromJson() creates DailyAlarmSchedule with correct values', () async {
       final scheduleDate = DateTime.now().add(const Duration(minutes: 1));
-      final Json json = {
+      final Map<String, dynamic> json = {
         'alarmRunner': {
           'id': 50,
           'currentScheduleDateTime': scheduleDate.millisecondsSinceEpoch,

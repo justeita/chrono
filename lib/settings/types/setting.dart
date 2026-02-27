@@ -355,7 +355,7 @@ class ColorSetting extends Setting<Color> {
 
   @override
   dynamic valueToJson() {
-    return _value.value;
+    return _value.toARGB32();
   }
 
   @override
@@ -760,9 +760,8 @@ class DynamicMultiSelectSetting<T extends ListItem> extends Setting<List<int>> {
 class DynamicToggleSetting<T extends ListItem>
     extends DynamicMultiSelectSetting<T> {
   List<bool> get selectedIndicesBool {
-    final _selectedIndices = selectedIndices;
-    return List.generate(
-        options.length, (index) => _selectedIndices.contains(index));
+    final indices = selectedIndices;
+    return List.generate(options.length, (index) => indices.contains(index));
   }
 
   List<T> get selected => value;
@@ -781,8 +780,8 @@ class DynamicToggleSetting<T extends ListItem>
     super.searchTags,
   }) {
     if (defaultValue.contains(-1) || defaultValue.isEmpty) {
-      final _options = optionsGetter();
-      _value = [_options[0].value.id];
+      final options = optionsGetter();
+      _value = [options[0].value.id];
     }
   }
 

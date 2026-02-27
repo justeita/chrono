@@ -34,7 +34,7 @@ class _SequenceTaskState extends State<SequenceTask>
   late final List<Animation> _colorTweenList = List.generate(
       _itemCount,
       (index) => ColorTween(
-              begin: theme.colorScheme.background,
+              begin: theme.colorScheme.surface,
               end: theme.colorScheme.primary)
           .animate(_animationControllerList[index]));
   late final List<int> _sequence = _generateSequence(_sequenceLength);
@@ -169,8 +169,8 @@ class _SequenceTaskState extends State<SequenceTask>
                                     (index + 1).toString(),
                                     style: textTheme.headlineMedium?.copyWith(
                                         color: _colorTweenList[index].value ==
-                                                colorScheme.background
-                                            ? colorScheme.onBackground
+                                                colorScheme.surface
+                                            ? colorScheme.onSurface
                                             : colorScheme.onPrimary),
                                   ),
                                 ),

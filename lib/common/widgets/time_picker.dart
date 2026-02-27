@@ -18,7 +18,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 // Examples can assume:
 // late BuildContext context;
@@ -265,7 +265,6 @@ class _TimePickerHeader extends StatelessWidget {
 
 class _TitleBar extends StatelessWidget {
   const _TitleBar({
-    super.key,
     required this.helpText,
     required this.onPickerModeChanged,
     // required this.entryMode,
@@ -368,28 +367,28 @@ class _HourMinuteControl extends StatelessWidget {
     final TimePickerThemeData timePickerTheme = TimePickerTheme.of(context);
     final bool isDark = themeData.colorScheme.brightness == Brightness.dark;
     final Color textColor = timePickerTheme.hourMinuteTextColor ??
-        MaterialStateColor.resolveWith((Set<MaterialState> states) {
-          return states.contains(MaterialState.selected)
+        WidgetStateColor.resolveWith((Set<WidgetState> states) {
+          return states.contains(WidgetState.selected)
               ? themeData.colorScheme.primary
               : themeData.colorScheme.onSurface;
         });
     final Color backgroundColor = timePickerTheme.hourMinuteColor ??
-        MaterialStateColor.resolveWith((Set<MaterialState> states) {
-          return states.contains(MaterialState.selected)
-              ? themeData.colorScheme.primary.withOpacity(isDark ? 0.24 : 0.12)
-              : themeData.colorScheme.onSurface.withOpacity(0.12);
+        WidgetStateColor.resolveWith((Set<WidgetState> states) {
+          return states.contains(WidgetState.selected)
+              ? themeData.colorScheme.primary
+                  .withValues(alpha: isDark ? 0.24 : 0.12)
+              : themeData.colorScheme.onSurface.withValues(alpha: 0.12);
         });
     final TextStyle style = timePickerTheme.hourMinuteTextStyle ??
         themeData.textTheme.displayMedium!;
     final ShapeBorder shape = timePickerTheme.hourMinuteShape ?? _kDefaultShape;
 
-    final Set<MaterialState> states = isSelected
-        ? <MaterialState>{MaterialState.selected}
-        : <MaterialState>{};
+    final Set<WidgetState> states =
+        isSelected ? <WidgetState>{WidgetState.selected} : <WidgetState>{};
     return SizedBox(
       height: _kTimePickerHeaderControlHeight,
       child: Material(
-        color: MaterialStateProperty.resolveAs(backgroundColor, states),
+        color: WidgetStateProperty.resolveAs(backgroundColor, states),
         clipBehavior: Clip.antiAlias,
         shape: shape,
         child: InkWell(
@@ -399,8 +398,8 @@ class _HourMinuteControl extends StatelessWidget {
             child: Text(
               text,
               style: style.copyWith(
-                  color: MaterialStateProperty.resolveAs(textColor, states)),
-              textScaleFactor: 1.0,
+                  color: WidgetStateProperty.resolveAs(textColor, states)),
+              textScaler: TextScaler.noScaling,
             ),
           ),
         ),
@@ -518,9 +517,9 @@ class _StringFragment extends StatelessWidget {
           child: Text(
             _stringFragmentValue(timeOfDayFormat),
             style: hourMinuteStyle.apply(
-                color: MaterialStateProperty.resolveAs(
-                    textColor, <MaterialState>{})),
-            textScaleFactor: 1.0,
+                color:
+                    WidgetStateProperty.resolveAs(textColor, <WidgetState>{})),
+            textScaler: TextScaler.noScaling,
           ),
         ),
       ),
@@ -646,54 +645,52 @@ class _DayPeriodControl extends StatelessWidget {
     final TimePickerThemeData timePickerTheme = TimePickerTheme.of(context);
     final bool isDark = colorScheme.brightness == Brightness.dark;
     final Color textColor =
-        MaterialStateColor.resolveWith((Set<MaterialState> states) {
-      return states.contains(MaterialState.selected)
-          ? Theme.of(context).colorScheme.onBackground.withOpacity(0.8)
-          : Theme.of(context).colorScheme.onBackground.withOpacity(0.6);
+        WidgetStateColor.resolveWith((Set<WidgetState> states) {
+      return states.contains(WidgetState.selected)
+          ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8)
+          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6);
     });
     final Color backgroundColor = timePickerTheme.dayPeriodColor ??
-        MaterialStateColor.resolveWith((Set<MaterialState> states) {
+        WidgetStateColor.resolveWith((Set<WidgetState> states) {
           // The unselected day period should match the overall picker dialog
           // color. Making it transparent enables that without being redundant
           // and allows the optional elevation overlay for dark mode to be
           // visible.
-          return states.contains(MaterialState.selected)
-              ? colorScheme.primary.withOpacity(isDark ? 0.24 : 0.12)
-              : Theme.of(context).colorScheme.onSurface.withOpacity(0.12);
+          return states.contains(WidgetState.selected)
+              ? colorScheme.primary.withValues(alpha: isDark ? 0.24 : 0.12)
+              : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12);
         });
     final bool amSelected = selectedTime.period == DayPeriod.am;
-    final Set<MaterialState> amStates = amSelected
-        ? <MaterialState>{MaterialState.selected}
-        : <MaterialState>{};
+    final Set<WidgetState> amStates =
+        amSelected ? <WidgetState>{WidgetState.selected} : <WidgetState>{};
     final bool pmSelected = !amSelected;
-    final Set<MaterialState> pmStates = pmSelected
-        ? <MaterialState>{MaterialState.selected}
-        : <MaterialState>{};
+    final Set<WidgetState> pmStates =
+        pmSelected ? <WidgetState>{WidgetState.selected} : <WidgetState>{};
     final TextStyle textStyle = timePickerTheme.dayPeriodTextStyle ??
         Theme.of(context).textTheme.titleMedium!;
     final TextStyle amStyle = textStyle.copyWith(
-      color: MaterialStateProperty.resolveAs(textColor, amStates),
+      color: WidgetStateProperty.resolveAs(textColor, amStates),
     );
     final TextStyle pmStyle = textStyle.copyWith(
-      color: MaterialStateProperty.resolveAs(textColor, pmStates),
+      color: WidgetStateProperty.resolveAs(textColor, pmStates),
     );
     OutlinedBorder shape = timePickerTheme.dayPeriodShape ??
         const RoundedRectangleBorder(borderRadius: defaultBorderRadius);
     final BorderSide borderSide = timePickerTheme.dayPeriodBorderSide ??
         BorderSide(
-          color: Color.alphaBlend(
-              colorScheme.onBackground.withOpacity(0.38), colorScheme.surface),
+          color: Color.alphaBlend(colorScheme.onSurface.withValues(alpha: 0.38),
+              colorScheme.surface),
         );
     // Apply the custom borderSide.
     shape = shape.copyWith(
       side: borderSide,
     );
 
-    final double buttonTextScaleFactor =
-        math.min(MediaQuery.of(context).textScaleFactor, 2.0);
+    final TextScaler buttonTextScaler = TextScaler.linear(
+        math.min(MediaQuery.of(context).textScaler.scale(1), 2.0));
 
     final Widget amButton = Material(
-      color: MaterialStateProperty.resolveAs(backgroundColor, amStates),
+      color: WidgetStateProperty.resolveAs(backgroundColor, amStates),
       child: InkWell(
         onTap: Feedback.wrapForTap(() => _setAm(context), context),
         child: Semantics(
@@ -704,7 +701,7 @@ class _DayPeriodControl extends StatelessWidget {
             child: Text(
               materialLocalizations.anteMeridiemAbbreviation,
               style: amStyle,
-              textScaleFactor: buttonTextScaleFactor,
+              textScaler: buttonTextScaler,
             ),
           ),
         ),
@@ -712,7 +709,7 @@ class _DayPeriodControl extends StatelessWidget {
     );
 
     final Widget pmButton = Material(
-      color: MaterialStateProperty.resolveAs(backgroundColor, pmStates),
+      color: WidgetStateProperty.resolveAs(backgroundColor, pmStates),
       child: InkWell(
         onTap: Feedback.wrapForTap(() => _setPm(context), context),
         child: Semantics(
@@ -723,7 +720,7 @@ class _DayPeriodControl extends StatelessWidget {
             child: Text(
               materialLocalizations.postMeridiemAbbreviation,
               style: pmStyle,
-              textScaleFactor: buttonTextScaleFactor,
+              textScaler: buttonTextScaler,
             ),
           ),
         ),
@@ -1240,11 +1237,11 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
     _thetaTween = Tween<double>(begin: _getThetaForTime(widget.selectedTime));
     _radiusTween = Tween<double>(begin: _getRadiusForTime(widget.selectedTime));
     _theta = _animationController
-        .drive(CurveTween(curve: standardEasing))
+        .drive(CurveTween(curve: Easing.legacy))
         .drive(_thetaTween)
       ..addListener(() => setState(() {/* _theta.value has changed */}));
     _radius = _animationController
-        .drive(CurveTween(curve: standardEasing))
+        .drive(CurveTween(curve: Easing.legacy))
         .drive(_radiusTween)
       ..addListener(() => setState(() {/* _radius.value has changed */}));
   }
@@ -1716,18 +1713,17 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
     final TimePickerThemeData timePickerTheme = TimePickerTheme.of(context);
     final _TimePickerDefaults defaultTheme = _TimePickerDefaultsM3(context);
     final Color backgroundColor = timePickerTheme.dialBackgroundColor ??
-        themeData.colorScheme.onSurface.withOpacity(0.12);
+        themeData.colorScheme.onSurface.withValues(alpha: 0.12);
     final Color dialHandColor =
         timePickerTheme.dialHandColor ?? defaultTheme.dialHandColor;
     final TextStyle labelStyle =
         timePickerTheme.dialTextStyle ?? defaultTheme.dialTextStyle;
-    final Color dialTextUnselectedColor =
-        MaterialStateProperty.resolveAs<Color>(
-            timePickerTheme.dialTextColor ?? defaultTheme.dialTextColor,
-            <MaterialState>{});
-    final Color dialTextSelectedColor = MaterialStateProperty.resolveAs<Color>(
+    final Color dialTextUnselectedColor = WidgetStateProperty.resolveAs<Color>(
         timePickerTheme.dialTextColor ?? defaultTheme.dialTextColor,
-        <MaterialState>{MaterialState.selected});
+        <WidgetState>{});
+    final Color dialTextSelectedColor = WidgetStateProperty.resolveAs<Color>(
+        timePickerTheme.dialTextColor ?? defaultTheme.dialTextColor,
+        <WidgetState>{WidgetState.selected});
     final TextStyle resolvedUnselectedLabelStyle =
         labelStyle.copyWith(color: dialTextUnselectedColor);
     final TextStyle resolvedSelectedLabelStyle =
@@ -2279,27 +2275,28 @@ class _HourMinuteTextFieldState extends State<_HourMinuteTextField>
         const InputDecoration().applyDefaults(theme.inputDecorationTheme);
 
     // final Color unfocusedFillColor = timePickerTheme.hourMinuteColor ??
-    //     colorScheme.onSurface.withOpacity(0.12);
+    //     colorScheme.onSurface.withValues(alpha: 0.12);
     // If screen reader is in use, make the hint text say hours/minutes.
     // Otherwise, remove the hint text when focused because the centered cursor
     // appears odd above the hint text.
     //
     // resolved, remove the window check for semantics being enabled on web.
     final String? hintText = MediaQuery.of(context).accessibleNavigation ||
-            WidgetsBinding.instance.window.semanticsEnabled
+            View.of(context).platformDispatcher.semanticsEnabled
         ? widget.semanticHintText
         : (focusNode.hasFocus ? null : _formattedValue);
     inputDecoration = inputDecoration.copyWith(
       hintText: hintText,
       fillColor: focusNode.hasFocus
           ? Colors.transparent
-          : Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
+          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
     );
 
     return SizedBox(
       height: _kTimePickerHeaderControlHeight,
       child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        data: MediaQuery.of(context)
+            .copyWith(textScaler: const TextScaler.linear(1.0)),
         child: UnmanagedRestorationScope(
           bucket: bucket,
           child: TextFormField(
@@ -2411,34 +2408,6 @@ class TimePickerDialog extends StatefulWidget {
 
   @override
   State<TimePickerDialog> createState() => _TimePickerDialogState();
-}
-
-// A restorable [TimePickerEntryMode] value.
-//
-// This serializes each entry as a unique `int` value.
-class _RestorableTimePickerEntryMode
-    extends RestorableValue<TimePickerEntryMode> {
-  _RestorableTimePickerEntryMode(
-    TimePickerEntryMode defaultValue,
-  ) : _defaultValue = defaultValue;
-
-  final TimePickerEntryMode _defaultValue;
-
-  @override
-  TimePickerEntryMode createDefaultValue() => _defaultValue;
-
-  @override
-  void didUpdateValue(TimePickerEntryMode? oldValue) {
-    assert(debugIsSerializableForRestoration(value.index));
-    notifyListeners();
-  }
-
-  @override
-  TimePickerEntryMode fromPrimitives(Object? data) =>
-      TimePickerEntryMode.values[data! as int];
-
-  @override
-  Object? toPrimitives() => value.index;
 }
 
 // A restorable [_RestorableTimePickerEntryMode] value.
@@ -2716,7 +2685,7 @@ class _TimePickerDialogState extends State<TimePickerDialog>
     // parts of the time picker scale up with textScaleFactor, we cap the factor
     // to 1.1 as that provides enough space to reasonably fit all the content.
     final double textScaleFactor =
-        math.min(MediaQuery.of(context).textScaleFactor, 1.2);
+        math.min(MediaQuery.of(context).textScaler.scale(1), 1.2);
 
     final double timePickerWidth;
     final double timePickerHeight;
@@ -2752,8 +2721,6 @@ class _TimePickerDialogState extends State<TimePickerDialog>
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
     final MediaQueryData media = MediaQuery.of(context);
-    final TimeOfDayFormat timeOfDayFormat = localizations.timeOfDayFormat(
-        alwaysUse24HourFormat: media.alwaysUse24HourFormat);
     // final bool use24HourDials = hourFormat(of: timeOfDayFormat) != HourFormat.h;
     final ThemeData theme = Theme.of(context);
     final ShapeBorder shape =
@@ -2778,8 +2745,8 @@ class _TimePickerDialogState extends State<TimePickerDialog>
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: Theme.of(context)
                     .colorScheme
-                    .onBackground
-                    .withOpacity(0.6)),
+                    .onSurface
+                    .withValues(alpha: 0.6)),
           ),
         ),
         Expanded(
@@ -2817,7 +2784,6 @@ class _TimePickerDialogState extends State<TimePickerDialog>
 
     final Size dialogSize = _dialogSize(context, type);
     final Widget picker;
-    TextTheme textTheme = theme.textTheme;
     ColorScheme colorScheme = theme.colorScheme;
 
     TimeFormat timeFormat = appSettings.getSetting("Time Format").value;
@@ -2848,7 +2814,7 @@ class _TimePickerDialogState extends State<TimePickerDialog>
                     child: CupertinoTheme(
                       data: CupertinoThemeData(
                         brightness:
-                            colorScheme.background.computeLuminance() > 0.179
+                            colorScheme.surface.computeLuminance() > 0.179
                                 ? Brightness.light
                                 : Brightness.dark,
                       ),
@@ -3112,7 +3078,8 @@ Future<PickerResult<TimeOfDay>?> showTimePickerDialog({
 }
 
 void _announceToAccessibility(BuildContext context, String message) {
-  SemanticsService.announce(message, Directionality.of(context));
+  SemanticsService.sendAnnouncement(
+      View.of(context), message, Directionality.of(context));
 }
 
 class DialogAction {
@@ -3199,7 +3166,7 @@ abstract class _TimePickerDefaults extends TimePickerThemeData {
   TextStyle get hourMinuteTextStyle;
 
   @override
-  InputDecorationTheme get inputDecorationTheme;
+  InputDecorationThemeData? get inputDecorationTheme;
 
   @override
   EdgeInsetsGeometry get padding;
@@ -3238,8 +3205,8 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   Color get dayPeriodColor {
-    return MaterialStateColor.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+    return WidgetStateColor.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return _colors.tertiaryContainer;
       }
       // The unselected day period should match the overall picker dialog color.
@@ -3275,26 +3242,26 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   Color get dayPeriodTextColor {
-    return MaterialStateColor.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        if (states.contains(MaterialState.focused)) {
+    return WidgetStateColor.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        if (states.contains(WidgetState.focused)) {
           return _colors.onTertiaryContainer;
         }
-        if (states.contains(MaterialState.hovered)) {
+        if (states.contains(WidgetState.hovered)) {
           return _colors.onTertiaryContainer;
         }
-        if (states.contains(MaterialState.pressed)) {
+        if (states.contains(WidgetState.pressed)) {
           return _colors.onTertiaryContainer;
         }
         return _colors.onTertiaryContainer;
       }
-      if (states.contains(MaterialState.focused)) {
+      if (states.contains(WidgetState.focused)) {
         return _colors.onSurfaceVariant;
       }
-      if (states.contains(MaterialState.hovered)) {
+      if (states.contains(WidgetState.hovered)) {
         return _colors.onSurfaceVariant;
       }
-      if (states.contains(MaterialState.pressed)) {
+      if (states.contains(WidgetState.pressed)) {
         return _colors.onSurfaceVariant;
       }
       return _colors.onSurfaceVariant;
@@ -3308,7 +3275,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   Color get dialBackgroundColor {
-    return _colors.surfaceVariant;
+    return _colors.surfaceContainerHighest;
   }
 
   @override
@@ -3338,8 +3305,8 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   Color get dialTextColor {
-    return MaterialStateColor.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+    return WidgetStateColor.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return _colors.onPrimary;
       }
       return _colors.onSurface;
@@ -3363,7 +3330,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   TextStyle get helpTextStyle {
-    return MaterialStateTextStyle.resolveWith((Set<MaterialState> states) {
+    return WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
       final TextStyle textStyle = _textTheme.labelMedium!;
       return textStyle.copyWith(color: _colors.onSurfaceVariant);
     });
@@ -3376,31 +3343,33 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   Color get hourMinuteColor {
-    return MaterialStateColor.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+    return WidgetStateColor.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         Color overlayColor = _colors.primaryContainer;
-        if (states.contains(MaterialState.pressed)) {
+        if (states.contains(WidgetState.pressed)) {
           overlayColor = _colors.onPrimaryContainer;
-        } else if (states.contains(MaterialState.hovered)) {
+        } else if (states.contains(WidgetState.hovered)) {
           const double hoverOpacity = 0.08;
-          overlayColor = _colors.onPrimaryContainer.withOpacity(hoverOpacity);
-        } else if (states.contains(MaterialState.focused)) {
+          overlayColor =
+              _colors.onPrimaryContainer.withValues(alpha: hoverOpacity);
+        } else if (states.contains(WidgetState.focused)) {
           const double focusOpacity = 0.12;
-          overlayColor = _colors.onPrimaryContainer.withOpacity(focusOpacity);
+          overlayColor =
+              _colors.onPrimaryContainer.withValues(alpha: focusOpacity);
         }
         return Color.alphaBlend(overlayColor, _colors.primaryContainer);
       } else {
-        Color overlayColor = _colors.surfaceVariant;
-        if (states.contains(MaterialState.pressed)) {
+        Color overlayColor = _colors.surfaceContainerHighest;
+        if (states.contains(WidgetState.pressed)) {
           overlayColor = _colors.onSurface;
-        } else if (states.contains(MaterialState.hovered)) {
+        } else if (states.contains(WidgetState.hovered)) {
           const double hoverOpacity = 0.08;
-          overlayColor = _colors.onSurface.withOpacity(hoverOpacity);
-        } else if (states.contains(MaterialState.focused)) {
+          overlayColor = _colors.onSurface.withValues(alpha: hoverOpacity);
+        } else if (states.contains(WidgetState.focused)) {
           const double focusOpacity = 0.12;
-          overlayColor = _colors.onSurface.withOpacity(focusOpacity);
+          overlayColor = _colors.onSurface.withValues(alpha: focusOpacity);
         }
-        return Color.alphaBlend(overlayColor, _colors.surfaceVariant);
+        return Color.alphaBlend(overlayColor, _colors.surfaceContainerHighest);
       }
     });
   }
@@ -3437,33 +3406,33 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   Color get hourMinuteTextColor {
-    return MaterialStateColor.resolveWith((Set<MaterialState> states) {
+    return WidgetStateColor.resolveWith((Set<WidgetState> states) {
       return _hourMinuteTextColor.resolve(states);
     });
   }
 
-  MaterialStateProperty<Color> get _hourMinuteTextColor {
-    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        if (states.contains(MaterialState.pressed)) {
+  WidgetStateProperty<Color> get _hourMinuteTextColor {
+    return WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        if (states.contains(WidgetState.pressed)) {
           return _colors.onPrimaryContainer;
         }
-        if (states.contains(MaterialState.hovered)) {
+        if (states.contains(WidgetState.hovered)) {
           return _colors.onPrimaryContainer;
         }
-        if (states.contains(MaterialState.focused)) {
+        if (states.contains(WidgetState.focused)) {
           return _colors.onPrimaryContainer;
         }
         return _colors.onPrimaryContainer;
       } else {
         // unselected
-        if (states.contains(MaterialState.pressed)) {
+        if (states.contains(WidgetState.pressed)) {
           return _colors.onSurface;
         }
-        if (states.contains(MaterialState.hovered)) {
+        if (states.contains(WidgetState.hovered)) {
           return _colors.onSurface;
         }
-        if (states.contains(MaterialState.focused)) {
+        if (states.contains(WidgetState.focused)) {
           return _colors.onSurface;
         }
         return _colors.onSurface;
@@ -3473,7 +3442,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
 
   @override
   TextStyle get hourMinuteTextStyle {
-    return MaterialStateTextStyle.resolveWith((Set<MaterialState> states) {
+    return WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
       // TODO(tahatesser): Update this when https://github.com/flutter/flutter/issues/131247 is fixed.
       // This is using the correct text style from Material 3 spec.
       // https://m3.material.io/components/time-pickers/specs#fd0b6939-edab-4058-82e1-93d163945215
@@ -3483,7 +3452,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
   }
 
   @override
-  InputDecorationTheme get inputDecorationTheme {
+  InputDecorationThemeData? get inputDecorationTheme {
     // This is NOT correct, but there's no token for
     // 'time-input.container.shape', so this is using the radius from the shape
     // for the hour/minute selector. It's a BorderRadiusGeometry, so we have to
@@ -3492,7 +3461,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
             borderRadius: BorderRadius.all(Radius.circular(8.0)))
         .borderRadius
         .resolve(Directionality.of(context));
-    return InputDecorationTheme(
+    return InputDecorationThemeData(
       contentPadding: EdgeInsets.zero,
       filled: true,
       // This should be derived from a token, but there isn't one for 'time-input'.
@@ -3516,7 +3485,7 @@ class _TimePickerDefaultsM3 extends _TimePickerDefaults {
         borderSide: BorderSide(color: _colors.error, width: 2),
       ),
       hintStyle: hourMinuteTextStyle.copyWith(
-          color: _colors.onSurface.withOpacity(0.36)),
+          color: _colors.onSurface.withValues(alpha: 0.36)),
       // Prevent the error text from appearing.
       // TODO(rami-a): Remove this workaround once
       // https://github.com/flutter/flutter/issues/54104

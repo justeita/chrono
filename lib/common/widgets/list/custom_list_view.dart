@@ -102,6 +102,7 @@ class _CustomListViewState<Item extends ListItem>
   @override
   void dispose() {
     _longPressActionSetting.removeListener(_handleUpdateSettings);
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -298,7 +299,7 @@ class _CustomListViewState<Item extends ListItem>
       Item item = currentList[index];
       for (var filter in widget.listFilters) {
         if (!filter.filterFunction(item)) {
-          return Container(key: ValueKey(item));
+          return SizedBox.shrink(key: ValueKey(item));
         }
       }
       Widget itemWidget = ListItemCard<Item>(
@@ -374,12 +375,12 @@ class _CustomListViewState<Item extends ListItem>
                       child: Text(
                         widget.placeholderText,
                         style: textTheme.displaySmall?.copyWith(
-                          color: colorScheme.onBackground.withOpacity(0.6),
+                          color: colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                       ),
                     ),
                   )
-                : Container(),
+                : const SizedBox.shrink(),
             SlidableAutoCloseBehavior(
               child: AnimatedReorderableListView(
                 longPressDraggable: false,

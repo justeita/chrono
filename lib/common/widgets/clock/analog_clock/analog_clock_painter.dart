@@ -56,6 +56,11 @@ class AnalogClockPainter extends CustomPainter {
   static const double handPinHoleSize = 8.0;
   static const double strokeWidth = 3.0;
 
+  // Cached Paint objects to avoid re-allocation on every paint()
+  late final Paint _pinHolePaint;
+  late final Paint _handPaint;
+  late final Paint _tickPaint;
+
   AnalogClockPainter(
       {required this.dateTime,
       this.numbersType = ClockNumbersType.quarter,
@@ -71,7 +76,18 @@ class AnalogClockPainter extends CustomPainter {
       this.digitalClockColor = Colors.black,
       this.numberColor = Colors.black,
       this.textScaleFactor = 1.0,
-      this.useMilitaryTime = true});
+      this.useMilitaryTime = true}) {
+    _pinHolePaint = Paint()
+      ..color = showSecondHand ? secondHandColor : minuteHandColor
+      ..isAntiAlias = true
+      ..style = PaintingStyle.stroke;
+    _handPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.bevel;
+    _tickPaint = Paint()
+      ..color = tickColor;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -98,14 +114,10 @@ class AnalogClockPainter extends CustomPainter {
   }
 
   _paintPinHole(canvas, size, scaleFactor) {
-    Paint midPointStrokePainter = Paint()
-      ..color = showSecondHand ? secondHandColor : minuteHandColor
-      ..strokeWidth = strokeWidth * scaleFactor
-      ..isAntiAlias = true
-      ..style = PaintingStyle.stroke;
+    _pinHolePaint.strokeWidth = strokeWidth * scaleFactor;
 
     canvas.drawCircle(size.center(Offset.zero), handPinHoleSize * scaleFactor,
-        midPointStrokePainter);
+        _pinHolePaint);
   }
 
   void _drawNumbers(Canvas canvas, Size size, double scaleFactor) {
@@ -151,9 +163,7 @@ class AnalogClockPainter extends CustomPainter {
         mediumTick = 2.0 * tick,
         longTick = 3.0 * tick;
     double p = longTick + 4 * scaleFactor;
-    Paint tickPaint = Paint()
-      ..color = tickColor
-      ..strokeWidth = 2.0 * scaleFactor;
+    _tickPaint.strokeWidth = 2.0 * scaleFactor;
 
     for (int i = 1; i <= 60; i++) {
       // default tick length is short
@@ -182,7 +192,7 @@ class AnalogClockPainter extends CustomPainter {
               sin(angleFrom3) * (r + len - p))),
           size.center(
               Offset(cos(angleFrom3) * (r - p), sin(angleFrom3) * (r - p))),
-          tickPaint);
+          _tickPaint);
     }
   }
 
@@ -195,11 +205,7 @@ class AnalogClockPainter extends CustomPainter {
     double longHandLength = r - (p * scaleFactor);
     double shortHandLength = r - (p + 36.0) * scaleFactor;
 
-    Paint handPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.bevel
-      ..strokeWidth = strokeWidth * scaleFactor;
+    _handPaint.strokeWidth = strokeWidth * scaleFactor;
     double seconds = dateTime.second / secondsInMinute;
     double minutes = (dateTime.minute + seconds) / minutesInHour;
     double hour = (dateTime.hour + minutes) / hoursInClock;
@@ -207,17 +213,17 @@ class AnalogClockPainter extends CustomPainter {
     canvas.drawLine(
         size.center(_getHandOffset(hour, handPinHoleSize * scaleFactor)),
         size.center(_getHandOffset(hour, shortHandLength)),
-        handPaint..color = hourHandColor);
+        _handPaint..color = hourHandColor);
 
     canvas.drawLine(
         size.center(_getHandOffset(minutes, handPinHoleSize * scaleFactor)),
         size.center(_getHandOffset(minutes, longHandLength)),
-        handPaint..color = minuteHandColor);
+        _handPaint..color = minuteHandColor);
     if (showSecondHand) {
       canvas.drawLine(
           size.center(_getHandOffset(seconds, handPinHoleSize * scaleFactor)),
           size.center(_getHandOffset(seconds, longHandLength)),
-          handPaint..color = secondHandColor);
+          _handPaint..color = secondHandColor);
     }
   }
 

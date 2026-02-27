@@ -9,6 +9,7 @@ import 'package:clock_app/common/utils/id.dart';
 // }
 
 class AlarmEvent extends ListItem {
+  @override
   late  int id;
   // late  final AlarmEventType type;
   late  DateTime eventTime;

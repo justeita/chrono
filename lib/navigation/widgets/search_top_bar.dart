@@ -1,9 +1,6 @@
 import 'package:clock_app/navigation/widgets/app_top_bar.dart';
-import 'package:clock_app/settings/data/settings_schema.dart';
-import 'package:clock_app/settings/types/setting_item.dart';
 import 'package:fuzzywuzzy/fuzzywuzzy.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchParams<T> {
   final void Function(List<T> filteredItems)? onSearch;
@@ -68,11 +65,16 @@ class _SearchTopBarState<T> extends State<SearchTopBar<T>> {
   }
 
   @override
+  void dispose() {
+    _filterController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     TextTheme textTheme = theme.textTheme;
     ColorScheme colorScheme = theme.colorScheme;
-    AppLocalizations localizations = AppLocalizations.of(context)!;
 
     if (_searching) {
       return AppTopBar(
@@ -121,7 +123,7 @@ class _SearchTopBarState<T> extends State<SearchTopBar<T>> {
               },
               icon: Icon(
                 Icons.search,
-                color: colorScheme.onBackground,
+                color: colorScheme.onSurface,
               ),
             )
         ],

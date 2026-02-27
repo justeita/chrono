@@ -7,7 +7,7 @@ class ColorBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  CardTheme cardTheme = Theme.of(context).cardTheme;
+  CardThemeData cardTheme = Theme.of(context).cardTheme;
 
     return Container(
       width: 36.0,
@@ -18,7 +18,7 @@ class ColorBox extends StatelessWidget {
             (cardTheme.shape != null) ? (cardTheme.shape as RoundedRectangleBorder)
                 .borderRadius : null,
         border: Border.all(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
             width: 1.0),
       ),
     );

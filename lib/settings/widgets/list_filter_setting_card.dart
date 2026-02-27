@@ -1,7 +1,4 @@
 import 'package:clock_app/common/types/list_filter.dart';
-import 'package:clock_app/common/types/tag.dart';
-import 'package:clock_app/common/utils/popup_action.dart';
-import 'package:clock_app/common/widgets/card_edit_menu.dart';
 import 'package:flutter/material.dart';
 
 class ListFilterSettingCard extends StatefulWidget {

@@ -117,7 +117,6 @@ class ColorSchemeData extends ThemeItem {
 
 ColorScheme getColorScheme(ColorSchemeData colorSchemeData) {
   return ColorScheme(
-    background: colorSchemeData.background,
     error: colorSchemeData.error,
     secondary: colorSchemeData.accent,
     brightness: Brightness.light,
@@ -127,7 +126,6 @@ ColorScheme getColorScheme(ColorSchemeData colorSchemeData) {
     primary: colorSchemeData.accent,
     onSurface: colorSchemeData.onBackground,
     onSecondary: colorSchemeData.onAccent,
-    onBackground: colorSchemeData.onBackground,
     shadow: colorSchemeData.useAccentAsShadow
         ? colorSchemeData.accent
         : colorSchemeData.shadow,

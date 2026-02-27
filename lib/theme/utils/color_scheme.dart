@@ -15,8 +15,8 @@ import 'package:flutter/material.dart';
 
 ColorSchemeData getColorSchemeData(ColorScheme colorScheme) {
   return ColorSchemeData(
-    background: colorScheme.background,
-    onBackground: colorScheme.onBackground,
+    background: colorScheme.surface,
+    onBackground: colorScheme.onSurface,
     card: colorScheme.surface,
     onCard: colorScheme.onSurface,
     accent: colorScheme.primary,
@@ -70,7 +70,6 @@ SettingGroup appearanceSettings = appSettings
     scaffoldBackgroundColor: colorSchemeData.background,
     cardColor: colorSchemeData.card,
     radioTheme: getRadioTheme(colorSchemeData),
-    dialogBackgroundColor: colorSchemeData.card,
     bottomSheetTheme: getBottomSheetTheme(colorSchemeData, styleTheme),
     textTheme: defaultTheme.textTheme.apply(
       bodyColor: colorSchemeData.onBackground,
@@ -106,6 +105,6 @@ SettingGroup appearanceSettings = appSettings
                 useMaterialStyle: useMaterialStyle,
               ) ?? 
               const ThemeSettingExtension(),
-    ],
+    ], dialogTheme: DialogThemeData(backgroundColor: colorSchemeData.card),
   );
 }

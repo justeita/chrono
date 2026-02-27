@@ -2,9 +2,8 @@ import 'package:clock_app/common/widgets/card_container.dart';
 import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:clock_app/settings/types/setting_group.dart';
 import 'package:clock_app/settings/types/setting_item.dart';
-import 'package:clock_app/navigation/widgets/search_top_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class SettingCheckBox extends StatelessWidget {
   const SettingCheckBox(

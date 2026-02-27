@@ -5,7 +5,7 @@ import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 Future<dynamic> readGitContributors() async {
   final String response =
@@ -20,7 +20,6 @@ class ContributorsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
     final TextTheme textTheme = theme.textTheme;
     return Scaffold(
       appBar: AppTopBar(
@@ -33,7 +32,7 @@ class ContributorsScreen extends StatelessWidget {
               future: gitContributors,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  final dynamic contributors = snapshot.data!;
+                  final dynamic contributors = snapshot.data;
                   return Column(
                     children: [
                       for (final contributor in contributors)

@@ -24,12 +24,15 @@ class DialDurationPicker extends StatefulWidget {
 class _DialDurationPickerState extends State<DialDurationPicker> {
   @override
   Widget build(BuildContext context) {
-    double originalWidth = MediaQuery.of(context).size.width;
-    double originalHeight = MediaQuery.of(context).size.height - 20;
+    double originalWidth = MediaQuery.sizeOf(context).width;
+    double originalHeight = MediaQuery.sizeOf(context).height - 20;
     double width = min(originalWidth, originalHeight) - 64;
     double bandWidth = 86 * width / 256;
 
     double leftPadding = 0;
+
+    final knobFillColor =
+        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1);
 
     return Stack(
       children: [
@@ -52,8 +55,7 @@ class _DialDurationPickerState extends State<DialDurationPicker> {
             divisions: 12,
             snapDivisions: 60,
             bandWidth: bandWidth,
-            fillColor:
-                Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+            fillColor: knobFillColor,
           ),
         ),
         Positioned(
@@ -75,8 +77,7 @@ class _DialDurationPickerState extends State<DialDurationPicker> {
             divisions: 12,
             snapDivisions: 60,
             bandWidth: bandWidth,
-            fillColor:
-                Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+            fillColor: knobFillColor,
           ),
         ),
         if (widget.showHours)
@@ -99,8 +100,7 @@ class _DialDurationPickerState extends State<DialDurationPicker> {
               divisions: 8,
               snapDivisions: 24,
               bandWidth: bandWidth,
-              fillColor:
-                  Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+              fillColor: knobFillColor,
             ),
           ),
       ],
@@ -174,7 +174,7 @@ class _TimerKnobState extends State<TimerKnob> {
           maxValue: widget.maxValue,
           knobColor: Theme.of(context).colorScheme.primary,
           knobTextColor: Theme.of(context).colorScheme.onPrimary,
-          textColor: Theme.of(context).colorScheme.onBackground,
+          textColor: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );

@@ -1,10 +1,8 @@
-import 'package:clock_app/common/types/json.dart';
 import 'package:clock_app/common/types/list_item.dart';
 import 'package:clock_app/common/utils/id.dart';
 import 'package:clock_app/developer/logic/logger.dart';
-import 'package:clock_app/settings/types/setting_group.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class ListSortOption<Item extends ListItem> {
   final String Function(BuildContext) getLocalizedName;

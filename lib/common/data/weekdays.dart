@@ -1,5 +1,5 @@
 import 'package:clock_app/common/types/weekday.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 List<Weekday> weekdays = [
   Weekday(

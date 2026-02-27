@@ -23,9 +23,8 @@ import 'package:clock_app/widgets/logic/update_widgets.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -64,6 +63,10 @@ class _AppState extends State<App> {
   late Setting _useBackgroundServiceSetting;
   late Setting _backgroundServiceIntervalSetting;
 
+  // Cache theme to avoid expensive recomputation on every build
+  AppTheme? _cachedTheme;
+  bool _themeDirty = true;
+
   @override
   void initState() {
     super.initState();
@@ -95,6 +98,7 @@ class _AppState extends State<App> {
   }
 
   refreshTheme() {
+    _themeDirty = true;
     setState(() {});
   }
 
@@ -181,7 +185,12 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
         builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-      final AppTheme appTheme = getAppTheme(lightDynamic, darkDynamic);
+      // Only recompute theme when explicitly marked dirty
+      if (_themeDirty || _cachedTheme == null) {
+        _cachedTheme = getAppTheme(lightDynamic, darkDynamic);
+        _themeDirty = false;
+      }
+      final AppTheme appTheme = _cachedTheme!;
       ThemeBrightness themeBrightness =
           _colorSettings.getSetting("Brightness").value;
       Locale locale = _generalSettings.getSetting("Language").value;

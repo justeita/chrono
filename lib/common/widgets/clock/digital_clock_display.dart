@@ -44,7 +44,7 @@ class _DigitalClockDisplayState extends State<DigitalClockDisplay> {
   TimeFormat getTimeFormat() {
     TimeFormat timeFormat = timeFormatSetting.value;
     if (timeFormat == TimeFormat.device) {
-      if (MediaQuery.of(context).alwaysUse24HourFormat) {
+      if (MediaQuery.alwaysUse24HourFormatOf(context)) {
         timeFormat = TimeFormat.h24;
       } else {
         timeFormat = TimeFormat.h12;
@@ -137,7 +137,7 @@ class _DigitalClockDisplayState extends State<DigitalClockDisplay> {
             height: 1,
             dateTime: widget.dateTime,
             color: widget.color ??
-                Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
           ),
       ],
     );

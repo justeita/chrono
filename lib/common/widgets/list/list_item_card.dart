@@ -4,7 +4,6 @@ import 'package:clock_app/common/widgets/list/animated_reorderable_list/componen
 import 'package:clock_app/settings/data/general_settings_schema.dart';
 import 'package:clock_app/settings/data/settings_schema.dart';
 import 'package:clock_app/settings/types/setting.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -91,37 +90,37 @@ class _ListItemCardState<T> extends State<ListItemCard<T>> {
       );
     }
 
-    return SizedBox(
-      width: double.infinity,
-      child: CardContainer(
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
-        isSelected: widget.isSelected,
-        child: Row(
-          children: [
-            AnimatedContainer(
-              duration: 150.ms,
-              width: widget.showReorderHandle ? 28 : 0,
-              color: Colors.transparent,
-              // decoration: const BoxDecoration(),
-              clipBehavior: Clip.hardEdge,
-              child: ReorderableGridDragStartListener(
-
-                key: widget.key,
-                index: widget.index,
-                enabled: true,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 8.0, top: 16.0, bottom: 16.0),
-                  child: Icon(
-                    Icons.drag_indicator,
-                    color: colorScheme.onSurface.withOpacity(0.6),
+    return RepaintBoundary(
+      child: SizedBox(
+        width: double.infinity,
+        child: CardContainer(
+          onTap: widget.onTap,
+          onLongPress: widget.onLongPress,
+          isSelected: widget.isSelected,
+          child: Row(
+            children: [
+              AnimatedContainer(
+                duration: 150.ms,
+                width: widget.showReorderHandle ? 28 : 0,
+                color: Colors.transparent,
+                clipBehavior: Clip.hardEdge,
+                child: ReorderableGridDragStartListener(
+                  key: widget.key,
+                  index: widget.index,
+                  enabled: true,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, top: 16.0, bottom: 16.0),
+                    child: Icon(
+                      Icons.drag_indicator,
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(child: innerWidget),
-          ],
+              Expanded(child: innerWidget),
+            ],
+          ),
         ),
       ),
     );

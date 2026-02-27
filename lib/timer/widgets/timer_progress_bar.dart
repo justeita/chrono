@@ -16,37 +16,45 @@ class TimerProgressBar extends StatefulWidget {
   State<TimerProgressBar> createState() => _TimerProgressBarState();
 }
 
-class _TimerProgressBarState extends State<TimerProgressBar> {
-
-    late Ticker ticker;
+class _TimerProgressBarState extends State<TimerProgressBar>
+    with SingleTickerProviderStateMixin {
+  late Ticker ticker;
   late ValueNotifier<double> valueNotifier;
-    late int remainingSeconds;
-      double maxValue = 0;
-
-
+  double maxValue = 0;
 
   @override
   void initState() {
     super.initState();
-    ticker = Ticker((elapsed) {
+    valueNotifier = ValueNotifier(widget.timer.remainingMilliseconds.toDouble());
+    maxValue = widget.timer.currentDuration.inMilliseconds.toDouble();
+    ticker = createTicker((elapsed) {
       valueNotifier.value = widget.timer.remainingMilliseconds.toDouble();
       maxValue = widget.timer.currentDuration.inMilliseconds.toDouble();
     });
-    ticker.start();
-    valueNotifier = ValueNotifier(widget.timer.remainingMilliseconds.toDouble());
+    // Only start if timer is running
+    if (widget.timer.isRunning) {
+      ticker.start();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant TimerProgressBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Sync ticker with timer state
+    if (widget.timer.isRunning && !ticker.isActive) {
+      ticker.start();
+    } else if (!widget.timer.isRunning && ticker.isActive) {
+      ticker.stop();
+    }
+    // Update value immediately for paused/stopped state
+    valueNotifier.value = widget.timer.remainingMilliseconds.toDouble();
     maxValue = widget.timer.currentDuration.inMilliseconds.toDouble();
-    remainingSeconds = widget.timer.remainingSeconds;
-    valueNotifier.addListener(() {
-      setState(() {
-        remainingSeconds = (valueNotifier.value / 1000).round();
-      });
-    });
   }
 
     @override
   void dispose() {
-    ticker.stop();
     ticker.dispose();
+    valueNotifier.dispose();
     super.dispose();
   }
 
@@ -62,15 +70,16 @@ class _TimerProgressBarState extends State<TimerProgressBar> {
               // animationDuration: 0,
               onGetCenterWidget: (value) {
                 if(widget.centerWidget != null) return widget.centerWidget!;
+                final secs = (value / 1000).round();
                 return Text(
-                  TimeDuration.fromSeconds(remainingSeconds).toTimeString(),
+                  TimeDuration.fromSeconds(secs).toTimeString(),
                   style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        fontSize: (remainingSeconds > 3600 ? 48 : 64) * widget.textScale,
+                        fontSize: (secs > 3600 ? 48 : 64) * widget.textScale,
                       ),
                 );
               },
               progressColors: [Theme.of(context).colorScheme.primary],
-              backColor: Colors.black.withOpacity(0.15),
+              backColor: Colors.black.withValues(alpha: 0.15),
             );
   }
 }

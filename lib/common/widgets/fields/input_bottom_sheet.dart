@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 
 class InputBottomSheet extends StatefulWidget {
@@ -37,6 +37,12 @@ class _InputBottomSheetState extends State<InputBottomSheet> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     ColorScheme colorScheme = theme.colorScheme;
@@ -46,7 +52,7 @@ class _InputBottomSheetState extends State<InputBottomSheet> {
         : BorderRadius.circular(8.0);
     return Padding(
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Container(
 
         decoration: BoxDecoration(
@@ -64,7 +70,7 @@ class _InputBottomSheetState extends State<InputBottomSheet> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(64),
-                        color: colorScheme.onSurface.withOpacity(0.6)),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6)),
                   ),
                 ),
                 const SizedBox(height: 12.0),
@@ -76,7 +82,7 @@ class _InputBottomSheetState extends State<InputBottomSheet> {
                       Text(
                         widget.title,
                         style: textTheme.labelMedium?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.6)),
+                            color: colorScheme.onSurface.withValues(alpha: 0.6)),
                       ),
                       const SizedBox(height: 4.0),
                       TextField(
@@ -101,7 +107,7 @@ class _InputBottomSheetState extends State<InputBottomSheet> {
                               style: textTheme.labelMedium?.copyWith(
                                   color: widget.isInputRequired &&
                                           _controller.text.isEmpty
-                                      ? colorScheme.onSurface.withOpacity(0.6)
+                                      ? colorScheme.onSurface.withValues(alpha: 0.6)
                                       : colorScheme.primary)),
                         ),
                       ])

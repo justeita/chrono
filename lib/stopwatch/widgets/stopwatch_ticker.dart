@@ -6,7 +6,7 @@ import 'package:clock_app/stopwatch/widgets/lap_comparer.dart';
 import 'package:clock_app/timer/types/time_duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 
 class StopwatchTicker extends StatefulWidget {
   const StopwatchTicker({super.key, required this.stopwatch});
@@ -25,12 +25,16 @@ class _StopwatchTickerState extends State<StopwatchTicker> {
   late Setting _showAverageLapBarSetting;
   late Ticker ticker;
 
+  // ValueNotifier to scope rebuilds to only the time text
+  final _elapsedNotifier = ValueNotifier<int>(0);
+
   void update(dynamic value) {
     setState(() {});
   }
 
   void tick(Duration elapsed) {
-    setState(() {});
+    // Only update the notifier, don't rebuild the entire widget
+    _elapsedNotifier.value = widget.stopwatch.elapsedMilliseconds;
   }
 
   @override
@@ -72,13 +76,13 @@ class _StopwatchTickerState extends State<StopwatchTicker> {
 
     ticker.stop();
     ticker.dispose();
+    _elapsedNotifier.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    // ColorScheme colorScheme = theme.colorScheme;
     TextTheme textTheme = theme.textTheme;
 
     return Padding(
@@ -88,12 +92,18 @@ class _StopwatchTickerState extends State<StopwatchTicker> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              TimeDuration.fromMilliseconds(
-                      widget.stopwatch.elapsedMilliseconds)
-                  .toTimeString(
-                      showMilliseconds: _showMillisecondsSetting.value),
-              style: textTheme.displayLarge?.copyWith(fontSize: 48),
+            // Only rebuild the time text, not the entire column
+            ValueListenableBuilder<int>(
+              valueListenable: _elapsedNotifier,
+              builder: (context, elapsedMs, _) {
+                return RepaintBoundary(
+                  child: Text(
+                    TimeDuration.fromMilliseconds(elapsedMs).toTimeString(
+                        showMilliseconds: _showMillisecondsSetting.value),
+                    style: textTheme.displayLarge?.copyWith(fontSize: 48),
+                  ),
+                );
+              },
             ),
             if (_showPreviousLapBarSetting.value) ...[
               const SizedBox(height: 8),

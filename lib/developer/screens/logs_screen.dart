@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:clock_app/alarm/data/alarm_events_list_filters.dart';
 import 'package:clock_app/common/data/paths.dart';
 import 'package:clock_app/common/types/list_controller.dart';
 import 'package:clock_app/common/utils/snackbar.dart';
@@ -13,9 +12,7 @@ import 'package:clock_app/developer/data/log_sort_options.dart';
 import 'package:clock_app/developer/logic/logger.dart';
 import 'package:clock_app/developer/types/log.dart';
 import 'package:clock_app/developer/widgets/log_card.dart';
-import 'package:clock_app/navigation/widgets/app_top_bar.dart';
 import 'package:clock_app/navigation/widgets/search_top_bar.dart';
-import 'package:clock_app/settings/types/setting_item.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +26,7 @@ class LogsScreen extends StatefulWidget {
 }
 
 class _LogsScreenState extends State<LogsScreen> {
-  List<Log> _logs = [];
+  final List<Log> _logs = [];
   List<Log> _filteredLogs = [];
   final _listController = ListController<Log>();
 
@@ -81,9 +78,6 @@ class _LogsScreenState extends State<LogsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    TextTheme textTheme = theme.textTheme;
-
     return Scaffold(
       appBar: SearchTopBar(
         title: "App Logs",

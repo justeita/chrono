@@ -35,10 +35,12 @@ class SelectTextOptionCard extends StatelessWidget {
                       // fillColor: MaterialStateProperty.resolveWith(getColor),
                       value: selectedIndices.contains(index),
                       onChanged: (bool? value) => onSelect([index]))
-                  : Radio(
-                      value: index,
+                  : RadioGroup<int>(
                       groupValue: selectedIndices[0],
-                      onChanged: (dynamic value) => onSelect([index]),
+                      onChanged: (int? value) => onSelect([index]),
+                      child: Radio<int>(
+                        value: index,
+                      ),
                     ),
               Expanded(
                 flex: 999,
