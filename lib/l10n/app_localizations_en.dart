@@ -645,6 +645,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
+  String get sleepRepeatSetting => 'Repeat';
+
+  @override
+  String get sleepRepeatDoNotRepeat => 'Do not repeat';
+
+  @override
+  String get sleepRepeatDoNotRepeatDescription =>
+      'This schedule will only ring once';
+
+  @override
+  String get sleepRepeatSpecificDays => 'Specific days';
+
+  @override
+  String get sleepRepeatSpecificDaysDescription =>
+      'Choose which days of the week';
+
+  @override
+  String get sleepRepeatSpecificDates => 'Specific dates';
+
+  @override
+  String get sleepRepeatSpecificDatesDescription =>
+      'Choose specific dates for the schedule';
+
+  @override
+  String get sleepRepeatDatesSetting => 'Dates';
+
+  @override
   String get noTimerMessage => 'No timers created';
 
   @override

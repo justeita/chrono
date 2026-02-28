@@ -1361,6 +1361,54 @@ abstract class AppLocalizations {
   /// **'Active Days'**
   String get sleepModeWeekdaysSetting;
 
+  /// No description provided for @sleepRepeatSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get sleepRepeatSetting;
+
+  /// No description provided for @sleepRepeatDoNotRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not repeat'**
+  String get sleepRepeatDoNotRepeat;
+
+  /// No description provided for @sleepRepeatDoNotRepeatDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This schedule will only ring once'**
+  String get sleepRepeatDoNotRepeatDescription;
+
+  /// No description provided for @sleepRepeatSpecificDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Specific days'**
+  String get sleepRepeatSpecificDays;
+
+  /// No description provided for @sleepRepeatSpecificDaysDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which days of the week'**
+  String get sleepRepeatSpecificDaysDescription;
+
+  /// No description provided for @sleepRepeatSpecificDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Specific dates'**
+  String get sleepRepeatSpecificDates;
+
+  /// No description provided for @sleepRepeatSpecificDatesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose specific dates for the schedule'**
+  String get sleepRepeatSpecificDatesDescription;
+
+  /// No description provided for @sleepRepeatDatesSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get sleepRepeatDatesSetting;
+
   /// No description provided for @noTimerMessage.
   ///
   /// In en, this message translates to:

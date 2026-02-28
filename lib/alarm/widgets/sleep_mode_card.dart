@@ -139,21 +139,24 @@ class _SleepModeCardState extends State<SleepModeCard> {
                                     .withValues(alpha: disabledAlpha),
                           ),
                           const SizedBox(width: 4),
-                          DigitalClockDisplay(
-                            dateTime: widget.sleepMode.bedtime.toDateTime(),
-                            scale: 0.35,
-                            color: enabled
-                                ? null
-                                : colorScheme.onSurface
-                                    .withValues(alpha: disabledAlpha),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: DigitalClockDisplay(
+                              dateTime: widget.sleepMode.bedtime.toDateTime(),
+                              scale: 0.35,
+                              color: enabled
+                                  ? null
+                                  : colorScheme.onSurface
+                                      .withValues(alpha: disabledAlpha),
+                            ),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Icon(
                           Icons.arrow_forward_rounded,
-                          size: 16,
+                          size: 14,
                           color: enabled
                               ? colorScheme.onSurface.withValues(alpha: 0.4)
                               : colorScheme.onSurface
@@ -173,13 +176,17 @@ class _SleepModeCardState extends State<SleepModeCard> {
                                     .withValues(alpha: disabledAlpha),
                           ),
                           const SizedBox(width: 4),
-                          DigitalClockDisplay(
-                            dateTime: widget.sleepMode.wakeTime.toDateTime(),
-                            scale: 0.35,
-                            color: enabled
-                                ? null
-                                : colorScheme.onSurface
-                                    .withValues(alpha: disabledAlpha),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: DigitalClockDisplay(
+                              dateTime:
+                                  widget.sleepMode.wakeTime.toDateTime(),
+                              scale: 0.35,
+                              color: enabled
+                                  ? null
+                                  : colorScheme.onSurface
+                                      .withValues(alpha: disabledAlpha),
+                            ),
                           ),
                         ],
                       ),
@@ -206,27 +213,29 @@ class _SleepModeCardState extends State<SleepModeCard> {
                                   .withValues(alpha: disabledAlpha),
                         ),
                       ),
-                      if (widget.sleepMode.dismissConfirmationEnabled) ...[
-                        const SizedBox(width: 12),
-                        Icon(
-                          Icons.verified_user_rounded,
-                          size: 14,
-                          color: enabled
-                              ? colorScheme.primary.withValues(alpha: 0.7)
-                              : colorScheme.onSurface
-                                  .withValues(alpha: disabledAlpha),
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          localizations.dismissConfirmationSettingGroup,
+                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.repeat_rounded,
+                        size: 14,
+                        color: enabled
+                            ? colorScheme.onSurface.withValues(alpha: 0.5)
+                            : colorScheme.onSurface
+                                .withValues(alpha: disabledAlpha),
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          widget.sleepMode.repeatDescription(context),
                           style: textTheme.bodySmall?.copyWith(
                             color: enabled
-                                ? colorScheme.primary.withValues(alpha: 0.7)
+                                ? colorScheme.onSurface.withValues(alpha: 0.6)
                                 : colorScheme.onSurface
                                     .withValues(alpha: disabledAlpha),
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ],

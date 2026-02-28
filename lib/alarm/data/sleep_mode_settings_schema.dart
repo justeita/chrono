@@ -22,7 +22,15 @@ import 'package:flutter/material.dart';
 import 'package:clock_app/l10n/app_localizations.dart';
 import 'package:audio_session/audio_session.dart';
 
-const sleepModeSchemaVersion = 1;
+/// Repeat type indices for sleep mode schedule
+/// 0 = Do not repeat (Once)
+/// 1 = Specific days (Weekly)
+/// 2 = Specific dates (Dates)
+const int sleepRepeatDoNotRepeat = 0;
+const int sleepRepeatSpecificDays = 1;
+const int sleepRepeatSpecificDates = 2;
+
+const sleepModeSchemaVersion = 3;
 
 SettingGroup sleepModeSettingsSchema = SettingGroup(
   version: sleepModeSchemaVersion,
@@ -35,6 +43,33 @@ SettingGroup sleepModeSettingsSchema = SettingGroup(
       "Schedule",
       (context) => AppLocalizations.of(context)!.alarmScheduleSettingGroup,
       [
+        SelectSetting<int>(
+          "Repeat",
+          (context) => AppLocalizations.of(context)!.sleepRepeatSetting,
+          [
+            SelectSettingOption(
+              (context) => AppLocalizations.of(context)!.sleepRepeatDoNotRepeat,
+              sleepRepeatDoNotRepeat,
+              getDescription: (context) => AppLocalizations.of(context)!
+                  .sleepRepeatDoNotRepeatDescription,
+            ),
+            SelectSettingOption(
+              (context) =>
+                  AppLocalizations.of(context)!.sleepRepeatSpecificDays,
+              sleepRepeatSpecificDays,
+              getDescription: (context) => AppLocalizations.of(context)!
+                  .sleepRepeatSpecificDaysDescription,
+            ),
+            SelectSettingOption(
+              (context) =>
+                  AppLocalizations.of(context)!.sleepRepeatSpecificDates,
+              sleepRepeatSpecificDates,
+              getDescription: (context) => AppLocalizations.of(context)!
+                  .sleepRepeatSpecificDatesDescription,
+            ),
+          ],
+          defaultValue: sleepRepeatSpecificDays,
+        ),
         ToggleSetting(
           "Week Days",
           (context) => AppLocalizations.of(context)!.sleepModeWeekdaysSetting,
@@ -50,6 +85,19 @@ SettingGroup sleepModeSettingsSchema = SettingGroup(
                 .value;
             return weekday.id - 1;
           },
+          enableConditions: [
+            ValueCondition(
+                ["Repeat"], (value) => value == sleepRepeatSpecificDays)
+          ],
+        ),
+        DateTimeSetting(
+          "Dates",
+          (context) => AppLocalizations.of(context)!.sleepRepeatDatesSetting,
+          [],
+          enableConditions: [
+            ValueCondition(
+                ["Repeat"], (value) => value == sleepRepeatSpecificDates)
+          ],
         ),
       ],
       icon: Icons.calendar_today_rounded,

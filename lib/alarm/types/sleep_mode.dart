@@ -1,12 +1,15 @@
 import 'package:clock_app/alarm/data/sleep_mode_settings_schema.dart';
 import 'package:clock_app/alarm/types/alarm.dart';
 import 'package:clock_app/alarm/types/alarm_task.dart';
+import 'package:clock_app/common/data/weekdays.dart';
+import 'package:intl/intl.dart';
 import 'package:clock_app/common/types/file_item.dart';
 import 'package:clock_app/common/types/json.dart';
 import 'package:clock_app/common/types/list_item.dart';
 import 'package:clock_app/common/types/tag.dart';
 import 'package:clock_app/common/types/time.dart';
 import 'package:clock_app/common/utils/id.dart';
+import 'package:clock_app/l10n/app_localizations.dart';
 import 'package:clock_app/settings/types/setting.dart';
 import 'package:clock_app/settings/types/setting_group.dart';
 import 'package:flutter/material.dart';
@@ -83,9 +86,56 @@ class SleepMode extends CustomizableListItem {
   double get dismissConfirmationWaitTime =>
       _settings.getGroup("Dismiss Confirmation").getSetting("Wait Time").value;
 
+  /// The repeat type index (0=Do not repeat, 1=Specific days, 2=Specific dates)
+  int get repeatType {
+    final selectSetting = _settings.getSetting("Repeat") as SelectSetting<int>;
+    return selectSetting.value;
+  }
+
   List<int> get selectedWeekdayIds {
+    if (repeatType != sleepRepeatSpecificDays) return [];
     final toggleSetting = _settings.getSetting("Week Days") as ToggleSetting;
     return toggleSetting.selected.cast<int>();
+  }
+
+  List<DateTime> get selectedDates {
+    if (repeatType != sleepRepeatSpecificDates) return [];
+    final dateSetting = _settings.getSetting("Dates") as DateTimeSetting;
+    return dateSetting.value;
+  }
+
+  /// Human-readable description of the repeat schedule
+  String repeatDescription(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    switch (repeatType) {
+      case sleepRepeatDoNotRepeat:
+        return localizations.sleepRepeatDoNotRepeat;
+      case sleepRepeatSpecificDays:
+        final ids = selectedWeekdayIds;
+        if (ids.length == 7) {
+          return localizations.sleepRepeatSpecificDays;
+        }
+        if (ids.isEmpty) {
+          return localizations.sleepRepeatDoNotRepeat;
+        }
+        final dayNames = ids
+            .map((id) =>
+                weekdays.firstWhere((w) => w.id == id).getAbbreviation(context))
+            .toList();
+        return dayNames.join(', ');
+      case sleepRepeatSpecificDates:
+        final dates = selectedDates;
+        if (dates.isEmpty) {
+          return localizations.sleepRepeatDoNotRepeat;
+        }
+        final dateFormat = DateFormat.MMMd();
+        if (dates.length <= 3) {
+          return dates.map((d) => dateFormat.format(d)).join(', ');
+        }
+        return '${dateFormat.format(dates.first)} +${dates.length - 1}';
+      default:
+        return localizations.sleepRepeatDoNotRepeat;
+    }
   }
 
   /// Calculate sleep duration between bedtime and wake time
@@ -115,14 +165,29 @@ class SleepMode extends CustomizableListItem {
   /// This copies matching settings (Label, Sound, Vibration, Snooze, Tasks,
   /// Tags, Week Days) from the sleep mode settings to the alarm's settings
   /// via JSON serialization. Non-matching keys keep their defaults.
-  /// The schedule type is forced to Weekly (index 2).
+  /// The schedule type is set based on the repeat setting.
   void _applySettingsToAlarm() {
     final sleepModeJson = _settings.valueToJson();
     _wakeAlarm.settings.loadValueFromJson(sleepModeJson);
 
-    // Force schedule type to Weekly (index 2 in alarm schedule types:
-    // 0=Once, 1=Daily, 2=Weekly, 3=Dates, 4=Range)
-    _wakeAlarm.setSettingWithoutNotify("Type", 2);
+    // Map repeat type to alarm schedule type index:
+    // Alarm schedule types: 0=Once, 1=Daily, 2=Weekly, 3=Dates, 4=Range
+    int alarmScheduleType;
+    switch (repeatType) {
+      case sleepRepeatDoNotRepeat:
+        alarmScheduleType = 0; // Once
+        break;
+      case sleepRepeatSpecificDays:
+        alarmScheduleType = 2; // Weekly
+        break;
+      case sleepRepeatSpecificDates:
+        alarmScheduleType = 3; // Dates
+        break;
+      default:
+        alarmScheduleType = 2; // Weekly
+        break;
+    }
+    _wakeAlarm.setSettingWithoutNotify("Type", alarmScheduleType);
   }
 
   void setBedtime(Time time) {
