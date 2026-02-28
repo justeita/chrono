@@ -391,6 +391,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get saveButton => '저장';
 
   @override
+  String get nextButton => 'Next';
+
+  @override
   String get labelField => '라벨';
 
   @override
@@ -609,6 +612,24 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noAlarmMessage => '알람 없음';
+
+  @override
+  String get noSleepModeMessage => 'No sleep schedules created';
+
+  @override
+  String get sleepModeTitle => 'Bedtime';
+
+  @override
+  String get sleepModeBedtimeLabel => 'Bedtime';
+
+  @override
+  String get sleepModeWakeLabel => 'Wake up';
+
+  @override
+  String get sleepModeDurationLabel => 'Sleep';
+
+  @override
+  String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
   String get noTimerMessage => '타이머 없음';

@@ -402,6 +402,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get saveButton => 'Guardar';
 
   @override
+  String get nextButton => 'Next';
+
+  @override
   String get labelField => 'Etiqueta';
 
   @override
@@ -624,6 +627,24 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noAlarmMessage => 'Não existem alarmes';
+
+  @override
+  String get noSleepModeMessage => 'No sleep schedules created';
+
+  @override
+  String get sleepModeTitle => 'Bedtime';
+
+  @override
+  String get sleepModeBedtimeLabel => 'Bedtime';
+
+  @override
+  String get sleepModeWakeLabel => 'Wake up';
+
+  @override
+  String get sleepModeDurationLabel => 'Sleep';
+
+  @override
+  String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
   String get noTimerMessage => 'Não existem temporizadores';

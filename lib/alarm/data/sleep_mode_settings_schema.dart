@@ -1,12 +1,5 @@
-import 'package:audio_session/audio_session.dart';
 import 'package:clock_app/alarm/data/alarm_task_schemas.dart';
 import 'package:clock_app/alarm/types/alarm_task.dart';
-import 'package:clock_app/alarm/types/range_interval.dart';
-import 'package:clock_app/alarm/types/schedules/daily_alarm_schedule.dart';
-import 'package:clock_app/alarm/types/schedules/dates_alarm_schedule.dart';
-import 'package:clock_app/alarm/types/schedules/once_alarm_schedule.dart';
-import 'package:clock_app/alarm/types/schedules/range_alarm_schedule.dart';
-import 'package:clock_app/alarm/types/schedules/weekly_alarm_schedule.dart';
 import 'package:clock_app/alarm/widgets/alarm_task_card.dart';
 import 'package:clock_app/alarm/widgets/try_alarm_task_button.dart';
 import 'package:clock_app/audio/audio_channels.dart';
@@ -27,13 +20,14 @@ import 'package:clock_app/settings/types/setting_group.dart';
 import 'package:clock_app/timer/types/time_duration.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/l10n/app_localizations.dart';
+import 'package:audio_session/audio_session.dart';
 
-const alarmSchemaVersion = 5;
+const sleepModeSchemaVersion = 1;
 
-SettingGroup alarmSettingsSchema = SettingGroup(
-  version: alarmSchemaVersion,
-  "AlarmSettings",
-  (context) => AppLocalizations.of(context)!.alarmTitle,
+SettingGroup sleepModeSettingsSchema = SettingGroup(
+  version: sleepModeSchemaVersion,
+  "SleepModeSettings",
+  (context) => AppLocalizations.of(context)!.sleepModeTitle,
   [
     StringSetting(
         "Label", (context) => AppLocalizations.of(context)!.labelField, ""),
@@ -41,45 +35,9 @@ SettingGroup alarmSettingsSchema = SettingGroup(
       "Schedule",
       (context) => AppLocalizations.of(context)!.alarmScheduleSettingGroup,
       [
-        SelectSetting<Type>(
-          "Type",
-          (context) => AppLocalizations.of(context)!.scheduleTypeField,
-          [
-            SelectSettingOption(
-              (context) => AppLocalizations.of(context)!.scheduleTypeOnce,
-              OnceAlarmSchedule,
-              getDescription: (context) =>
-                  AppLocalizations.of(context)!.scheduleTypeOnceDescription,
-            ),
-            SelectSettingOption(
-              (context) => AppLocalizations.of(context)!.scheduleTypeDaily,
-              DailyAlarmSchedule,
-              getDescription: (context) =>
-                  AppLocalizations.of(context)!.scheduleTypeDailyDescription,
-            ),
-            SelectSettingOption(
-              (context) => AppLocalizations.of(context)!.scheduleTypeWeek,
-              WeeklyAlarmSchedule,
-              getDescription: (context) =>
-                  AppLocalizations.of(context)!.scheduleTypeWeekDescription,
-            ),
-            SelectSettingOption(
-              (context) => AppLocalizations.of(context)!.scheduleTypeDate,
-              DatesAlarmSchedule,
-              getDescription: (context) =>
-                  AppLocalizations.of(context)!.scheduleTypeDateDescription,
-            ),
-            SelectSettingOption(
-              (context) => AppLocalizations.of(context)!.scheduleTypeRange,
-              RangeAlarmSchedule,
-              getDescription: (context) =>
-                  AppLocalizations.of(context)!.scheduleTypeRangeDescription,
-            ),
-          ],
-        ),
         ToggleSetting(
           "Week Days",
-          (context) => AppLocalizations.of(context)!.alarmWeekdaysSetting,
+          (context) => AppLocalizations.of(context)!.sleepModeWeekdaysSetting,
           weekdays
               .map((weekday) => ToggleSettingOption(
                   (context) => weekday.getAbbreviation(context), weekday.id))
@@ -92,64 +50,9 @@ SettingGroup alarmSettingsSchema = SettingGroup(
                 .value;
             return weekday.id - 1;
           },
-          enableConditions: [
-            ValueCondition(["Type"], (value) => value == WeeklyAlarmSchedule)
-          ],
         ),
-        DateTimeSetting(
-          "Dates",
-          (context) => AppLocalizations.of(context)!.alarmDatesSetting,
-          [],
-          enableConditions: [
-            ValueCondition(["Type"], (value) => value == DatesAlarmSchedule)
-          ],
-        ),
-        DateTimeSetting(
-          "Date Range",
-          (context) => AppLocalizations.of(context)!.alarmRangeSetting,
-          [],
-          rangeOnly: true,
-          enableConditions: [
-            ValueCondition(["Type"], (value) => value == RangeAlarmSchedule)
-          ],
-        ),
-        SelectSetting<RangeInterval>(
-          "Interval",
-          (context) => AppLocalizations.of(context)!.alarmIntervalSetting,
-          [
-            SelectSettingOption(
-                (context) => AppLocalizations.of(context)!.alarmIntervalDaily,
-                RangeInterval.daily),
-            SelectSettingOption(
-                (context) => AppLocalizations.of(context)!.alarmIntervalWeekly,
-                RangeInterval.weekly),
-          ],
-          enableConditions: [
-            ValueCondition(["Type"], (value) => value == RangeAlarmSchedule)
-          ],
-        ),
-        SwitchSetting(
-            "Delete After Ringing",
-            (context) =>
-                AppLocalizations.of(context)!.alarmDeleteAfterRingingSetting,
-            false,
-            enableConditions: [
-              ValueCondition(["Type"], (value) => value == OnceAlarmSchedule)
-            ]),
-        SwitchSetting(
-            "Delete After Finishing",
-            (context) =>
-                AppLocalizations.of(context)!.alarmDeleteAfterFinishingSetting,
-            false,
-            enableConditions: [
-              ValueCondition(
-                ["Type"],
-                (value) =>
-                    [RangeAlarmSchedule, DatesAlarmSchedule].contains(value),
-              )
-            ]),
       ],
-      icon: Icons.timer,
+      icon: Icons.calendar_today_rounded,
     ),
     SettingGroup(
       "Sound and Vibration",
@@ -178,14 +81,6 @@ SettingGroup alarmSettingsSchema = SettingGroup(
                   Icons.add,
                 ),
               ],
-              // shouldCloseOnSelect: false,
-            ),
-            SwitchSetting(
-              "start_melody_at_random_pos",
-              (context) => AppLocalizations.of(context)!.startMelodyAtRandomPos,
-              false,
-              getDescription: (context) => AppLocalizations.of(context)!
-                  .startMelodyAtRandomPosDescription,
             ),
             SliderSetting(
                 "Volume",
@@ -194,21 +89,10 @@ SettingGroup alarmSettingsSchema = SettingGroup(
                 100,
                 100,
                 unit: "%"),
-            SliderSetting(
-              "task_volume",
-              (context) => AppLocalizations.of(context)!.volumeWhileTasks,
-              0,
-              100,
-              50,
-              unit: "%",
-              getDescription: (context) => "Percentage of base volume",
-            ),
             SwitchSetting(
               "Rising Volume",
               (context) => AppLocalizations.of(context)!.risingVolumeSetting,
               false,
-
-              // description: "Gradually increase volume over time",
             ),
             DurationSetting(
                 "Time To Full Volume",
@@ -263,26 +147,6 @@ SettingGroup alarmSettingsSchema = SettingGroup(
             3,
             unit: "times",
             snapLength: 1,
-            // description:
-            //     "The maximum number of times the alarm can be snoozed before it is dismissed",
-            enableConditions: [
-              ValueCondition(["Enabled"], (value) => value == true)
-            ]),
-        SettingGroup(
-            "While Snoozed",
-            (context) => AppLocalizations.of(context)!.whileSnoozedSettingGroup,
-            [
-              SwitchSetting(
-                  "Prevent Disabling",
-                  (context) => AppLocalizations.of(context)!
-                      .snoozePreventDisablingSetting,
-                  false),
-              SwitchSetting(
-                  "Prevent Deletion",
-                  (context) => AppLocalizations.of(context)!
-                      .snoozePreventDeletionSetting,
-                  false),
-            ],
             enableConditions: [
               ValueCondition(["Enabled"], (value) => value == true)
             ]),
@@ -293,13 +157,44 @@ SettingGroup alarmSettingsSchema = SettingGroup(
         "Length",
       ],
     ),
+    SettingGroup(
+      "Dismiss Confirmation",
+      (context) =>
+          AppLocalizations.of(context)!.dismissConfirmationSettingGroup,
+      [
+        SwitchSetting(
+          "Enabled",
+          (context) =>
+              AppLocalizations.of(context)!.dismissConfirmationEnabledSetting,
+          true, // Default ON for sleep mode
+          getDescription: (context) => AppLocalizations.of(context)!
+              .dismissConfirmationEnabledSettingDescription,
+        ),
+        SliderSetting(
+            "Wait Time",
+            (context) =>
+                AppLocalizations.of(context)!.dismissConfirmationTimeSetting,
+            5,
+            120,
+            30,
+            unit: "seconds",
+            snapLength: 5,
+            getDescription: (context) => AppLocalizations.of(context)!
+                .dismissConfirmationTimeSettingDescription,
+            enableConditions: [
+              ValueCondition(["Enabled"], (value) => value == true)
+            ]),
+      ],
+      icon: Icons.verified_user_rounded,
+      summarySettings: [
+        "Enabled",
+        "Wait Time",
+      ],
+    ),
     CustomizableListSetting<AlarmTask>(
       "Tasks",
       (context) => AppLocalizations.of(context)!.tasksSetting,
       [],
-      // kDebugMode
-      // ? [AlarmTask(AlarmTaskType.math), AlarmTask(AlarmTaskType.sequence)]
-      // : [],
       alarmTaskSchemasMap.keys.map((key) => AlarmTask(key)).toList(),
       addCardBuilder: (item) => AlarmTaskCard(task: item, isAddCard: true),
       cardBuilder: (item, [onDelete, onDuplicate]) => AlarmTaskCard(
@@ -330,13 +225,5 @@ SettingGroup alarmSettingsSchema = SettingGroup(
         ),
       ],
     ),
-
-    // ListSetting<Tag>()
-    // CustomSetting<AlarmTaskList>("Tasks", AlarmTaskList([]),
-    //     (context, setting) {
-    //   return CustomizeAlarmTasksScreen(setting: setting);
-    // }, (context, setting) {
-    //   return Text("${setting.value.tasks.length} tasks");
-    // }),
   ],
 );

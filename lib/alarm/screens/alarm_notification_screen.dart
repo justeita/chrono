@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:clock_app/alarm/logic/alarm_isolate.dart';
 import 'package:clock_app/alarm/utils/alarm_id.dart';
 import 'package:clock_app/alarm/types/alarm.dart';
+import 'package:clock_app/alarm/types/sleep_mode.dart';
 import 'package:clock_app/alarm/widgets/dismiss_confirmation_widget.dart';
 import 'package:clock_app/common/types/notification_type.dart';
 import 'package:clock_app/common/widgets/clock/digital_clock.dart';
@@ -36,10 +37,26 @@ class AlarmNotificationScreen extends StatefulWidget {
 
 class _AlarmNotificationScreenState extends State<AlarmNotificationScreen> {
   late Alarm alarm;
+  SleepMode? _sleepMode;
   late Widget _currentWidget;
   late int _currentIndex = widget.initialIndex;
   late Widget actionWidget;
   bool _showingDismissConfirmation = false;
+
+  bool get _hasDismissConfirmation {
+    // Dismiss confirmation is only available for sleep mode alarms
+    if (_sleepMode != null) {
+      return _sleepMode!.dismissConfirmationEnabled;
+    }
+    return false;
+  }
+
+  int get _dismissConfirmationWaitTime {
+    if (_sleepMode != null) {
+      return _sleepMode!.dismissConfirmationWaitTime.toInt();
+    }
+    return 30;
+  }
 
   void _finalDismiss() {
     if (widget.onPop != null) {
@@ -59,7 +76,8 @@ class _AlarmNotificationScreenState extends State<AlarmNotificationScreen> {
         _currentWidget = actionWidget;
       } else if (_currentIndex >= alarm.tasks.length) {
         // After all tasks are done, check if dismiss confirmation is needed
-        if (alarm.dismissConfirmationEnabled &&
+        // Dismiss confirmation only applies to sleep mode alarms
+        if (_hasDismissConfirmation &&
             !_showingDismissConfirmation &&
             widget.dismissType == AlarmDismissType.dismiss) {
           _showingDismissConfirmation = true;
@@ -67,7 +85,7 @@ class _AlarmNotificationScreenState extends State<AlarmNotificationScreen> {
           IsolateNameServer.lookupPortByName(setAlarmVolumePortName)
               ?.send([0.0]);
           _currentWidget = DismissConfirmationWidget(
-            waitTimeSeconds: alarm.dismissConfirmationWaitTime.toInt(),
+            waitTimeSeconds: _dismissConfirmationWaitTime,
             onConfirmed: _finalDismiss,
           );
         } else {
@@ -95,6 +113,9 @@ class _AlarmNotificationScreenState extends State<AlarmNotificationScreen> {
       return;
     }
     alarm = currentAlarm;
+
+    // Check if this alarm belongs to a sleep mode
+    _sleepMode = getSleepModeByAlarmId(widget.scheduleId);
 
     try {
       actionWidget = appSettings

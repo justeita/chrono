@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:clock_app/alarm/logic/alarm_isolate.dart';
 import 'package:clock_app/alarm/logic/schedule_alarm.dart';
 import 'package:clock_app/alarm/types/alarm.dart';
+import 'package:clock_app/alarm/types/sleep_mode.dart';
 import 'package:clock_app/common/types/notification_type.dart';
 import 'package:clock_app/common/types/schedule_id.dart';
 import 'package:clock_app/common/utils/list_storage.dart';
@@ -29,22 +30,35 @@ Future<void> updateAlarm(int scheduleId, String description) async {
     int alarmIndex =
         alarms.indexWhere((alarm) => alarm.hasScheduleWithId(scheduleId));
 
-    if (alarmIndex == -1) {
-      logger.e("Alarm with scheduleId $scheduleId not found during update");
+    if (alarmIndex != -1) {
+      Alarm alarm = alarms[alarmIndex];
+
+      await alarm.update(description);
+
+      if (alarm.isMarkedForDeletion) {
+        await alarm.disable();
+        alarms.removeAt(alarmIndex);
+      } else {
+        alarms[alarmIndex] = alarm;
+      }
+      await saveList("alarms", alarms);
       return;
     }
 
-    Alarm alarm = alarms[alarmIndex];
+    // Check sleep modes if not found in regular alarms
+    List<SleepMode> sleepModes = await loadList("sleep_modes");
+    int sleepIndex =
+        sleepModes.indexWhere((sm) => sm.hasScheduleWithId(scheduleId));
 
-    await alarm.update(description);
-
-    if (alarm.isMarkedForDeletion) {
-      await alarm.disable();
-      alarms.removeAt(alarmIndex);
-    } else {
-      alarms[alarmIndex] = alarm;
+    if (sleepIndex != -1) {
+      SleepMode sleepMode = sleepModes[sleepIndex];
+      await sleepMode.update(description);
+      sleepModes[sleepIndex] = sleepMode;
+      await saveList("sleep_modes", sleepModes);
+      return;
     }
-    await saveList("alarms", alarms);
+
+    logger.e("Alarm with scheduleId $scheduleId not found during update");
   } catch (e) {
     logger.e("Error updating alarm $scheduleId: $e");
   }
@@ -79,6 +93,17 @@ Future<void> updateAlarms(String description) async {
 
   await saveList("alarms", alarms);
 
+  // Also update sleep mode alarms
+  List<SleepMode> sleepModes = await loadList("sleep_modes");
+  for (SleepMode sleepMode in sleepModes) {
+    try {
+      await sleepMode.update(description);
+    } catch (e) {
+      logger.e("Error updating sleep mode ${sleepMode.id}: $e");
+    }
+  }
+  await saveList("sleep_modes", sleepModes);
+
   // Notify other isolates that are listening for alarm updates
   SendPort? sendPort = IsolateNameServer.lookupPortByName(updatePortName);
   sendPort?.send("updateAlarms");
@@ -90,21 +115,38 @@ Future<void> updateAlarmById(
     List<Alarm> alarms = await loadList("alarms");
     int alarmIndex =
         alarms.indexWhere((alarm) => alarm.hasScheduleWithId(scheduleId));
-    if (alarmIndex == -1) {
+
+    if (alarmIndex != -1) {
+      Alarm alarm = alarms[alarmIndex];
+      await callback(alarm);
+      if (alarm.isMarkedForDeletion) {
+        await alarm.disable();
+        alarms.removeAt(alarmIndex);
+      } else {
+        alarms[alarmIndex] = alarm;
+      }
+      await saveList("alarms", alarms);
+
+      SendPort? sendPort = IsolateNameServer.lookupPortByName(updatePortName);
+      sendPort?.send("updateAlarms");
       return;
     }
-    Alarm alarm = alarms[alarmIndex];
-    await callback(alarm);
-    if (alarm.isMarkedForDeletion) {
-      await alarm.disable();
-      alarms.removeAt(alarmIndex);
-    } else {
-      alarms[alarmIndex] = alarm;
-    }
-    await saveList("alarms", alarms);
 
-    SendPort? sendPort = IsolateNameServer.lookupPortByName(updatePortName);
-    sendPort?.send("updateAlarms");
+    // Check sleep modes if not found in regular alarms
+    List<SleepMode> sleepModes = await loadList("sleep_modes");
+    int sleepIndex =
+        sleepModes.indexWhere((sm) => sm.hasScheduleWithId(scheduleId));
+
+    if (sleepIndex != -1) {
+      SleepMode sleepMode = sleepModes[sleepIndex];
+      await callback(sleepMode.wakeAlarm);
+      sleepModes[sleepIndex] = sleepMode;
+      await saveList("sleep_modes", sleepModes);
+
+      SendPort? sendPort = IsolateNameServer.lookupPortByName(updatePortName);
+      sendPort?.send("updateAlarms");
+      return;
+    }
   } catch (e) {
     logger.e("Error updating alarm by id $scheduleId: $e");
   }

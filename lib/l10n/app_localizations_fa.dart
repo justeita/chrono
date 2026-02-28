@@ -401,6 +401,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get saveButton => 'ذخیره';
 
   @override
+  String get nextButton => 'Next';
+
+  @override
   String get labelField => 'سرنام';
 
   @override
@@ -622,6 +625,24 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get noAlarmMessage => 'هشداری ساخته نشده است';
+
+  @override
+  String get noSleepModeMessage => 'No sleep schedules created';
+
+  @override
+  String get sleepModeTitle => 'Bedtime';
+
+  @override
+  String get sleepModeBedtimeLabel => 'Bedtime';
+
+  @override
+  String get sleepModeWakeLabel => 'Wake up';
+
+  @override
+  String get sleepModeDurationLabel => 'Sleep';
+
+  @override
+  String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
   String get noTimerMessage => 'زمان‌سنجی ساخته نشده است';

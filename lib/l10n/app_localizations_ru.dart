@@ -403,6 +403,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get saveButton => 'Сохранить';
 
   @override
+  String get nextButton => 'Next';
+
+  @override
   String get labelField => 'Метка';
 
   @override
@@ -626,6 +629,24 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get noAlarmMessage => 'Будильники не созданы';
+
+  @override
+  String get noSleepModeMessage => 'No sleep schedules created';
+
+  @override
+  String get sleepModeTitle => 'Bedtime';
+
+  @override
+  String get sleepModeBedtimeLabel => 'Bedtime';
+
+  @override
+  String get sleepModeWakeLabel => 'Wake up';
+
+  @override
+  String get sleepModeDurationLabel => 'Sleep';
+
+  @override
+  String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
   String get noTimerMessage => 'Таймеры не созданы';

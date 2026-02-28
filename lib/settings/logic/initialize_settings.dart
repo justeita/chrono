@@ -4,6 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:clock_app/alarm/logic/update_alarms.dart';
 import 'package:clock_app/alarm/types/alarm.dart';
 import 'package:clock_app/alarm/types/alarm_event.dart';
+import 'package:clock_app/alarm/types/sleep_mode.dart';
 import 'package:clock_app/audio/logic/ringtones.dart';
 import 'package:clock_app/clock/data/default_favorite_cities.dart';
 import 'package:clock_app/clock/logic/timezone_database.dart';
@@ -64,6 +65,7 @@ Future<void> initializeStorage([bool clearSettingsOnDebug = true]) async {
   // }
   //
   await initList<Alarm>("alarms", []);
+  await initList<SleepMode>("sleep_modes", []);
   await initList<Tag>("tags", defaultTags);
   await initList<AlarmEvent>("alarm_events", []);
   await initList<ScheduleId>('schedule_ids', []);

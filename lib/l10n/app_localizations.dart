@@ -893,6 +893,12 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get saveButton;
 
+  /// No description provided for @nextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextButton;
+
   /// No description provided for @labelField.
   ///
   /// In en, this message translates to:
@@ -1318,6 +1324,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No alarms created'**
   String get noAlarmMessage;
+
+  /// No description provided for @noSleepModeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No sleep schedules created'**
+  String get noSleepModeMessage;
+
+  /// No description provided for @sleepModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedtime'**
+  String get sleepModeTitle;
+
+  /// No description provided for @sleepModeBedtimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedtime'**
+  String get sleepModeBedtimeLabel;
+
+  /// No description provided for @sleepModeWakeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wake up'**
+  String get sleepModeWakeLabel;
+
+  /// No description provided for @sleepModeDurationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get sleepModeDurationLabel;
+
+  /// No description provided for @sleepModeWeekdaysSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Days'**
+  String get sleepModeWeekdaysSetting;
 
   /// No description provided for @noTimerMessage.
   ///

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:clock_app/alarm/types/alarm.dart';
 import 'package:clock_app/alarm/types/alarm_event.dart';
 import 'package:clock_app/alarm/types/alarm_task.dart';
+import 'package:clock_app/alarm/types/sleep_mode.dart';
 import 'package:clock_app/common/types/file_item.dart';
 import 'package:clock_app/common/types/schedule_id.dart';
 import 'package:clock_app/common/types/tag.dart';
@@ -21,6 +22,7 @@ import 'package:clock_app/common/utils/time_of_day.dart';
 
 final fromJsonFactories = <Type, Function>{
   Alarm: (Json json) => Alarm.fromJson(json),
+  SleepMode: (Json json) => SleepMode.fromJson(json),
   City: (Json json) => City.fromJson(json),
   ClockTimer: (Json json) => ClockTimer.fromJson(json),
   ClockStopwatch: (Json json) => ClockStopwatch.fromJson(json),

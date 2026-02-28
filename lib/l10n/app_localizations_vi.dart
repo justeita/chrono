@@ -399,6 +399,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get saveButton => 'Lưu';
 
   @override
+  String get nextButton => 'Next';
+
+  @override
   String get labelField => 'Nhãn';
 
   @override
@@ -622,6 +625,24 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get noAlarmMessage => 'Không có báo thức nào được tạo';
+
+  @override
+  String get noSleepModeMessage => 'No sleep schedules created';
+
+  @override
+  String get sleepModeTitle => 'Bedtime';
+
+  @override
+  String get sleepModeBedtimeLabel => 'Bedtime';
+
+  @override
+  String get sleepModeWakeLabel => 'Wake up';
+
+  @override
+  String get sleepModeDurationLabel => 'Sleep';
+
+  @override
+  String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
   String get noTimerMessage => 'Không có báo thức nào đã được tạo';

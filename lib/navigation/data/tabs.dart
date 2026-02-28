@@ -1,4 +1,4 @@
-import 'package:clock_app/alarm/screens/alarm_screen.dart';
+import 'package:clock_app/alarm/screens/alarm_tab_screen.dart';
 import 'package:clock_app/navigation/types/quick_action_controller.dart';
 import 'package:clock_app/stopwatch/screens/stopwatch_screen.dart';
 import 'package:clock_app/timer/screens/timer_screen.dart';
@@ -17,7 +17,7 @@ List<Tab> getTabs(BuildContext context,
         title: AppLocalizations.of(context)!.alarmTitle,
         icon: FluxIcons.alarm,
         widget: RepaintBoundary(
-            child: AlarmScreen(actionController: actionController))),
+            child: AlarmTabScreen(actionController: actionController))),
     Tab(
         id: "clock",
         title: AppLocalizations.of(context)!.clockTitle,

@@ -405,6 +405,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get saveButton => 'சேமி';
 
   @override
+  String get nextButton => 'Next';
+
+  @override
   String get labelField => 'சிட்டை';
 
   @override
@@ -629,6 +632,24 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get noAlarmMessage => 'அலாரங்கள் எதுவும் உருவாக்கப்படவில்லை';
+
+  @override
+  String get noSleepModeMessage => 'No sleep schedules created';
+
+  @override
+  String get sleepModeTitle => 'Bedtime';
+
+  @override
+  String get sleepModeBedtimeLabel => 'Bedtime';
+
+  @override
+  String get sleepModeWakeLabel => 'Wake up';
+
+  @override
+  String get sleepModeDurationLabel => 'Sleep';
+
+  @override
+  String get sleepModeWeekdaysSetting => 'Active Days';
 
   @override
   String get noTimerMessage => 'டைமர்கள் எதுவும் உருவாக்கப்படவில்லை';
