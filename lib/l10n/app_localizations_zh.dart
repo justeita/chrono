@@ -297,7 +297,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get styleSettingGroup => '样式';
 
   @override
-  String get useMaterialYouColorSetting => '使用 Material You 样式';
+  String get useMaterialYouColorSetting => '使用 Material 3 Expressive 样式';
 
   @override
   String get materialBrightnessSetting => '亮度';
@@ -1600,7 +1600,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get styleSettingGroup => '樣式';
 
   @override
-  String get useMaterialYouColorSetting => '使用 Material You';
+  String get useMaterialYouColorSetting => '使用 Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => '亮度';

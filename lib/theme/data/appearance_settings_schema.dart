@@ -12,7 +12,6 @@ import 'package:clock_app/theme/utils/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/l10n/app_localizations.dart';
 
-
 SettingGroup appearanceSettingsSchema = SettingGroup(
   "Appearance",
   (context) => AppLocalizations.of(context)!.appearanceSettingGroup,
@@ -22,9 +21,9 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
       (context) => AppLocalizations.of(context)!.colorsSettingGroup,
       [
         SwitchSetting(
-          "Use Material You",
+          "Use Material 3 Expressive",
           (context) => AppLocalizations.of(context)!.useMaterialYouColorSetting,
-          false,
+          true,
           onChange: (context, value) => App.refreshTheme(context),
           searchTags: ["primary", "color", "material"],
         ),
@@ -47,7 +46,7 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
                   ThemeBrightness.dark),
             ],
             enableConditions: [
-              ValueCondition(["Use Material You"], (value) => value == true)
+              ValueCondition(["Use Material 3 Expressive"], (value) => value == true)
             ],
             onChange: (context, index) => {App.refreshTheme(context)}),
         SwitchSetting(
@@ -55,7 +54,7 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
             (context) => AppLocalizations.of(context)!.systemDarkModeSetting,
             false,
             enableConditions: [
-              ValueCondition(["Use Material You"], (value) => value == false)
+              ValueCondition(["Use Material 3 Expressive"], (value) => value == false)
             ],
             onChange: (context, value) => {App.refreshTheme(context)}),
         CustomSetting(
@@ -82,7 +81,7 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
           },
           searchTags: ["theme", "style", "visual", "dark mode"],
           enableConditions: [
-            ValueCondition(["Use Material You"], (value) => value == false)
+            ValueCondition(["Use Material 3 Expressive"], (value) => value == false)
           ],
         ),
         CustomSetting(
@@ -108,7 +107,7 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
           },
           searchTags: ["theme", "style", "visual", "dark mode", "night mode"],
           enableConditions: [
-            ValueCondition(["Use Material You"], (value) => value == false),
+            ValueCondition(["Use Material 3 Expressive"], (value) => value == false),
             ValueCondition(["System Dark Mode"], (value) => value == true)
           ],
         ),
@@ -119,9 +118,9 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
           onChange: (context, value) {
             App.refreshTheme(context);
           },
-          searchTags: ["primary", "color", "material you"],
+          searchTags: ["primary", "color", "Material 3 Expressive"],
           enableConditions: [
-            // ValueCondition(["Use Material You"], (value) => value == false)
+            // ValueCondition(["Use Material 3 Expressive"], (value) => value == false)
           ],
         ),
         ColorSetting(
@@ -133,9 +132,9 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
           },
           enableConditions: [
             ValueCondition(["Override Accent Color"], (value) => value == true),
-            // ValueCondition(["Use Material You"], (value) => value == false)
+            // ValueCondition(["Use Material 3 Expressive"], (value) => value == false)
           ],
-          searchTags: ["primary", "color", "material you"],
+          searchTags: ["primary", "color", "Material 3 Expressive"],
         ),
       ],
     ),
@@ -146,7 +145,7 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
         SwitchSetting(
           "Use Material Style",
           (context) => AppLocalizations.of(context)!.useMaterialStyleSetting,
-          false,
+          true,
           onChange: (context, value) => App.refreshTheme(context),
           searchTags: [
             "navigation",
@@ -209,7 +208,7 @@ SettingGroup appearanceSettingsSchema = SettingGroup(
       SwitchSetting(
         "Extra Animations",
         (context) => AppLocalizations.of(context)!.extraAnimationSetting,
-        false,
+        true,
         getDescription: (context) =>
             AppLocalizations.of(context)!.extraAnimationSettingDescription,
       ),

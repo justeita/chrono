@@ -311,7 +311,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get styleSettingGroup => 'Estilo';
 
   @override
-  String get useMaterialYouColorSetting => 'Material You';
+  String get useMaterialYouColorSetting => 'Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Brilho';
@@ -332,7 +332,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get accentColorSetting => 'Cor de destaque';
 
   @override
-  String get useMaterialStyleSetting => 'Estilo Material You';
+  String get useMaterialStyleSetting => 'Estilo Material 3 Expressive';
 
   @override
   String get styleThemeSetting => 'Estilo do tema';

@@ -52,7 +52,7 @@ SettingGroup appearanceSettings = appSettings
       : colorSettings.getSetting("Color Scheme")
           .value;
 
-  bool useMaterialYou = colorSettings.getSetting("Use Material You")
+  bool useMaterialYou = colorSettings.getSetting("Use Material 3 Expressive")
       .value;
   bool useMaterialStyle = styleSettings.getSetting("Use Material Style")
       .value;

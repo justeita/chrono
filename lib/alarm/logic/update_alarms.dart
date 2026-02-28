@@ -7,32 +7,47 @@ import 'package:clock_app/alarm/types/alarm.dart';
 import 'package:clock_app/common/types/notification_type.dart';
 import 'package:clock_app/common/types/schedule_id.dart';
 import 'package:clock_app/common/utils/list_storage.dart';
+import 'package:clock_app/developer/logic/logger.dart';
 
 Future<void> cancelAllAlarms() async {
   List<ScheduleId> scheduleIds =
       await loadList<ScheduleId>('alarm_schedule_ids');
   for (var scheduleId in scheduleIds) {
-    await cancelAlarm(scheduleId.id, ScheduledNotificationType.alarm);
+    try {
+      await cancelAlarm(scheduleId.id, ScheduledNotificationType.alarm);
+    } catch (e) {
+      logger.e("Error canceling alarm ${scheduleId.id}: $e");
+    }
   }
   scheduleIds.clear();
   await saveList('alarm_schedule_ids', scheduleIds);
 }
 
 Future<void> updateAlarm(int scheduleId, String description) async {
-  List<Alarm> alarms = await loadList("alarms");
-  int alarmIndex =
-      alarms.indexWhere((alarm) => alarm.hasScheduleWithId(scheduleId));
-  Alarm alarm = alarms[alarmIndex];
+  try {
+    List<Alarm> alarms = await loadList("alarms");
+    int alarmIndex =
+        alarms.indexWhere((alarm) => alarm.hasScheduleWithId(scheduleId));
 
-  await alarm.update(description);
+    if (alarmIndex == -1) {
+      logger.e("Alarm with scheduleId $scheduleId not found during update");
+      return;
+    }
 
-  if (alarm.isMarkedForDeletion) {
-    await alarm.disable();
-    alarms.removeAt(alarmIndex);
-  } else {
-    alarms[alarmIndex] = alarm;
+    Alarm alarm = alarms[alarmIndex];
+
+    await alarm.update(description);
+
+    if (alarm.isMarkedForDeletion) {
+      await alarm.disable();
+      alarms.removeAt(alarmIndex);
+    } else {
+      alarms[alarmIndex] = alarm;
+    }
+    await saveList("alarms", alarms);
+  } catch (e) {
+    logger.e("Error updating alarm $scheduleId: $e");
   }
-  await saveList("alarms", alarms);
 }
 
 // Update the state of all the alarms and save them to the disk
@@ -43,14 +58,24 @@ Future<void> updateAlarms(String description) async {
 
   List<Alarm> alarms = await loadList("alarms");
 
+  List<Alarm> corruptAlarms = [];
   for (Alarm alarm in alarms) {
-    await alarm.update(description);
-    if (alarm.isMarkedForDeletion) {
-      await alarm.disable();
+    try {
+      await alarm.update(description);
+      if (alarm.isMarkedForDeletion) {
+        await alarm.disable();
+      }
+    } catch (e) {
+      logger.e("Error updating alarm ${alarm.id}: $e");
+      corruptAlarms.add(alarm);
+      try {
+        await alarm.disable();
+      } catch (_) {}
     }
   }
 
-  alarms.removeWhere((alarm) => alarm.isMarkedForDeletion);
+  alarms.removeWhere(
+      (alarm) => alarm.isMarkedForDeletion || corruptAlarms.contains(alarm));
 
   await saveList("alarms", alarms);
 
@@ -61,22 +86,26 @@ Future<void> updateAlarms(String description) async {
 
 Future<void> updateAlarmById(
     int scheduleId, Future<void> Function(Alarm) callback) async {
-  List<Alarm> alarms = await loadList("alarms");
-  int alarmIndex =
-      alarms.indexWhere((alarm) => alarm.hasScheduleWithId(scheduleId));
-  if (alarmIndex == -1) {
-    return;
-  }
-  Alarm alarm = alarms[alarmIndex];
-  await callback(alarm);
-  if (alarm.isMarkedForDeletion) {
-    await alarm.disable();
-    alarms.removeAt(alarmIndex);
-  } else {
-    alarms[alarmIndex] = alarm;
-  }
-  await saveList("alarms", alarms);
+  try {
+    List<Alarm> alarms = await loadList("alarms");
+    int alarmIndex =
+        alarms.indexWhere((alarm) => alarm.hasScheduleWithId(scheduleId));
+    if (alarmIndex == -1) {
+      return;
+    }
+    Alarm alarm = alarms[alarmIndex];
+    await callback(alarm);
+    if (alarm.isMarkedForDeletion) {
+      await alarm.disable();
+      alarms.removeAt(alarmIndex);
+    } else {
+      alarms[alarmIndex] = alarm;
+    }
+    await saveList("alarms", alarms);
 
-  SendPort? sendPort = IsolateNameServer.lookupPortByName(updatePortName);
-  sendPort?.send("updateAlarms");
+    SendPort? sendPort = IsolateNameServer.lookupPortByName(updatePortName);
+    sendPort?.send("updateAlarms");
+  } catch (e) {
+    logger.e("Error updating alarm by id $scheduleId: $e");
+  }
 }

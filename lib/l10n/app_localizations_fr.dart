@@ -313,7 +313,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get styleSettingGroup => 'Style';
 
   @override
-  String get useMaterialYouColorSetting => 'Utiliser Material You';
+  String get useMaterialYouColorSetting => 'Utiliser Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Luminosité';

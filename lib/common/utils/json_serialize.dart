@@ -49,7 +49,15 @@ List<T> listFromString<T extends JsonSerializable>(String encodedItems) {
   try {
     List<dynamic> rawList = json.decode(encodedItems) as List<dynamic>;
     Function fromJson = fromJsonFactories[T]!;
-    List<T> list = rawList.map<T>((json) => fromJson(json)).toList();
+    List<T> list = [];
+    for (var item in rawList) {
+      try {
+        list.add(fromJson(item));
+      } catch (e) {
+        logger.e("Error deserializing item of type $T: ${e.toString()}");
+        // Skip corrupt items instead of failing the entire list
+      }
+    }
     return list;
   } catch (e) {
     logger.e("Error decoding string: ${e.toString()}");

@@ -34,8 +34,10 @@ class FileItem extends ListItem {
       : _id = json != null ? json['id'] ?? getId() : getId(),
         _type = json != null
             ? json['type'] != null
-                ? FileItemType.values
-                    .firstWhere((e) => e.toString() == json['type'])
+                ? FileItemType.values.firstWhere(
+                    (e) => e.toString() == json['type'],
+                    orElse: () => FileItemType.audio,
+                  )
                 : FileItemType.audio
             : FileItemType.audio,
         name = json != null ? json['title'] ?? 'Unknown' : 'Unknown',

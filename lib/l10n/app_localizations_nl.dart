@@ -308,7 +308,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get styleSettingGroup => 'Style';
 
   @override
-  String get useMaterialYouColorSetting => 'Use Material You';
+  String get useMaterialYouColorSetting => 'Use Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Brightness';

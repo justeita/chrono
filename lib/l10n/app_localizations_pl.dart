@@ -311,7 +311,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get styleSettingGroup => 'Style';
 
   @override
-  String get useMaterialYouColorSetting => 'Użyj Material You';
+  String get useMaterialYouColorSetting => 'Użyj Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Motyw';

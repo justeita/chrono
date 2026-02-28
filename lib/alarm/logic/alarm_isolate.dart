@@ -122,9 +122,10 @@ void triggerAlarm(int scheduleId, Json params) async {
     return;
   }
   if (now.millisecondsSinceEpoch >
-      alarm.currentScheduleDateTime!.millisecondsSinceEpoch + 1000 * 60 * 60) {
+      alarm.currentScheduleDateTime!.millisecondsSinceEpoch +
+          1000 * 60 * 60 * 24) {
     logger.i(
-        "Skipping alarm $scheduleId because it was set to ring more than an hour ago. Current time: $now, Scheduled time: ${alarm.currentScheduleDateTime}");
+        "Skipping alarm $scheduleId because it was set to ring more than a day ago. Current time: $now, Scheduled time: ${alarm.currentScheduleDateTime}");
     return;
   }
 

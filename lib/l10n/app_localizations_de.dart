@@ -314,7 +314,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get styleSettingGroup => 'Design';
 
   @override
-  String get useMaterialYouColorSetting => 'Nutze Material You';
+  String get useMaterialYouColorSetting => 'Nutze Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Helligkeit';

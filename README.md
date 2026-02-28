@@ -65,7 +65,7 @@ Its usable, but still WIP, so you might encounter some bugs. Make sure to test i
 - Lap history with lap times and elapsed times
 - Lap comparisons (fastest, slowest, average, previous)
 ### Appearance
-- Material You icons and themes
+- Material 3 Expressive icons and themes
 - Highly customizable color themes
 - Highly customizable style themes
 - Other options like animations, nav bar styles, time picker styles

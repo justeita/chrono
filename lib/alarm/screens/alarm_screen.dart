@@ -321,6 +321,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
           FAB(
             onPressed: () {
               Alarm alarm = Alarm(Time.fromNow(const Duration(seconds: 5)));
+              alarm.setSettingWithoutNotify("Delete After Ringing", true);
               _listController.addItem(alarm);
             },
             index: 1,

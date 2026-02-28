@@ -128,7 +128,7 @@ class _AppState extends State<App> {
     ThemeData lightTheme = defaultTheme;
     ThemeData darkTheme = defaultTheme;
 
-    bool useMaterialYou = _colorSettings.getSetting("Use Material You").value;
+    bool useMaterialYou = _colorSettings.getSetting("Use Material 3 Expressive").value;
     bool shouldOverrideAccent =
         _colorSettings.getSetting("Override Accent Color").value;
     Color overrideColor = _colorSettings.getSetting("Accent Color").value;

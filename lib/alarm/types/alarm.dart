@@ -264,10 +264,12 @@ class Alarm extends CustomizableListItem {
   }
 
   Future<void> updateReminderNotification() async {
+    final DateTime now = DateTime.now();
     if (!isSnoozed &&
         !activeSchedule.isDisabled &&
         currentScheduleDateTime != null &&
-        !shouldSkipNextAlarm) {
+        !shouldSkipNextAlarm &&
+        currentScheduleDateTime!.isAfter(now)) {
       await createAlarmReminderNotification(
           id, label, currentScheduleDateTime!, tasks.isNotEmpty);
     } else {
@@ -354,8 +356,7 @@ class Alarm extends CustomizableListItem {
     }
   }
 
-  void setRingtone(BuildContext context, int index) {
-  }
+  void setRingtone(BuildContext context, int index) {}
 
   void setTime(Time time) {
     _time = time;
@@ -417,23 +418,28 @@ class Alarm extends CustomizableListItem {
           .settingItems,
     );
     _settings.loadValueFromJson(json['settings']);
-    _schedules = [
-      OnceAlarmSchedule.fromJson(json['schedules'][0]),
-      DailyAlarmSchedule.fromJson(json['schedules'][1]),
-      WeeklyAlarmSchedule.fromJson(
-        json['schedules'][2],
-        _settings.getSetting("Week Days"),
-      ),
-      DatesAlarmSchedule.fromJson(
-        json['schedules'][3],
-        settings.getSetting("Dates"),
-      ),
-      RangeAlarmSchedule.fromJson(
-        json['schedules'][4],
-        settings.getSetting("Date Range"),
-        settings.getSetting("Interval"),
-      ),
-    ];
+    try {
+      _schedules = [
+        OnceAlarmSchedule.fromJson(json['schedules'][0]),
+        DailyAlarmSchedule.fromJson(json['schedules'][1]),
+        WeeklyAlarmSchedule.fromJson(
+          json['schedules'][2],
+          _settings.getSetting("Week Days"),
+        ),
+        DatesAlarmSchedule.fromJson(
+          json['schedules'][3],
+          settings.getSetting("Dates"),
+        ),
+        RangeAlarmSchedule.fromJson(
+          json['schedules'][4],
+          settings.getSetting("Date Range"),
+          settings.getSetting("Interval"),
+        ),
+      ];
+    } catch (e) {
+      // If schedule data is corrupt, create fresh schedules
+      _schedules = createSchedules(_settings);
+    }
   }
 
   @override

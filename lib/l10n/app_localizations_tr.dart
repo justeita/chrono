@@ -311,7 +311,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get styleSettingGroup => 'Tarz';
 
   @override
-  String get useMaterialYouColorSetting => 'Material You kullan';
+  String get useMaterialYouColorSetting => 'Material 3 Expressive kullan';
 
   @override
   String get materialBrightnessSetting => 'Parlaklık';

@@ -307,7 +307,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get styleSettingGroup => 'Phong cách';
 
   @override
-  String get useMaterialYouColorSetting => 'Sử dụng Material You';
+  String get useMaterialYouColorSetting => 'Sử dụng Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Độ sáng';

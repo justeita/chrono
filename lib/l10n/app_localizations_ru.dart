@@ -311,7 +311,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get styleSettingGroup => 'Стиль';
 
   @override
-  String get useMaterialYouColorSetting => 'Использовать Material You';
+  String get useMaterialYouColorSetting => 'Использовать Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Тема';

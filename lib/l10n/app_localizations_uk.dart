@@ -312,7 +312,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get styleSettingGroup => 'Стиль';
 
   @override
-  String get useMaterialYouColorSetting => 'Використовувати Material You';
+  String get useMaterialYouColorSetting =>
+      'Використовувати Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Яскравість';

@@ -301,7 +301,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get styleSettingGroup => '스타일';
 
   @override
-  String get useMaterialYouColorSetting => 'Material You 사용';
+  String get useMaterialYouColorSetting => 'Material 3 Expressive 사용';
 
   @override
   String get materialBrightnessSetting => '밝기';

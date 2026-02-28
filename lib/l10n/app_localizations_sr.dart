@@ -308,7 +308,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get styleSettingGroup => 'Стил';
 
   @override
-  String get useMaterialYouColorSetting => 'Користи \"Material You\"';
+  String get useMaterialYouColorSetting => 'Користи \"Material 3 Expressive\"';
 
   @override
   String get materialBrightnessSetting => 'Осветљеност';

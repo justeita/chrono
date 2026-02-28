@@ -716,7 +716,7 @@ abstract class AppLocalizations {
   /// No description provided for @useMaterialYouColorSetting.
   ///
   /// In en, this message translates to:
-  /// **'Use Material You'**
+  /// **'Use Material 3 Expressive'**
   String get useMaterialYouColorSetting;
 
   /// No description provided for @materialBrightnessSetting.

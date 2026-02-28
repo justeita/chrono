@@ -312,7 +312,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get styleSettingGroup => 'Estilo';
 
   @override
-  String get useMaterialYouColorSetting => 'Utilizar Material You';
+  String get useMaterialYouColorSetting => 'Utilizar Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Brillo';

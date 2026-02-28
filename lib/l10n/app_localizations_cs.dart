@@ -307,7 +307,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get styleSettingGroup => 'Style';
 
   @override
-  String get useMaterialYouColorSetting => 'Použít Material You';
+  String get useMaterialYouColorSetting => 'Použít Material 3 Expressive';
 
   @override
   String get materialBrightnessSetting => 'Brightness';
