@@ -333,6 +333,30 @@
   "@snoozePreventDisablingSetting": {},
   "snoozePreventDeletionSetting": "Prevent Deletion",
   "@snoozePreventDeletionSetting": {},
+  "dismissConfirmationSettingGroup": "Dismiss Confirmation",
+  "@dismissConfirmationSettingGroup": {},
+  "dismissConfirmationEnabledSetting": "Require Confirmation",
+  "@dismissConfirmationEnabledSetting": {},
+  "dismissConfirmationEnabledSettingDescription": "Require a second confirmation after dismissing the alarm to ensure you are fully awake",
+  "@dismissConfirmationEnabledSettingDescription": {},
+  "dismissConfirmationTimeSetting": "Confirmation Wait Time",
+  "@dismissConfirmationTimeSetting": {},
+  "dismissConfirmationTimeSettingDescription": "How long you must wait before you can confirm dismissal",
+  "@dismissConfirmationTimeSettingDescription": {},
+  "dismissConfirmationTitle": "Are you awake?",
+  "@dismissConfirmationTitle": {},
+  "dismissConfirmationSubtitle": "Confirm you are awake to dismiss the alarm",
+  "@dismissConfirmationSubtitle": {},
+  "dismissConfirmationWaiting": "Wait {seconds} seconds...",
+  "@dismissConfirmationWaiting": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "dismissConfirmationButton": "I'm Awake!",
+  "@dismissConfirmationButton": {},
   "settings": "Settings",
   "@settings": {},
   "tasksSetting": "Tasks",

@@ -502,6 +502,38 @@ class AppLocalizationsKo extends AppLocalizations {
   String get snoozePreventDeletionSetting => '알람 삭제 방지';
 
   @override
+  String get dismissConfirmationSettingGroup => 'Dismiss Confirmation';
+
+  @override
+  String get dismissConfirmationEnabledSetting => 'Require Confirmation';
+
+  @override
+  String get dismissConfirmationEnabledSettingDescription =>
+      'Require a second confirmation after dismissing the alarm to ensure you are fully awake';
+
+  @override
+  String get dismissConfirmationTimeSetting => 'Confirmation Wait Time';
+
+  @override
+  String get dismissConfirmationTimeSettingDescription =>
+      'How long you must wait before you can confirm dismissal';
+
+  @override
+  String get dismissConfirmationTitle => 'Are you awake?';
+
+  @override
+  String get dismissConfirmationSubtitle =>
+      'Confirm you are awake to dismiss the alarm';
+
+  @override
+  String dismissConfirmationWaiting(int seconds) {
+    return 'Wait $seconds seconds...';
+  }
+
+  @override
+  String get dismissConfirmationButton => 'I\'m Awake!';
+
+  @override
   String get settings => '설정';
 
   @override

@@ -1115,6 +1115,60 @@ abstract class AppLocalizations {
   /// **'Prevent Deletion'**
   String get snoozePreventDeletionSetting;
 
+  /// No description provided for @dismissConfirmationSettingGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss Confirmation'**
+  String get dismissConfirmationSettingGroup;
+
+  /// No description provided for @dismissConfirmationEnabledSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Require Confirmation'**
+  String get dismissConfirmationEnabledSetting;
+
+  /// No description provided for @dismissConfirmationEnabledSettingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Require a second confirmation after dismissing the alarm to ensure you are fully awake'**
+  String get dismissConfirmationEnabledSettingDescription;
+
+  /// No description provided for @dismissConfirmationTimeSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation Wait Time'**
+  String get dismissConfirmationTimeSetting;
+
+  /// No description provided for @dismissConfirmationTimeSettingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'How long you must wait before you can confirm dismissal'**
+  String get dismissConfirmationTimeSettingDescription;
+
+  /// No description provided for @dismissConfirmationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you awake?'**
+  String get dismissConfirmationTitle;
+
+  /// No description provided for @dismissConfirmationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm you are awake to dismiss the alarm'**
+  String get dismissConfirmationSubtitle;
+
+  /// No description provided for @dismissConfirmationWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait {seconds} seconds...'**
+  String dismissConfirmationWaiting(int seconds);
+
+  /// No description provided for @dismissConfirmationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m Awake!'**
+  String get dismissConfirmationButton;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:

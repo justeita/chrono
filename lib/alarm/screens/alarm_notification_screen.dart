@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:clock_app/alarm/logic/alarm_isolate.dart';
 import 'package:clock_app/alarm/utils/alarm_id.dart';
 import 'package:clock_app/alarm/types/alarm.dart';
+import 'package:clock_app/alarm/widgets/dismiss_confirmation_widget.dart';
 import 'package:clock_app/common/types/notification_type.dart';
 import 'package:clock_app/common/widgets/clock/digital_clock.dart';
 import 'package:clock_app/developer/logic/logger.dart';
@@ -38,6 +39,18 @@ class _AlarmNotificationScreenState extends State<AlarmNotificationScreen> {
   late Widget _currentWidget;
   late int _currentIndex = widget.initialIndex;
   late Widget actionWidget;
+  bool _showingDismissConfirmation = false;
+
+  void _finalDismiss() {
+    if (widget.onPop != null) {
+      widget.onPop!();
+      Navigator.of(context).pop(true);
+    } else {
+      dismissAlarmNotification(widget.scheduleId, widget.dismissType,
+          ScheduledNotificationType.alarm);
+    }
+  }
+
   void _setNextWidget() {
     setState(() {
       if (_currentIndex < 0) {
@@ -45,12 +58,21 @@ class _AlarmNotificationScreenState extends State<AlarmNotificationScreen> {
             ?.send([alarm.volume]);
         _currentWidget = actionWidget;
       } else if (_currentIndex >= alarm.tasks.length) {
-        if (widget.onPop != null) {
-          widget.onPop!();
-          Navigator.of(context).pop(true);
+        // After all tasks are done, check if dismiss confirmation is needed
+        if (alarm.dismissConfirmationEnabled &&
+            !_showingDismissConfirmation &&
+            widget.dismissType == AlarmDismissType.dismiss) {
+          _showingDismissConfirmation = true;
+          // Mute alarm volume during confirmation wait
+          IsolateNameServer.lookupPortByName(setAlarmVolumePortName)
+              ?.send([0.0]);
+          _currentWidget = DismissConfirmationWidget(
+            waitTimeSeconds: alarm.dismissConfirmationWaitTime.toInt(),
+            onConfirmed: _finalDismiss,
+          );
         } else {
-          dismissAlarmNotification(widget.scheduleId, widget.dismissType,
-              ScheduledNotificationType.alarm);
+          _finalDismiss();
+          return;
         }
       } else {
         IsolateNameServer.lookupPortByName(setAlarmVolumePortName)

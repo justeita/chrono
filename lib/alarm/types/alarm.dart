@@ -121,6 +121,10 @@ class Alarm extends CustomizableListItem {
       _settings.getSetting("Delete After Finishing").value;
   bool get shouldDeleteAfterRinging =>
       _settings.getSetting("Delete After Ringing").value;
+  bool get dismissConfirmationEnabled =>
+      _settings.getGroup("Dismiss Confirmation").getSetting("Enabled").value;
+  double get dismissConfirmationWaitTime =>
+      _settings.getGroup("Dismiss Confirmation").getSetting("Wait Time").value;
 
   Alarm(this._time) {
     _schedules = createSchedules(_settings);

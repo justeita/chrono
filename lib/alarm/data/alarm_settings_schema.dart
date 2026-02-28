@@ -293,6 +293,40 @@ SettingGroup alarmSettingsSchema = SettingGroup(
         "Length",
       ],
     ),
+    SettingGroup(
+      "Dismiss Confirmation",
+      (context) =>
+          AppLocalizations.of(context)!.dismissConfirmationSettingGroup,
+      [
+        SwitchSetting(
+          "Enabled",
+          (context) =>
+              AppLocalizations.of(context)!.dismissConfirmationEnabledSetting,
+          false,
+          getDescription: (context) => AppLocalizations.of(context)!
+              .dismissConfirmationEnabledSettingDescription,
+        ),
+        SliderSetting(
+            "Wait Time",
+            (context) =>
+                AppLocalizations.of(context)!.dismissConfirmationTimeSetting,
+            5,
+            120,
+            30,
+            unit: "seconds",
+            snapLength: 5,
+            getDescription: (context) => AppLocalizations.of(context)!
+                .dismissConfirmationTimeSettingDescription,
+            enableConditions: [
+              ValueCondition(["Enabled"], (value) => value == true)
+            ]),
+      ],
+      icon: Icons.verified_user_rounded,
+      summarySettings: [
+        "Enabled",
+        "Wait Time",
+      ],
+    ),
     CustomizableListSetting<AlarmTask>(
       "Tasks",
       (context) => AppLocalizations.of(context)!.tasksSetting,
