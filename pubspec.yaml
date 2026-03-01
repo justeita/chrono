@@ -17,7 +17,7 @@ dependencies:
   intl: any
   # flutter_boot_receiver:
   #   path: "../flutter_boot_receiver"
-  timezone: ^0.9.1
+  timezone: ^0.9.4
   path_provider: ^2.0.11
   path: ^1.8.2
   sqflite: ^2.2.2
@@ -60,7 +60,7 @@ dependencies:
   introduction_screen: ^3.1.12
   app_settings: ^5.1.1
   auto_start_flutter: ^0.1.1
-  package_info_plus: ^6.0.0
+  package_info_plus: ^9.0.0
   receive_intent: ^0.2.5
   watcher: ^1.1.0
   dynamic_color: ^1.7.0
@@ -73,8 +73,8 @@ dependencies:
       url: https://github.com/AhsanSarwar45/home_widget
       ref: main
       path: packages/home_widget/
-  permission_handler: ^11.3.1
-  device_info_plus: ^10.1.0
+  permission_handler: ^12.0.1
+  device_info_plus: ^12.3.0
   flutter_foreground_task:
     # path: "../flutter_foreground_task"
     git:
@@ -90,6 +90,7 @@ dependencies:
   mime: ^1.0.6
   analog_clock: ^0.1.1
   animated_analog_clock: ^0.1.0
+  uuid: ^4.5.3
   # animated_reorderable_list: ^1.1.1
   # animated_reorderable_list:
     # path: "../animated_reorderable_list"
