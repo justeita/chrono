@@ -103,6 +103,24 @@ Future<void> closeAlarmNotification(ScheduledNotificationType type) async {
 
   await removeAlarmNotification(type);
 
+  if (type == ScheduledNotificationType.alarm &&
+      RingingManager.isTimerRinging) {
+    logger.t(
+        "[closeAlarmNotification] Opening timer screen because timer is still ringing");
+    FullScreenNotificationData data =
+        alarmNotificationData[ScheduledNotificationType.timer]!;
+    await openAlarmNotificationScreen(data, RingingManager.ringingTimerIds);
+    return;
+  } else if (type == ScheduledNotificationType.timer &&
+      RingingManager.isAlarmRinging) {
+    logger.t(
+        "[closeAlarmNotification] Opening alarm screen because alarm is still ringing");
+    FullScreenNotificationData data =
+        alarmNotificationData[ScheduledNotificationType.alarm]!;
+    await openAlarmNotificationScreen(data, [RingingManager.ringingAlarmId]);
+    return;
+  }
+
   await FlutterShowWhenLocked().hide();
 
   // If app was launched from a notification, close the app when the notification
@@ -157,6 +175,9 @@ Future<void> dismissAlarmNotification(int scheduleId,
       await updateAlarmById(scheduleId, (alarm) async {
         alarm.setShouldSkip(true);
       });
+      if (RingingManager.isAlarmRinging) {
+        await dismissAlarm(scheduleId, type);
+      }
       break;
     case AlarmDismissType.snooze:
       await snoozeAlarm(scheduleId, type);

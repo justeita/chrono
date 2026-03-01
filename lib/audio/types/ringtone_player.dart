@@ -63,6 +63,7 @@ class RingtonePlayer {
 
   static Future<void> playTimer(ClockTimer timer,
       {LoopMode loopMode = LoopMode.one}) async {
+    await activePlayer?.stop();
     await _timerPlayer?.setAndroidAudioAttributes(AndroidAudioAttributes(
       usage: timer.audioChannel,
       contentType: AndroidAudioContentType.music,
@@ -141,14 +142,18 @@ class RingtonePlayer {
   }
 
   static Future<void> pause() async {
-    await activePlayer?.pause();
+    await _alarmPlayer?.pause();
+    await _timerPlayer?.pause();
+    await _mediaPlayer?.pause();
     if (_vibratorIsAvailable) {
       await Vibration.cancel();
     }
   }
 
   static Future<void> stop() async {
-    await activePlayer?.stop();
+    await _alarmPlayer?.stop();
+    await _timerPlayer?.stop();
+    await _mediaPlayer?.stop();
     final session = await AudioSession.instance;
     await session.setActive(false);
     if (_vibratorIsAvailable) {

@@ -112,8 +112,9 @@ class Alarm extends CustomizableListItem {
       !maxSnoozeIsReached &&
       _settings.getGroup("Snooze").getSetting("Enabled").value;
   bool get shouldSkipNextAlarm =>
-      _skippedTime == currentScheduleDateTime &&
-      currentScheduleDateTime != null;
+      _skippedTime != null &&
+      currentScheduleDateTime != null &&
+      _skippedTime!.isAtSameMomentAs(currentScheduleDateTime!);
   bool get canBeSkipped => !isSnoozed && !isFinished && isEnabled;
   bool get canBeDisabled =>
       !(isSnoozed && !canBeDisabledWhenSnoozed) && !isFinished;
