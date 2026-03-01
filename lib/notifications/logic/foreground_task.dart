@@ -1,6 +1,10 @@
+import 'package:clock_app/system/data/device_info.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
 void initForegroundTask() {
+  final brand = androidInfo?.brand.toLowerCase();
+  final isPoco = brand == 'poco' || brand == 'xiaomi';
+
   FlutterForegroundTask.init(
     androidNotificationOptions: AndroidNotificationOptions(
       channelId: 'foreground_service',
@@ -23,12 +27,12 @@ void initForegroundTask() {
       showNotification: true,
       playSound: false,
     ),
-    foregroundTaskOptions: const ForegroundTaskOptions(
+    foregroundTaskOptions: ForegroundTaskOptions(
       interval: 1000 * 60,
       isOnceEvent: false,
       autoRunOnBoot: true,
-      allowWakeLock: true,
-      allowWifiLock: true,
+      allowWakeLock: isPoco,
+      allowWifiLock: false,
     ),
   );
 }
